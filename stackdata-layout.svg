@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arrSlate" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="700" rx="12" fill="#0f172a"/>
+
+  <!-- title -->
+  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#f1f5f9">StackData &amp; StackSlot</text>
+  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">the shuffler's in-memory stack &#183; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">StackData = std::vector&lt;StackSlot&gt;</tspan></text>
+
+  <!-- ===== StackData: vector of slots ===== -->
+  <!-- StackOffset (0 = bottom, increases rightward) -->
+  <text x="60" y="106" font-size="12" fill="#94a3b8"><tspan font-weight="700" fill="#cbd5e1">StackOffset</tspan> &#183; index from the bottom &#183; 0 = bottom &#183; stable as the stack grows</text>
+  <line x1="545" y1="102" x2="795" y2="102" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+
+  <!-- StackDepth (0 = top, increases leftward) -->
+  <text x="60" y="128" font-size="12" fill="#94a3b8"><tspan font-weight="700" fill="#cbd5e1">StackDepth</tspan> &#183; distance from the top &#183; 0 = top</text>
+  <line x1="795" y1="124" x2="500" y2="124" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+
+  <!-- contiguous vector storage -->
+  <rect x="60" y="138" width="735" height="48" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+  <g stroke="#334155" stroke-width="1">
+    <line x1="165" y1="138" x2="165" y2="186"/>
+    <line x1="270" y1="138" x2="270" y2="186"/>
+    <line x1="375" y1="138" x2="375" y2="186"/>
+    <line x1="480" y1="138" x2="480" y2="186"/>
+    <line x1="585" y1="138" x2="585" y2="186"/>
+    <line x1="690" y1="138" x2="690" y2="186"/>
+  </g>
+  <!-- highlighted slot, zoomed below -->
+  <rect x="270" y="138" width="105" height="48" fill="#1d3350" stroke="#38bdf8" stroke-width="1.5"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" fill="#cbd5e1" text-anchor="middle">
+    <text x="112" y="166">[0]</text>
+    <text x="217" y="166">[1]</text>
+    <text x="322" y="166" fill="#e2e8f0">[2]</text>
+    <text x="427" y="166">[3]</text>
+    <text x="532" y="166">[4]</text>
+    <text x="637" y="166" fill="#64748b">&#8943;</text>
+    <text x="742" y="166">[n&#8722;1]</text>
+  </g>
+  <text x="112" y="202" text-anchor="middle" font-size="11" fill="#64748b">bottom</text>
+  <text x="742" y="202" text-anchor="middle" font-size="11" fill="#64748b">top</text>
+  <line x1="803" y1="162" x2="850" y2="162" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <text x="858" y="166" font-size="12" fill="#64748b">grows</text>
+  <text x="940" y="684" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">libyul/backends/evm/ssa/StackSlot.h</text>
+
+  <!-- zoom wedge into one slot -->
+  <path d="M 270 188 L 170 334 L 890 334 L 375 188 Z" fill="#38bdf8" opacity="0.05"/>
+  <line x1="270" y1="188" x2="170" y2="334" stroke="#475569" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="375" y1="188" x2="890" y2="334" stroke="#475569" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- ===== StackSlot: byte layout ===== -->
+  <text x="60" y="360" font-size="16" font-weight="700" fill="#f1f5f9">StackSlot</text>
+  <text x="60" y="380" font-size="11" fill="#64748b">8 bytes</text>
+
+  <!-- payload: bytes 0..3 -->
+  <rect x="170" y="336" width="360" height="56" rx="4" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="350" y="359" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="14" fill="#e2e8f0">m_payload</text>
+  <text x="350" y="378" text-anchor="middle" font-size="11" fill="#94a3b8">uint32_t &#183; meaning depends on m_kind</text>
+  <!-- kind: byte 4 -->
+  <rect x="530" y="336" width="90" height="56" rx="4" fill="#2b2140" stroke="#c084fc" stroke-width="1.5"/>
+  <text x="575" y="359" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" fill="#e2e8f0">m_kind</text>
+  <text x="575" y="378" text-anchor="middle" font-size="10" fill="#94a3b8">Kind (u8)</text>
+  <!-- valueOpcode: byte 5 -->
+  <rect x="620" y="336" width="90" height="56" rx="4" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="665" y="359" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10.5" fill="#e2e8f0">m_valueOpcode</text>
+  <text x="665" y="378" text-anchor="middle" font-size="10" fill="#94a3b8">InstOpcode (u8)</text>
+  <!-- padding: bytes 6..7 -->
+  <rect x="710" y="336" width="180" height="56" rx="4" fill="#141c2a" stroke="#475569" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="800" y="359" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" fill="#64748b">padding</text>
+  <text x="800" y="378" text-anchor="middle" font-size="10" fill="#64748b">unused</text>
+
+  <!-- byte offsets -->
+  <g stroke="#475569" stroke-width="1">
+    <line x1="170" y1="396" x2="170" y2="402"/>
+    <line x1="530" y1="396" x2="530" y2="402"/>
+    <line x1="620" y1="396" x2="620" y2="402"/>
+    <line x1="710" y1="396" x2="710" y2="402"/>
+    <line x1="890" y1="396" x2="890" y2="402"/>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" fill="#64748b" text-anchor="middle">
+    <text x="170" y="416">0</text>
+    <text x="530" y="416">4</text>
+    <text x="620" y="416">5</text>
+    <text x="710" y="416">6</text>
+    <text x="890" y="416">8</text>
+  </g>
+
+  <text x="665" y="434" text-anchor="middle" font-size="11.5" fill="#b0904a">cached opcode of the defining Inst &#183; meaningful only for Kind::Value</text>
+  <text x="420" y="456" text-anchor="middle" font-size="12" fill="#94a3b8"><tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">static_assert</tspan>: sizeof == 8 &#183; trivial &#183; trivially copyable &#183; standard layout</text>
+
+  <!-- ===== interpretation by kind ===== -->
+  <g font-size="12" font-weight="700">
+    <text x="70" y="492" fill="#c084fc">m_kind (u8)</text>
+    <text x="340" y="492" fill="#38bdf8">m_payload (u32)</text>
+    <text x="680" y="492" fill="#fbbf24">m_valueOpcode (u8)</text>
+  </g>
+  <line x1="60" y1="502" x2="940" y2="502" stroke="#334155" stroke-width="1"/>
+
+  <g font-size="12">
+    <!-- Value -->
+    <circle cx="56" cy="521" r="4" fill="none" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="70" y="525" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#e2e8f0">Value = 0</text>
+    <text x="340" y="525" fill="#cbd5e1">InstId &#8212; the defining instruction</text>
+    <text x="680" y="525" fill="#cbd5e1">its opcode &#183; Const &#8658; literal, Phi &#8658; phi</text>
+    <line x1="60" y1="537" x2="940" y2="537" stroke="#1e293b" stroke-width="1"/>
+    <!-- Junk -->
+    <circle cx="56" cy="553" r="4" fill="#4ade80"/>
+    <text x="70" y="557" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#e2e8f0">Junk = 1</text>
+    <text x="340" y="557" fill="#cbd5e1">unused (0) &#8212; wildcard, may hold anything</text>
+    <text x="680" y="557" fill="#64748b">Unreachable &#183; unused</text>
+    <line x1="60" y1="569" x2="940" y2="569" stroke="#1e293b" stroke-width="1"/>
+    <!-- FunctionCallReturnLabel -->
+    <circle cx="56" cy="585" r="4" fill="#4ade80"/>
+    <text x="70" y="589" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#e2e8f0">FunctionCallReturnLabel = 2</text>
+    <text x="340" y="589" fill="#cbd5e1">CallSiteID &#8212; index into the layout's call sites</text>
+    <text x="680" y="589" fill="#64748b">Unreachable &#183; unused</text>
+    <line x1="60" y1="601" x2="940" y2="601" stroke="#1e293b" stroke-width="1"/>
+    <!-- FunctionReturnLabel -->
+    <text x="70" y="621" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#e2e8f0">FunctionReturnLabel = 3</text>
+    <text x="340" y="621" fill="#cbd5e1">FunctionGraphID &#8212; the function's graph</text>
+    <text x="680" y="621" fill="#64748b">Unreachable &#183; unused</text>
+  </g>
+
+  <!-- footnote -->
+  <circle cx="66" cy="656" r="4" fill="#4ade80"/>
+  <text x="76" y="660" font-size="11.5" fill="#94a3b8">/ <tspan fill="#4ade80">&#9675;</tspan>&#160; freely generable (<tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">canBeFreelyGenerated</tspan>) &#8212; can be materialized on the stack top without an existing copy &#183; &#9675; only when the Value is a literal (Const)</text>
+</svg>
