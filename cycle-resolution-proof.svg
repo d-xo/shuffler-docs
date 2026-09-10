@@ -1,0 +1,338 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1650" viewBox="0 0 1000 1650" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="pB" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="pS" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#64748b"/>
+    </marker>
+    <marker id="pA" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="pG" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#4ade80"/>
+    </marker>
+    <marker id="pR" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#f87171"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="1650" rx="12" fill="#0f172a"/>
+
+  <!-- ===================== title + claim ===================== -->
+  <text x="500" y="40" text-anchor="middle" font-size="23" font-weight="700" fill="#f1f5f9">Proof: Each Swap Shortens the Cycle by One</text>
+  <text x="500" y="63" text-anchor="middle" font-size="12" fill="#94a3b8">induction on the cycle length k &#183; then: nothing outside moves &#183; then: the hypotheses that carry the load</text>
+
+  <rect x="60" y="80" width="880" height="58" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.5"/>
+  <text x="80" y="104" font-size="12" fill="#cbd5e1"><tspan font-weight="700" fill="#e2e8f0">Claim</tspan> &#183; for the top's cycle (t d&#8321; &#8230; d&#8342;&#8331;&#8321;) of dest, the loop <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#7dd3fc">while dest[t] &#8800; t: swap(t, dest[t])</tspan></text>
+  <text x="80" y="126" font-size="12" fill="#cbd5e1">finishes in exactly k &#8722; 1 swaps, leaves every cycle member fixed, and modifies nothing outside the cycle.</text>
+
+  <!-- ===================== induction ===================== -->
+  <text x="60" y="176" font-size="12.5" font-weight="700" fill="#e2e8f0">base &#183; k = 2</text>
+
+  <g stroke="#38bdf8" stroke-width="1.6" fill="none">
+    <path d="M 147 221 C 168 205, 192 205, 213 221" marker-end="url(#pB)"/>
+    <path d="M 213 240 C 192 256, 168 256, 147 240" marker-end="url(#pB)"/>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" text-anchor="middle">
+    <circle cx="135" cy="230" r="14" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
+    <text x="135" y="234" fill="#fbbf24">t</text>
+    <circle cx="225" cy="230" r="14" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="225" y="234" fill="#7dd3fc">d&#8321;</text>
+  </g>
+  <line x1="180" y1="262" x2="180" y2="302" stroke="#64748b" stroke-width="1.4" marker-end="url(#pS)"/>
+  <text x="190" y="286" font-size="9.5" fill="#94a3b8">swap t &#8596; d&#8321;</text>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" text-anchor="middle">
+    <circle cx="135" cy="332" r="14" fill="#12261c" stroke="#4ade80" stroke-width="1.6"/>
+    <text x="135" y="336" fill="#4ade80">t&#10003;</text>
+    <circle cx="225" cy="332" r="14" fill="#12261c" stroke="#4ade80" stroke-width="1.6"/>
+    <text x="225" y="336" fill="#4ade80">d&#8321;&#10003;</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" fill="#94a3b8">
+    <text x="75" y="376">dest&#8242;[d&#8321;] = dest[t] = d&#8321;</text>
+    <text x="75" y="393">dest&#8242;[t]&#160;&#160;= dest[d&#8321;] = t</text>
+    <text x="75" y="412" fill="#4ade80">both home &#183; 1 swap = k &#8722; 1 &#10003;</text>
+  </g>
+
+  <line x1="350" y1="165" x2="350" y2="428" stroke="#1e293b" stroke-width="1"/>
+
+  <text x="380" y="176" font-size="12.5" font-weight="700" fill="#e2e8f0">step &#183; assume k &#8722; 1, prove k</text>
+
+  <g stroke="#38bdf8" stroke-width="1.5" fill="none">
+    <path d="M 506 229.2 A 58 58 0 0 1 538.1 252.6" marker-end="url(#pB)"/>
+    <path d="M 548 283 A 58 58 0 0 1 535.7 320.7" marker-end="url(#pB)"/>
+    <path d="M 509.8 339.5 A 58 58 0 0 1 470.2 339.5" marker-end="url(#pB)"/>
+    <path d="M 444.3 320.7 A 58 58 0 0 1 432 283" marker-end="url(#pB)"/>
+    <path d="M 441.9 252.6 A 58 58 0 0 1 474 229.2" marker-end="url(#pB)"/>
+  </g>
+  <line x1="500" y1="235" x2="536" y2="260" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5 3" marker-start="url(#pA)" marker-end="url(#pA)"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10.5" text-anchor="middle">
+    <circle cx="490" cy="227" r="13" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
+    <text x="490" y="231" fill="#fbbf24">t</text>
+    <circle cx="545" cy="267" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="545" y="271" fill="#7dd3fc">d&#8321;</text>
+    <circle cx="524" cy="332" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="524" y="336" fill="#7dd3fc">d&#8322;</text>
+    <circle cx="456" cy="332" r="13" fill="none" stroke="#334155" stroke-width="1.3" stroke-dasharray="3 3"/>
+    <text x="456" y="336" fill="#64748b">&#8943;</text>
+    <circle cx="435" cy="267" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="437" y="271" fill="#7dd3fc" font-size="9">d&#8342;&#8331;&#8321;</text>
+  </g>
+  <text x="490" y="372" text-anchor="middle" font-size="10" fill="#64748b">a k-cycle through t</text>
+
+  <line x1="578" y1="285" x2="636" y2="285" stroke="#64748b" stroke-width="1.4" marker-end="url(#pS)"/>
+  <text x="607" y="272" text-anchor="middle" font-size="9.5" fill="#94a3b8">swap t &#8596; d&#8321;</text>
+  <circle cx="607" cy="322" r="13" fill="#12261c" stroke="#4ade80" stroke-width="1.6"/>
+  <text x="607" y="326" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" fill="#4ade80">d&#8321;&#10003;</text>
+  <text x="607" y="352" text-anchor="middle" font-size="9" fill="#4ade80">fixed forever</text>
+
+  <g stroke="#38bdf8" stroke-width="1.5" fill="none">
+    <path d="M 825.5 237.4 A 50 50 0 0 1 857.6 269.5" marker-end="url(#pB)"/>
+    <path d="M 857.6 300.5 A 50 50 0 0 1 825.5 332.6" marker-end="url(#pB)"/>
+    <path d="M 794.5 332.6 A 50 50 0 0 1 762.4 300.5" marker-end="url(#pB)"/>
+    <path d="M 762.4 269.5 A 50 50 0 0 1 794.5 237.4" marker-end="url(#pB)"/>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10.5" text-anchor="middle">
+    <circle cx="810" cy="235" r="13" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
+    <text x="810" y="239" fill="#fbbf24">t</text>
+    <circle cx="860" cy="285" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="860" y="289" fill="#7dd3fc">d&#8322;</text>
+    <circle cx="810" cy="335" r="13" fill="none" stroke="#334155" stroke-width="1.3" stroke-dasharray="3 3"/>
+    <text x="810" y="339" fill="#64748b">&#8943;</text>
+    <circle cx="760" cy="285" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="762" y="289" fill="#7dd3fc" font-size="9">d&#8342;&#8331;&#8321;</text>
+  </g>
+  <text x="810" y="372" text-anchor="middle" font-size="10" fill="#64748b">a (k&#8722;1)-cycle through t &#8212; the induction hypothesis applies</text>
+
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10.5" fill="#cbd5e1">
+    <text x="380" y="396">dest&#8242;[d&#8321;] = dest[t] = d&#8321;&#160;&#160;<tspan fill="#4ade80">&#8594; d&#8321; fixed</tspan>&#160;&#160;&#183;&#160;&#160;dest&#8242;[t] = dest[d&#8321;] = d&#8322;&#160;&#160;<tspan fill="#7dd3fc">&#8594; (t d&#8322; &#8230; d&#8342;&#8331;&#8321;)</tspan></text>
+    <text x="380" y="418">all other entries untouched &#183; IH: k&#8722;2 more swaps in the smaller cycle&#160;&#160;<tspan fill="#e2e8f0">&#8658; 1 + (k&#8722;2) = k&#8722;1&#160;&#160;&#8718;</tspan></text>
+  </g>
+
+  <line x1="60" y1="446" x2="940" y2="446" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="66" cy="468" r="4" fill="#4ade80"/>
+  <text x="80" y="472" font-size="10.5" fill="#94a3b8">termination: |cycle of t| drops by exactly 1 per swap &#8212; k &#8594; k&#8722;1 &#8594; &#8943; &#8594; 1; a strictly decreasing natural number cannot fall forever</text>
+
+  <!-- ===================== nothing outside moves ===================== -->
+  <line x1="60" y1="496" x2="940" y2="496" stroke="#1e293b" stroke-width="1"/>
+  <text x="60" y="528" font-size="15" font-weight="700" fill="#f1f5f9">Nothing outside the cycle ever moves</text>
+
+  <!-- swap arcs -->
+  <path d="M 640 644 C 640 606, 344 606, 344 644" fill="none" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#pB)"/>
+  <path d="M 640 644 C 640 586, 196 586, 196 644" fill="none" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#pB)"/>
+  <path d="M 640 644 C 640 622, 492 622, 492 644" fill="none" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#pB)"/>
+  <g font-size="9" font-weight="700" text-anchor="middle">
+    <circle cx="492" cy="616" r="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="492" y="619" fill="#7dd3fc">1</text>
+    <circle cx="418" cy="601" r="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="418" y="604" fill="#7dd3fc">2</text>
+    <circle cx="566" cy="629" r="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+    <text x="566" y="632" fill="#7dd3fc">3</text>
+  </g>
+
+  <!-- cells: C = {1,3,5,7}, outside = {0,2,4,6} with (0 2) an untouched 2-cycle -->
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" text-anchor="middle">
+    <rect x="90" y="648" width="64" height="40" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.3"/>
+    <text x="122" y="673" fill="#c084fc">&#8594;2</text>
+    <rect x="164" y="648" width="64" height="40" rx="5" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="196" y="673" fill="#7dd3fc">&#8594;5</text>
+    <rect x="238" y="648" width="64" height="40" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.3"/>
+    <text x="270" y="673" fill="#c084fc">&#8594;0</text>
+    <rect x="312" y="648" width="64" height="40" rx="5" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="344" y="673" fill="#7dd3fc">&#8594;1</text>
+    <rect x="386" y="648" width="64" height="40" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.3"/>
+    <text x="418" y="673" fill="#64748b">&#8594;4</text>
+    <rect x="460" y="648" width="64" height="40" rx="5" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="492" y="673" fill="#7dd3fc">&#8594;7</text>
+    <rect x="534" y="648" width="64" height="40" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.3"/>
+    <text x="566" y="673" fill="#64748b">&#8594;6</text>
+    <rect x="608" y="648" width="64" height="40" rx="5" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
+    <text x="640" y="673" fill="#fbbf24">&#8594;3</text>
+  </g>
+  <g font-size="9" fill="#64748b" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="122" y="704">0</text><text x="196" y="704">1</text><text x="270" y="704">2</text><text x="344" y="704">3</text>
+    <text x="418" y="704">4</text><text x="492" y="704">5</text><text x="566" y="704">6</text><text x="640" y="704">7&#183;top</text>
+  </g>
+  <g font-size="8.5" text-anchor="middle">
+    <text x="122" y="720" fill="#c084fc">other cycle</text>
+    <text x="196" y="720" fill="#7dd3fc">&#8712; C</text>
+    <text x="270" y="720" fill="#c084fc">other cycle</text>
+    <text x="344" y="720" fill="#7dd3fc">&#8712; C</text>
+    <text x="418" y="720" fill="#64748b">fixed</text>
+    <text x="492" y="720" fill="#7dd3fc">&#8712; C</text>
+    <text x="566" y="720" fill="#64748b">fixed</text>
+    <text x="640" y="720" fill="#fbbf24">t &#8712; C</text>
+  </g>
+  <text x="700" y="673" font-size="10" fill="#94a3b8">C = (7 3 1 5)</text>
+  <text x="700" y="688" font-size="10" fill="#94a3b8">swaps: &#9312;t&#8596;3 &#9313;t&#8596;1 &#9314;t&#8596;5</text>
+
+  <g font-size="11" fill="#94a3b8">
+    <text x="60" y="556"><tspan fill="#e2e8f0" font-weight="600">1</tspan> &#183; a swap modifies only the two entries it exchanges &#8212; by definition, nothing else</text>
+    <text x="60" y="576"><tspan fill="#e2e8f0" font-weight="600">2</tspan> &#183; every swap the loop performs is (t, dest[t]): t &#8712; C, and by the induction the successive targets d&#8321;, d&#8322;, &#8230; are exactly the members of C</text>
+    <text x="60" y="596"><tspan fill="#e2e8f0" font-weight="600">3</tspan> &#183; so no position outside C is ever an endpoint of any swap <tspan fill="#4ade80">&#8658; entries and slots outside C are bit-identical when the loop ends&#160;&#160;&#8718;</tspan></text>
+  </g>
+  <text x="700" y="706" font-size="10" fill="#64748b">the 2-cycle (0 2) stays misplaced</text>
+  <text x="700" y="721" font-size="10" fill="#64748b">throughout &#8212; and is never brushed</text>
+
+  <!-- ===================== hypotheses ===================== -->
+  <line x1="60" y1="748" x2="940" y2="748" stroke="#1e293b" stroke-width="1"/>
+  <text x="60" y="782" font-size="15" font-weight="700" fill="#f1f5f9">The load-bearing hypotheses &#8212; what breaks without them</text>
+
+  <!-- H1 -->
+  <text x="60" y="812" font-size="12.5" font-weight="700" fill="#e2e8f0">1 &#183; the partner must be dest[t], not the pre-image</text>
+
+  <!-- start stack -->
+  <g font-size="8.5" fill="#64748b" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="84" y="856">2&#183;t</text><text x="84" y="894">1</text><text x="84" y="932">0</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="90" y="836" width="80" height="32" rx="5" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.6"/>
+    <text x="130" y="857" fill="#fbbf24">&#8594;0</text>
+    <rect x="90" y="874" width="80" height="32" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/>
+    <text x="130" y="895" fill="#cbd5e1">&#8594;2</text>
+    <rect x="90" y="912" width="80" height="32" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/>
+    <text x="130" y="933" fill="#cbd5e1">&#8594;1</text>
+  </g>
+  <text x="130" y="972" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" fill="#fbbf24">(2 0 1)</text>
+
+  <line x1="178" y1="866" x2="404" y2="846" stroke="#4ade80" stroke-width="1.4" marker-end="url(#pG)"/>
+  <path d="M 178 900 C 260 960, 320 990, 404 1004" fill="none" stroke="#f87171" stroke-width="1.4" marker-end="url(#pR)"/>
+
+  <!-- correct branch -->
+  <text x="420" y="826" font-size="10.5" fill="#4ade80">&#10003; partner = dest[t] = 0</text>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="420" y="836" width="80" height="32" rx="5" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="460" y="857" fill="#4ade80">&#8594;2 &#10003;</text>
+    <rect x="420" y="874" width="80" height="32" rx="5" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="460" y="895" fill="#4ade80">&#8594;1 &#10003;</text>
+    <rect x="420" y="912" width="80" height="32" rx="5" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="460" y="933" fill="#4ade80">&#8594;0 &#10003;</text>
+  </g>
+  <text x="460" y="968" text-anchor="middle" font-size="9.5" fill="#4ade80">place, place &#8212; resolved in k&#8722;1 = 2</text>
+
+  <!-- wrong branch -->
+  <text x="420" y="994" font-size="10.5" fill="#f87171">&#10007; partner = pre-image = 1 &#160;(dest[1] = t)</text>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="420" y="1004" width="80" height="32" rx="5" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
+    <text x="460" y="1025" fill="#4ade80">&#8594;2 &#10003;</text>
+    <rect x="420" y="1042" width="80" height="32" rx="5" fill="#1e293b" stroke="#c084fc" stroke-width="1.5"/>
+    <text x="460" y="1063" fill="#c084fc">&#8594;0</text>
+    <rect x="420" y="1080" width="80" height="32" rx="5" fill="#1e293b" stroke="#c084fc" stroke-width="1.5"/>
+    <text x="460" y="1101" fill="#c084fc">&#8594;1</text>
+  </g>
+  <text x="460" y="1136" text-anchor="middle" font-size="9.5" fill="#f87171">loop exits (top is home) &#8212; (0 1) stranded topless</text>
+
+  <g font-size="11" fill="#94a3b8">
+    <text x="580" y="846">swapping with the pre-image also &#8220;makes progress&#8221; &#8212; the top is</text>
+    <text x="580" y="864">homed immediately. But the split severs the top instead of a fixed</text>
+    <text x="580" y="882">point: the remainder is a topless cycle, and the loop condition</text>
+    <text x="580" y="900"><tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">dest[t] = t</tspan> is already true &#8212; it halts, unfinished.</text>
+    <text x="580" y="936" fill="#e2e8f0">the induction's key line &#8212; &#8220;the remainder is a (k&#8722;1)-cycle</text>
+    <text x="580" y="954" fill="#e2e8f0">still through t&#8221; &#8212; is only true for the dest[t] choice.</text>
+    <text x="580" y="1060" font-size="10" fill="#f87171">in the case table of the optimality page this is the strand row: &#916;&#934; = +1</text>
+  </g>
+
+  <!-- H2 -->
+  <line x1="60" y1="1164" x2="940" y2="1164" stroke="#1e293b" stroke-width="1"/>
+  <text x="60" y="1194" font-size="12.5" font-weight="700" fill="#e2e8f0">2 &#183; dest must be destination-ward, not source-ward</text>
+
+  <!-- left ring: dest, clockwise -->
+  <g stroke="#38bdf8" stroke-width="1.5" fill="none">
+    <path d="M 213.7 1242.4 A 40 40 0 0 1 239.4 1286.9" marker-end="url(#pB)"/>
+    <path d="M 225.7 1310.6 A 40 40 0 0 1 174.3 1310.6" marker-end="url(#pB)"/>
+    <path d="M 160.6 1286.9 A 40 40 0 0 1 186.3 1242.4" marker-end="url(#pB)"/>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10.5" text-anchor="middle">
+    <circle cx="200" cy="1240" r="13" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.6"/>
+    <text x="200" y="1244" fill="#fbbf24">t</text>
+    <circle cx="234.6" cy="1300" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/>
+    <text x="234.6" y="1304" fill="#7dd3fc">a</text>
+    <circle cx="165.4" cy="1300" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/>
+    <text x="165.4" y="1304" fill="#7dd3fc">b</text>
+  </g>
+  <text x="200" y="1345" text-anchor="middle" font-size="10" fill="#7dd3fc">dest = [1 2 0] &#183; &#8220;send to&#8221;</text>
+
+  <text x="360" y="1272" text-anchor="middle" font-size="10.5" fill="#94a3b8">same cycle,</text>
+  <text x="360" y="1288" text-anchor="middle" font-size="10.5" fill="#94a3b8">opposite arrows</text>
+
+  <!-- right ring: f = dest^-1, counterclockwise -->
+  <g stroke="#fbbf24" stroke-width="1.5" fill="none">
+    <path d="M 506.3 1242.4 A 40 40 0 0 0 480.6 1286.9" marker-end="url(#pA)"/>
+    <path d="M 494.3 1310.6 A 40 40 0 0 0 545.7 1310.6" marker-end="url(#pA)"/>
+    <path d="M 559.4 1286.9 A 40 40 0 0 0 533.7 1242.4" marker-end="url(#pA)"/>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10.5" text-anchor="middle">
+    <circle cx="520" cy="1240" r="13" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.6"/>
+    <text x="520" y="1244" fill="#fbbf24">t</text>
+    <circle cx="554.6" cy="1300" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/>
+    <text x="554.6" y="1304" fill="#7dd3fc">a</text>
+    <circle cx="485.4" cy="1300" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/>
+    <text x="485.4" y="1304" fill="#7dd3fc">b</text>
+  </g>
+  <text x="520" y="1345" text-anchor="middle" font-size="10" fill="#fbbf24">f = dest&#8315;&#185; = [2 0 1] &#183; &#8220;fetch from&#8221;</text>
+
+  <g font-size="11" fill="#94a3b8">
+    <text x="640" y="1240">the inverse array f = dest&#8315;&#185; (&#8220;fetch position i's slot</text>
+    <text x="640" y="1258">from f(i)&#8221;, Duijvestijn's convention) is also a valid</text>
+    <text x="640" y="1276">permutation &#8212; and on 2-cycles the two coincide,</text>
+    <text x="640" y="1294">so simple tests pass either way.</text>
+    <text x="640" y="1324" fill="#e2e8f0">run the destination-ward loop on source-ward data</text>
+    <text x="640" y="1342" fill="#e2e8f0">and every partner is the pre-image: hypothesis 1's</text>
+    <text x="640" y="1360" fill="#e2e8f0">strand bug, on every cycle of length &#8805; 3.</text>
+  </g>
+
+  <!-- H3 -->
+  <line x1="60" y1="1388" x2="940" y2="1388" stroke="#1e293b" stroke-width="1"/>
+  <text x="60" y="1418" font-size="12.5" font-weight="700" fill="#e2e8f0">3 &#183; the stack and the mapping must swap in lockstep</text>
+
+  <!-- left: lockstep -->
+  <text x="60" y="1444" font-size="10.5" fill="#4ade80">&#10003; swapWith &#8212; one call moves both</text>
+  <path d="M 232 1462 C 232 1442, 360 1442, 360 1462" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#pB)" marker-end="url(#pB)"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="140" y="1466" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="168" y="1486" fill="#cbd5e1">a</text>
+    <rect x="204" y="1466" width="56" height="30" rx="5" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/><text x="232" y="1486" fill="#7dd3fc">b</text>
+    <rect x="268" y="1466" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="296" y="1486" fill="#cbd5e1">c</text>
+    <rect x="332" y="1466" width="56" height="30" rx="5" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/><text x="360" y="1486" fill="#fbbf24">d</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" text-anchor="middle">
+    <rect x="140" y="1508" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="168" y="1527" fill="#94a3b8">&#8594;2</text>
+    <rect x="204" y="1508" width="56" height="30" rx="5" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/><text x="232" y="1527" fill="#7dd3fc">&#8594;0</text>
+    <rect x="268" y="1508" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="296" y="1527" fill="#94a3b8">&#8594;1</text>
+    <rect x="332" y="1508" width="56" height="30" rx="5" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/><text x="360" y="1527" fill="#fbbf24">&#8594;3</text>
+  </g>
+  <path d="M 232 1544 C 232 1564, 360 1564, 360 1544" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#pB)" marker-end="url(#pB)"/>
+  <g font-size="9.5" fill="#64748b" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="132" y="1486">stack</text>
+    <text x="132" y="1527">mapping</text>
+  </g>
+  <text x="60" y="1592" font-size="9.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#4ade80">m_stack.swap(pos); m_mapping.swapDestinations(pos, top)&#160;&#160;&#183; Shuffler.cpp:767</text>
+
+  <!-- right: broken -->
+  <text x="540" y="1444" font-size="10.5" fill="#f87171">&#10007; stack moved, mapping didn't</text>
+  <path d="M 712 1462 C 712 1442, 840 1442, 840 1462" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#pB)" marker-end="url(#pB)"/>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" text-anchor="middle">
+    <rect x="620" y="1466" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="648" y="1486" fill="#cbd5e1">a</text>
+    <rect x="684" y="1466" width="56" height="30" rx="5" fill="#16324a" stroke="#38bdf8" stroke-width="1.4"/><text x="712" y="1486" fill="#7dd3fc">d</text>
+    <rect x="748" y="1466" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="776" y="1486" fill="#cbd5e1">c</text>
+    <rect x="812" y="1466" width="56" height="30" rx="5" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/><text x="840" y="1486" fill="#fbbf24">b</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" text-anchor="middle">
+    <rect x="620" y="1508" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="648" y="1527" fill="#94a3b8">&#8594;2</text>
+    <rect x="684" y="1508" width="56" height="30" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.4" stroke-dasharray="4 3"/><text x="712" y="1527" fill="#f87171">&#8594;0</text>
+    <rect x="748" y="1508" width="56" height="30" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.4"/><text x="776" y="1527" fill="#94a3b8">&#8594;1</text>
+    <rect x="812" y="1508" width="56" height="30" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.4" stroke-dasharray="4 3"/><text x="840" y="1527" fill="#f87171">&#8594;3</text>
+  </g>
+  <g font-size="9.5" fill="#64748b" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="612" y="1486">stack</text>
+    <text x="612" y="1527">mapping</text>
+  </g>
+  <text x="712" y="1556" font-size="9" fill="#f87171" text-anchor="middle">stale</text>
+  <text x="840" y="1556" font-size="9" fill="#f87171" text-anchor="middle">stale</text>
+  <text x="540" y="1580" font-size="9.5" fill="#f87171">dest[t] now describes a slot that is no longer there &#8212;</text>
+  <text x="540" y="1596" font-size="9.5" fill="#f87171">the proof's equations stop describing the machine</text>
+
+  <!-- footer -->
+  <line x1="60" y1="1608" x2="940" y2="1608" stroke="#1e293b" stroke-width="1"/>
+  <text x="60" y="1628" font-size="10" fill="#64748b">not load-bearing, but model boundaries: equal values (retagging can beat k&#8722;1 at the value level) and SWAP reach (the swap may be illegal &#8212; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">Blocked</tspan>)</text>
+  <text x="60" y="1643" font-size="10" fill="#64748b">change what &#8220;optimal&#8221; means, not whether the cycle resolves &#183;&#160;&#160;<tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">Shuffler.cpp &#183; Emission::permute</tspan></text>
+</svg>

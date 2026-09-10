@@ -167,6 +167,49 @@ Permutation is split into two phases
    it's lowest height
 2. `permute`: a generic permutation based on the cycle decomposition of the source / target.
 
+##### Permutations & Cycle Decomposition
+
+![What is a permutation](permutation.svg)
+
+A permutation is a rearrangement of a sets elements (a bijection from the set onto itself). For a
+finite set of n positions you can write a permutation as the function $`σ`$ where $`σ(i)`$ is where element
+$`i`$ goes, e.g. on $`{0,1,2}`$: $`σ = (0→2, 1→0, 2→1)`$.
+
+A permutation can be represented as a collection of disjoint cycles.
+
+![Cycle decomposition](cycle-decomposition.svg)
+
+##### permute
+
+`permute` generates a sequence of swaps that transforms a source stack into a suffix of a target
+stack (where the size of the suffix is at most the size of the source). The swap trace is generated
+based on the cycle decomposition of the permutation between the source and the target. There are two
+cases:
+
+1. the top is out of place
+  - swap the top with it's target position according to the permutation
+2. the top is in place:
+  - iterate top down over the current stack and find the first out of position slot
+  - swap the top with the misplaced element
+
+We loop on the above until all slots are in place.
+
+###### Swapping through a cycle containing the top resolves it
+
+If we have a cycle containing the top of the stack, then swapping the top with it's destination
+until the top is in place will "resolve" that cycle (i.e. all cycle elements are now at their target
+destination).
+
+![Why swapping through a cycle resolves it](cycle-resolution.svg)
+
+![Proof that swapping through a cycle resolves it](cycle-resolution-proof.svg)
+
+###### Swapping the top into a cycle expands that cycle
+
+![Why entering a cycle expands it to include the top](cycle-entry.svg)
+
+##### `permuteAtLowestHeight`
+
 ##### Holes / Parked Slots Correspondence
 
 ![Parked slots and holes](parked-and-holes.svg)
@@ -174,10 +217,14 @@ Permutation is split into two phases
 Although the mapping is an injection after excess removal, it may not be possible to place every
 slot in it's target yet. This can be the case if the target is *taller* than the source: in this
 case a slot with a destination higher than the current height of the stack will not be able to
+be moved to it's target using swaps.
 
-##### Permutations & Cycle Decomposition
+For these cases, `permuteAtLowestHeight` instead "parks" these slots in "holes" in the target. A
+hole is a slot in the target that does not yet have a source. Since the mapping is now guaranteed to
+be an injection, we know that the number of holes must exactly match the number slots that need to
+be parked: since we are permuting the source into the suffix of the target with the same size, a
+hole can only exist if a source slot is mapped to an index above the currently considered suffix.
 
-A permutation is a rearrangement of a sets elements (a bijection from the set onto itself). For a finite set of n positions you can write a permutation as the function σ where σ(i) is where element i goes, e.g. on {0,1,2}: σ = (0→2, 1→0, 2→1).
 
 #### Bottom Up Generation
 

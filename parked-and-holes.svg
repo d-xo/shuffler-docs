@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
   <defs>
-    <marker id="arrSlate" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" fill="#64748b"/>
+    <marker id="arrBlue" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/>
     </marker>
-    <marker id="arrAmber" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
+    <marker id="arrAmber" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
       <path d="M0,0 L8,4 L0,8 z" fill="#fbbf24"/>
     </marker>
-    <marker id="arrGreen" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
+    <marker id="arrGreen" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
       <path d="M0,0 L8,4 L0,8 z" fill="#4ade80"/>
     </marker>
   </defs>
@@ -14,137 +14,113 @@
   <rect width="1000" height="700" rx="12" fill="#0f172a"/>
 
   <!-- title -->
-  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#f1f5f9">Parked Slots &amp; Holes</text>
-  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">why parked-not-in-a-hole = free holes &#183; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">permuteAtLowestHeight</tspan></text>
+  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#f1f5f9">Parked = Holes</text>
+  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">each slot fires exactly one arrow &#183; no offset catches two &#183; an arrow that escapes the height leaves an offset unhit</text>
 
-  <!-- ===== left: the stack ===== -->
-  <text x="60" y="106" font-size="12.5" font-weight="700" fill="#e2e8f0">the stack at its lowest height &#183; h = 6, target height 9</text>
+  <!-- beyond-height region -->
+  <rect x="613" y="96" width="327" height="410" fill="#fbbf24" opacity="0.04"/>
+  <line x1="613" y1="96" x2="613" y2="506" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="776" y="114" text-anchor="middle" font-size="11" fill="#94a3b8">above the current height h &#183; doesn't exist yet</text>
 
-  <!-- ghost offsets above the height -->
-  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" fill="#475569">
-    <rect x="100" y="118" width="120" height="24" rx="4" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/>
-    <text x="92" y="134" text-anchor="end">8</text>
-    <rect x="100" y="146" width="120" height="24" rx="4" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/>
-    <text x="92" y="162" text-anchor="end">7</text>
-    <rect x="100" y="174" width="120" height="24" rx="4" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/>
-    <text x="92" y="190" text-anchor="end">6</text>
+  <!-- top row: slots -->
+  <text x="80" y="122" font-size="12" fill="#94a3b8">the h slots, laid flat &#183; each chip shows its destination</text>
+  <g font-size="9.5" fill="#64748b" text-anchor="middle">
+    <text x="118" y="144">0</text>
+    <text x="208" y="144">1</text>
+    <text x="298" y="144">2</text>
+    <text x="388" y="144">3</text>
+    <text x="478" y="144">4</text>
+    <text x="568" y="144">5</text>
   </g>
-  <text x="310" y="162" font-size="10" fill="#64748b">doesn't exist yet &#8212; parked</text>
-  <text x="310" y="176" font-size="10" fill="#64748b">destinations point up here</text>
-
-  <!-- parked destination curves -->
-  <path d="M 224 276 C 252 268, 252 138, 224 130" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrAmber)"/>
-  <path d="M 224 322 C 282 306, 282 174, 224 158" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrAmber)"/>
-
-  <!-- real rows: fill = slot kind, stroke = position kind -->
-  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" text-anchor="middle">
-    <rect x="100" y="210" width="120" height="40" rx="5" fill="#16324a" stroke="#334155" stroke-width="1.5"/>
-    <text x="160" y="235" fill="#7dd3fc">&#8594; 5</text>
-    <rect x="100" y="256" width="120" height="40" rx="5" fill="#3a2d10" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
-    <text x="160" y="281" fill="#fbbf24">&#8594; 8</text>
-    <rect x="100" y="302" width="120" height="40" rx="5" fill="#3a2d10" stroke="#334155" stroke-width="1.5"/>
-    <text x="160" y="327" fill="#fbbf24">&#8594; 7</text>
-    <rect x="100" y="348" width="120" height="40" rx="5" fill="#16324a" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
-    <text x="160" y="373" fill="#7dd3fc">&#8594; 1</text>
-    <rect x="100" y="394" width="120" height="40" rx="5" fill="#16324a" stroke="#334155" stroke-width="1.5"/>
-    <text x="160" y="419" fill="#7dd3fc">&#8594; 3</text>
-    <rect x="100" y="440" width="120" height="40" rx="5" fill="#16324a" stroke="#334155" stroke-width="1.5"/>
-    <text x="160" y="465" fill="#7dd3fc">&#8594; 0</text>
-  </g>
-  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11" fill="#64748b" text-anchor="end">
-    <text x="92" y="234">5</text>
-    <text x="92" y="280">4</text>
-    <text x="92" y="326">3</text>
-    <text x="92" y="372">2</text>
-    <text x="92" y="418">1</text>
-    <text x="92" y="464">0</text>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
+    <rect x="80" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="118" y="177" fill="#7dd3fc">&#8594; 0</text>
+    <rect x="170" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="208" y="177" fill="#7dd3fc">&#8594; 3</text>
+    <rect x="260" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="298" y="177" fill="#7dd3fc">&#8594; 1</text>
+    <rect x="350" y="150" width="76" height="44" rx="6" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="388" y="177" fill="#fbbf24">&#8594; 7</text>
+    <rect x="440" y="150" width="76" height="44" rx="6" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="478" y="177" fill="#fbbf24">&#8594; 8</text>
+    <rect x="530" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="568" y="177" fill="#7dd3fc">&#8594; 5</text>
   </g>
 
-  <!-- pos3 moves into hole 2 -->
-  <path d="M 96 322 C 72 330, 72 360, 96 368" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrAmber)"/>
+  <!-- destination arrows -->
+  <line x1="118" y1="216" x2="118" y2="415" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <line x1="568" y1="216" x2="568" y2="415" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <path d="M 208 216 C 208 320, 388 320, 388 415" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <path d="M 298 216 C 298 320, 208 320, 208 415" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <path d="M 400 216 C 400 330, 748 330, 748 415" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrAmber)"/>
+  <path d="M 490 216 C 490 330, 838 330, 838 415" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrAmber)"/>
 
-  <!-- row annotations -->
-  <g font-size="10.5" fill="#94a3b8">
-    <text x="310" y="234">placeable &#183; already final</text>
-    <text x="310" y="272">parked, standing in a hole</text>
-    <text x="310" y="286" fill="#64748b">&#8594; stays put</text>
-    <text x="310" y="318">parked, in the way</text>
-    <text x="310" y="332" fill="#64748b">&#8594; takes free hole 2</text>
-    <text x="310" y="364">placeable, standing in a hole</text>
-    <text x="310" y="378" fill="#64748b">&#8594; leaves for 1 &#183; hole freed</text>
-    <text x="310" y="418">placeable &#8594; 3</text>
-    <text x="310" y="464">placeable &#183; already final</text>
+  <!-- parking ties -->
+  <line x1="466" y1="216" x2="466" y2="415" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrGreen)"/>
+  <path d="M 368 216 C 368 330, 306 330, 306 415" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrGreen)"/>
+  <text x="452" y="400" text-anchor="end" font-size="9.5" fill="#4ade80">stays</text>
+  <text x="320" y="400" font-size="9.5" fill="#4ade80">parks</text>
+
+  <!-- counter pills -->
+  <rect x="170" y="296" width="160" height="26" rx="13" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
+  <text x="250" y="313" text-anchor="middle" font-size="11" fill="#7dd3fc">4 arrows land below h</text>
+  <rect x="622" y="296" width="176" height="26" rx="13" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
+  <text x="710" y="313" text-anchor="middle" font-size="11" fill="#fbbf24">2 arrows escape past h</text>
+
+  <!-- bottom row: target offsets -->
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" text-anchor="middle">
+    <rect x="80" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="118" y="440" font-size="12" fill="#cbd5e1">0</text>
+    <rect x="170" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="208" y="440" font-size="12" fill="#cbd5e1">1</text>
+    <rect x="260" y="420" width="76" height="44" rx="6" fill="#12261c" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="298" y="440" font-size="12" fill="#4ade80">2</text>
+    <text x="298" y="456" font-size="9" fill="#4ade80">hole &#183; unhit</text>
+    <rect x="350" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="388" y="440" font-size="12" fill="#cbd5e1">3</text>
+    <rect x="440" y="420" width="76" height="44" rx="6" fill="#12261c" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="478" y="440" font-size="12" fill="#4ade80">4</text>
+    <text x="478" y="456" font-size="9" fill="#4ade80">hole &#183; unhit</text>
+    <rect x="530" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="568" y="440" font-size="12" fill="#cbd5e1">5</text>
+    <rect x="620" y="420" width="76" height="44" rx="6" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="658" y="440" font-size="12" fill="#475569">6</text>
+    <text x="658" y="456" font-size="8.5" fill="#475569">not a hole</text>
+    <rect x="710" y="420" width="76" height="44" rx="6" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="748" y="440" font-size="12" fill="#475569">7</text>
+    <rect x="800" y="420" width="76" height="44" rx="6" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="838" y="440" font-size="12" fill="#475569">8</text>
   </g>
 
-  <!-- legend -->
-  <g font-size="10.5" fill="#94a3b8">
-    <rect x="60" y="508" width="12" height="12" rx="3" fill="#16324a" stroke="#38bdf8" stroke-width="1"/>
-    <text x="78" y="518">placeable (dest &lt; h)</text>
-    <rect x="200" y="508" width="12" height="12" rx="3" fill="#3a2d10" stroke="#fbbf24" stroke-width="1"/>
-    <text x="218" y="518">parked (dest &#8805; h)</text>
-    <rect x="336" y="508" width="12" height="12" rx="3" fill="none" stroke="#4ade80" stroke-width="1.2" stroke-dasharray="4 3"/>
-    <text x="354" y="518">hole &#183; slot generated later</text>
+  <!-- region braces under offsets -->
+  <line x1="80" y1="478" x2="606" y2="478" stroke="#475569" stroke-width="1"/>
+  <text x="343" y="494" text-anchor="middle" font-size="10.5" fill="#94a3b8">below h &#183; the permutation must fill every one of these now</text>
+  <line x1="620" y1="478" x2="876" y2="478" stroke="#475569" stroke-width="1"/>
+  <text x="748" y="494" text-anchor="middle" font-size="10.5" fill="#64748b">above h &#183; filled later, once the stack grows</text>
+
+  <!-- ledger -->
+  <line x1="60" y1="518" x2="940" y2="518" stroke="#1e293b" stroke-width="1"/>
+  <g font-size="12.5">
+    <text x="80" y="546" fill="#e2e8f0">slots</text>
+    <text x="270" y="546" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">6 =</text>
+    <text x="326" y="546" fill="#7dd3fc">4 land below h</text>
+    <text x="520" y="546" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">+</text>
+    <text x="548" y="546" fill="#fbbf24">2 escape above h</text>
+    <text x="740" y="546" fill="#64748b" font-size="10.5">(total &#8212; every slot fires)</text>
+
+    <text x="80" y="572" fill="#e2e8f0">offsets below h</text>
+    <text x="270" y="572" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">6 =</text>
+    <text x="326" y="572" fill="#cbd5e1">4 hit, once each</text>
+    <text x="520" y="572" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">+</text>
+    <text x="548" y="572" fill="#4ade80">2 never hit</text>
+    <text x="740" y="572" fill="#64748b" font-size="10.5">(injective &#8212; no offset hit twice)</text>
   </g>
+  <text x="80" y="602" font-size="13.5" fill="#e2e8f0">&#8756;&#160; <tspan fill="#fbbf24" font-weight="700">parked</tspan> = <tspan fill="#4ade80" font-weight="700">holes</tspan> &#8212; an escaping arrow fills no seat below h, so it leaves exactly one seat empty</text>
 
-  <!-- ===== right: counting ===== -->
-  <text x="500" y="106" font-size="12.5" font-weight="700" fill="#e2e8f0">count the same h units twice</text>
-
-  <!-- bar A: slots by destination -->
-  <text x="500" y="134" font-size="11" fill="#94a3b8">the h slots &#183; classified by destination</text>
-  <rect x="500" y="142" width="256" height="34" rx="4" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-  <text x="628" y="163" text-anchor="middle" font-size="11.5" fill="#7dd3fc">placeable &#183; 4</text>
-  <rect x="756" y="142" width="128" height="34" rx="4" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
-  <text x="820" y="163" text-anchor="middle" font-size="11.5" fill="#fbbf24">parked &#183; 2</text>
-
-  <!-- bijection arrows -->
-  <g stroke="#64748b" stroke-width="1.2">
-    <line x1="532" y1="184" x2="532" y2="224" marker-start="url(#arrSlate)" marker-end="url(#arrSlate)"/>
-    <line x1="596" y1="184" x2="596" y2="224" marker-start="url(#arrSlate)" marker-end="url(#arrSlate)"/>
-    <line x1="660" y1="184" x2="660" y2="224" marker-start="url(#arrSlate)" marker-end="url(#arrSlate)"/>
-    <line x1="724" y1="184" x2="724" y2="224" marker-start="url(#arrSlate)" marker-end="url(#arrSlate)"/>
-  </g>
-  <line x1="820" y1="184" x2="820" y2="224" stroke="#4ade80" stroke-width="1.5" marker-start="url(#arrGreen)" marker-end="url(#arrGreen)"/>
-  <text x="832" y="208" font-size="10" fill="#4ade80">&#8756; equal</text>
-
-  <!-- bar B: positions by planned mapping -->
-  <rect x="500" y="232" width="256" height="34" rx="4" fill="#1e293b" stroke="#64748b" stroke-width="1.5"/>
-  <text x="628" y="253" text-anchor="middle" font-size="11.5" fill="#cbd5e1">non-hole &#183; 4</text>
-  <rect x="756" y="232" width="128" height="34" rx="4" fill="#12261c" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
-  <text x="820" y="253" text-anchor="middle" font-size="11.5" fill="#4ade80">holes &#183; 2</text>
-  <text x="500" y="288" font-size="11" fill="#94a3b8">the h positions &#183; classified by the planned mapping</text>
-
-  <text x="500" y="316" font-size="11" fill="#94a3b8">every non-hole is the destination of exactly one placeable slot (&#8645;),</text>
-  <text x="500" y="332" font-size="11" fill="#94a3b8">and both bars are the same h units &#8212; so the leftovers must be equal too.</text>
-
-  <!-- step 3: cancel the overlap -->
-  <text x="500" y="366" font-size="11" fill="#94a3b8">a parked slot standing in a hole plugs one unit on each side &#8212; cancel it:</text>
-  <rect x="500" y="376" width="128" height="30" rx="4" fill="#3a2d10" stroke="#4ade80" stroke-width="1.2" stroke-dasharray="4 3"/>
-  <text x="564" y="395" text-anchor="middle" font-size="10.5" fill="#fbbf24">in a hole &#183; 1</text>
-  <rect x="628" y="376" width="128" height="30" rx="4" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.2"/>
-  <text x="692" y="395" text-anchor="middle" font-size="10.5" fill="#fbbf24">in the way &#183; 1</text>
-
-  <line x1="564" y1="412" x2="564" y2="444" stroke="#475569" stroke-width="1.2" stroke-dasharray="3 3"/>
-  <text x="556" y="432" text-anchor="end" font-size="9.5" fill="#64748b">same pair &#183; cancels</text>
-  <line x1="692" y1="412" x2="692" y2="444" stroke="#64748b" stroke-width="1.2" marker-start="url(#arrSlate)" marker-end="url(#arrSlate)"/>
-  <text x="700" y="432" font-size="9.5" fill="#94a3b8">left over &#8212; matched 1 : 1</text>
-
-  <rect x="500" y="448" width="128" height="30" rx="4" fill="#12261c" stroke="#fbbf24" stroke-width="1.2"/>
-  <text x="564" y="467" text-anchor="middle" font-size="10.5" fill="#4ade80">plugged &#183; 1</text>
-  <rect x="628" y="448" width="128" height="30" rx="4" fill="#12261c" stroke="#4ade80" stroke-width="1.2" stroke-dasharray="4 3"/>
-  <text x="692" y="467" text-anchor="middle" font-size="10.5" fill="#4ade80">free &#183; 1</text>
-
-  <!-- conclusion -->
-  <rect x="500" y="502" width="440" height="60" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" fill="#e2e8f0" text-anchor="middle">
-    <text x="720" y="527">placeable = non-holes &#8658; parked = holes</text>
-    <text x="720" y="547">&#8658; parked &#8726; plugged = free holes</text>
-  </g>
-
-  <!-- footer notes -->
-  <line x1="60" y1="590" x2="940" y2="590" stroke="#1e293b" stroke-width="1"/>
-  <g font-size="11.5" fill="#94a3b8">
-    <text x="60" y="614">the code matches the two leftover sets in ascending order &#8212; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">yulAssert(parked.size() == holes.size())</tspan></text>
-    <text x="60" y="636">each free hole later receives its generated slot; the swap that fills it floats the parked slot to the top for free</text>
+  <!-- refinement -->
+  <g font-size="11" fill="#64748b">
+    <text x="80" y="634">the dashed green ties are the parking that this makes possible: a parked slot directly above a hole keeps it (slot 4),</text>
+    <text x="80" y="650">the rest take the remaining holes in ascending order (slot 3 &#8594; hole 2) &#8212; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">yulAssert(parked.size() == holes.size())</tspan></text>
   </g>
 
   <text x="940" y="684" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">Shuffler.cpp &#183; Emission::permuteAtLowestHeight</text>

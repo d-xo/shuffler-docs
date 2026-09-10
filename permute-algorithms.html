@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Ways to Realise a Permutation</title>
+<style>
+  :root {
+    --bg: #0f172a; --panel: #1e293b; --panel2: #131c2e; --line: #334155; --line2: #1e293b;
+    --txt: #e2e8f0; --mut: #94a3b8; --dim: #64748b; --faint: #475569;
+    --blue: #38bdf8; --blue2: #7dd3fc; --blue-bg: #16324a;
+    --amber: #fbbf24; --amber-bg: #3a2d10;
+    --green: #4ade80; --green-bg: #12261c;
+    --violet: #c084fc; --violet-bg: #2b2140;
+    --red: #f87171; --red-bg: #2a1721;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--txt);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px; line-height: 1.65;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 40px 24px 80px; }
+  h1 { font-size: 30px; margin: 0 0 6px; }
+  h2 { font-size: 21px; margin: 0 0 4px; }
+  h3 { font-size: 16px; margin: 26px 0 8px; color: var(--txt); }
+  .sub { color: var(--mut); margin: 0 0 10px; }
+  code, .mono { font-family: var(--mono); font-size: 0.92em; }
+  code { background: var(--panel2); border: 1px solid var(--line2); border-radius: 4px; padding: 1px 5px; }
+  p { color: var(--mut); }
+  p strong { color: var(--txt); font-weight: 600; }
+  section { margin-top: 56px; }
+  .card {
+    background: var(--panel2); border: 1px solid var(--line2);
+    border-radius: 12px; padding: 20px 22px; margin: 18px 0;
+  }
+  .tag {
+    display: inline-block; font-size: 11px; font-family: var(--mono);
+    color: var(--dim); border: 1px solid var(--line); border-radius: 20px;
+    padding: 1px 10px; margin-bottom: 8px;
+  }
+  .cols { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+  .cols > * { flex: 1 1 380px; min-width: 0; }
+  .svgbox { overflow-x: auto; }
+  svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  svg .mono { font-family: var(--mono); }
+
+  /* ---- stepper ---- */
+  .stepper { background: var(--panel2); border: 1px solid var(--line2); border-radius: 12px; padding: 18px 20px; margin: 18px 0; }
+  .stepper .stage { overflow-x: auto; padding: 4px 2px 2px; }
+  .row { display: flex; gap: 10px; width: max-content; }
+  .cell {
+    width: 64px; height: 56px; border-radius: 8px; flex: 0 0 auto;
+    background: var(--panel); border: 1.5px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--mono); transition: background .18s, border-color .18s;
+  }
+  .cell .v { font-size: 17px; color: var(--blue2); }
+  .cell .s { font-size: 10px; color: var(--dim); margin-top: 1px; }
+  .cell.final { border-color: var(--green); background: var(--green-bg); }
+  .cell.final .v { color: var(--green); }
+  .cell.hand { border-color: var(--amber); background: var(--amber-bg); }
+  .cell.hand .v { color: var(--amber); }
+  .cell.pair { border-color: var(--blue); background: var(--blue-bg); }
+  .cell.chase { border-color: var(--violet); border-style: dashed; }
+  .idxrow { display: flex; gap: 10px; width: max-content; margin-top: 6px; }
+  .idxrow div { width: 64px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--dim); flex: 0 0 auto; }
+  .arcsvg { display: block; height: 54px; width: max-content; }
+  .auxline { margin-top: 12px; display: flex; gap: 18px; flex-wrap: wrap; align-items: center; min-height: 28px; }
+  .savechip {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1.5px dashed var(--amber); border-radius: 8px; padding: 3px 12px;
+    font-family: var(--mono); font-size: 13px; color: var(--amber); background: var(--amber-bg);
+  }
+  .savechip.empty { border-color: var(--line); color: var(--faint); background: transparent; }
+  .oplog { font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+  .oplog b { color: var(--amber); font-weight: 600; }
+  .desc { margin-top: 12px; color: var(--mut); font-size: 14px; min-height: 44px; }
+  .desc code { color: var(--blue2); }
+  .controls { margin-top: 12px; display: flex; gap: 8px; align-items: center; }
+  .controls button {
+    background: var(--panel); color: var(--txt); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 14px; font-size: 13px; cursor: pointer;
+  }
+  .controls button:hover { border-color: var(--blue); }
+  .controls button:disabled { opacity: .35; cursor: default; }
+  .controls button:disabled:hover { border-color: var(--line); }
+  .counter { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-left: auto; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line2); color: var(--mut); vertical-align: top; }
+  th { color: var(--txt); font-weight: 600; border-bottom: 1px solid var(--line); }
+  td:first-child, th:first-child { color: var(--txt); white-space: nowrap; }
+  .note { border-left: 3px solid var(--blue); padding: 2px 0 2px 14px; margin: 14px 0; color: var(--mut); font-size: 14px; }
+  .note.amber { border-color: var(--amber); }
+  .note.green { border-color: var(--green); }
+  a { color: var(--blue2); }
+  .toc { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 14px; font-size: 13.5px; }
+  .toc a { text-decoration: none; border: 1px solid var(--line); border-radius: 20px; padding: 3px 14px; color: var(--mut); }
+  .toc a:hover { border-color: var(--blue); color: var(--txt); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Three Ways to Realise a Permutation</h1>
+<p class="sub">Duijvestijn's <code>permute</code> (1972) &middot; Haddon's cycle-sort (1990) &middot; the shuffler's <code>permute</code> &mdash; one idea, three machines.</p>
+<div class="toc">
+  <a href="#problem">the problem</a>
+  <a href="#duijvestijn">Duijvestijn</a>
+  <a href="#haddon">Haddon</a>
+  <a href="#shuffler">the shuffler</a>
+  <a href="#compare">comparison</a>
+</div>
+
+<!-- ==================== THE PROBLEM ==================== -->
+<section id="problem">
+  <h2>The problem, and the one idea</h2>
+  <p>
+    All three algorithms answer the same question: <strong>given an array and a permutation
+    &sigma; describing where each element must go, produce a sequence of primitive data
+    movements that realises &sigma; in place</strong> &mdash; no second array. And all three exploit
+    the same structural fact: a permutation decomposes uniquely into disjoint cycles, and each
+    cycle can be resolved independently, moving each element at most once (plus book-keeping).
+  </p>
+  <p>
+    Throughout this page every machine runs the <strong>same example</strong>:
+    six elements <span class="mono">a&hellip;f</span> and the permutation
+    <span class="mono">&sigma; = [2 3 4 1 0 5]</span>
+    (one-line notation, 0-indexed: the element at position <i>i</i> goes to &sigma;(i)),
+    which decomposes into a 3-cycle, a 2-cycle and a fixed point.
+  </p>
+
+  <div class="cols">
+    <div class="card svgbox">
+      <div class="tag">the shared example</div>
+      <svg viewBox="0 0 440 240" width="440" height="240">
+        <g font-size="9" fill="#64748b" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">
+          <text x="52" y="26">0</text><text x="120" y="26">1</text><text x="188" y="26">2</text>
+          <text x="256" y="26">3</text><text x="324" y="26">4</text><text x="392" y="26">5</text>
+        </g>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="13" text-anchor="middle">
+          <rect x="26" y="34" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="52" y="56" fill="#7dd3fc">a</text>
+          <rect x="94" y="34" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="120" y="56" fill="#7dd3fc">b</text>
+          <rect x="162" y="34" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="188" y="56" fill="#7dd3fc">c</text>
+          <rect x="230" y="34" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="256" y="56" fill="#7dd3fc">d</text>
+          <rect x="298" y="34" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="324" y="56" fill="#7dd3fc">e</text>
+          <rect x="366" y="34" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="392" y="56" fill="#7dd3fc">f</text>
+        </g>
+        <defs>
+          <marker id="mB" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/></marker>
+          <marker id="mA" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#fbbf24"/></marker>
+          <marker id="mG" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#4ade80"/></marker>
+        </defs>
+        <g fill="none" stroke-width="1.6">
+          <path d="M 52 70 C 52 110, 188 110, 188 146" stroke="#38bdf8" marker-end="url(#mB)"/>
+          <path d="M 188 70 C 188 110, 324 110, 324 146" stroke="#38bdf8" marker-end="url(#mB)"/>
+          <path d="M 324 70 C 324 110, 52 110, 52 146" stroke="#38bdf8" marker-end="url(#mB)"/>
+          <path d="M 120 70 C 120 110, 256 110, 256 146" stroke="#fbbf24" marker-end="url(#mA)"/>
+          <path d="M 256 70 C 256 110, 120 110, 120 146" stroke="#fbbf24" marker-end="url(#mA)"/>
+          <line x1="392" y1="70" x2="392" y2="146" stroke="#4ade80" marker-end="url(#mG)"/>
+        </g>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="13" text-anchor="middle">
+          <rect x="26" y="150" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="52" y="172" fill="#7dd3fc">e</text>
+          <rect x="94" y="150" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="120" y="172" fill="#7dd3fc">d</text>
+          <rect x="162" y="150" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="188" y="172" fill="#7dd3fc">a</text>
+          <rect x="230" y="150" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="256" y="172" fill="#7dd3fc">b</text>
+          <rect x="298" y="150" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="324" y="172" fill="#7dd3fc">c</text>
+          <rect x="366" y="150" width="52" height="34" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="392" y="172" fill="#7dd3fc">f</text>
+        </g>
+        <text x="220" y="216" text-anchor="middle" font-size="11" fill="#94a3b8">before &rarr; after &middot; arrows coloured by cycle</text>
+      </svg>
+    </div>
+    <div class="card svgbox">
+      <div class="tag">its cycle decomposition</div>
+      <svg viewBox="0 0 440 240" width="440" height="240">
+        <g stroke="#38bdf8" stroke-width="1.7" fill="none">
+          <path d="M 113 78 C 145 90, 155 110, 147 129" marker-end="url(#mB)"/>
+          <path d="M 127 148 C 113 158, 87 158, 73 148" marker-end="url(#mB)"/>
+          <path d="M 53 129 C 45 110, 55 90, 87 78" marker-end="url(#mB)"/>
+        </g>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="12" text-anchor="middle">
+          <circle cx="100" cy="72" r="14" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/><text x="100" y="76" fill="#7dd3fc">0</text>
+          <circle cx="140" cy="142" r="14" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/><text x="140" y="146" fill="#7dd3fc">2</text>
+          <circle cx="60" cy="142" r="14" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/><text x="60" y="146" fill="#7dd3fc">4</text>
+        </g>
+        <g stroke="#fbbf24" stroke-width="1.7" fill="none">
+          <path d="M 247 84 C 262 96, 262 122, 247 134" marker-end="url(#mA)"/>
+          <path d="M 223 134 C 208 122, 208 96, 223 84" marker-end="url(#mA)"/>
+        </g>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="12" text-anchor="middle">
+          <circle cx="235" cy="76" r="14" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/><text x="235" y="80" fill="#fbbf24">1</text>
+          <circle cx="235" cy="142" r="14" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/><text x="235" y="146" fill="#fbbf24">3</text>
+        </g>
+        <path d="M 330 100 C 322 74, 358 74, 350 99" fill="none" stroke="#4ade80" stroke-width="1.7" marker-end="url(#mG)"/>
+        <circle cx="340" cy="112" r="14" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="340" y="116" font-family="ui-monospace,Menlo,monospace" font-size="12" fill="#4ade80" text-anchor="middle">5</text>
+        <text x="100" y="190" text-anchor="middle" font-size="10.5" fill="#64748b">3-cycle (0 2 4)</text>
+        <text x="235" y="190" text-anchor="middle" font-size="10.5" fill="#64748b">2-cycle (1 3)</text>
+        <text x="340" y="190" text-anchor="middle" font-size="10.5" fill="#64748b">fixed (5)</text>
+        <text x="220" y="222" text-anchor="middle" font-size="12" font-family="ui-monospace,Menlo,monospace" fill="#cbd5e1">&sigma; = <tspan fill="#7dd3fc">(0 2 4)</tspan><tspan fill="#fbbf24">(1 3)</tspan><tspan fill="#4ade80">(5)</tspan></text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="card svgbox">
+    <div class="tag">lineage</div>
+    <svg viewBox="0 0 920 128" width="920" height="128">
+      <defs><marker id="mS" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker></defs>
+      <g stroke="#64748b" stroke-width="1.4">
+        <line x1="196" y1="52" x2="238" y2="52" marker-end="url(#mS)"/>
+        <line x1="434" y1="52" x2="476" y2="52" marker-end="url(#mS)"/>
+        <line x1="672" y1="52" x2="714" y2="52" marker-end="url(#mS)"/>
+      </g>
+      <g text-anchor="middle">
+        <rect x="20" y="28" width="176" height="48" rx="9" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+        <text x="108" y="49" font-size="13" fill="#e2e8f0">Windley 1959</text>
+        <text x="108" y="66" font-size="10" fill="#64748b">the algorithm (matrix transposition)</text>
+        <rect x="240" y="28" width="194" height="48" rx="9" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+        <text x="337" y="49" font-size="13" fill="#e2e8f0">Duijvestijn 1972</text>
+        <text x="337" y="66" font-size="10" fill="#64748b">correctness proof &middot; exchanges + &psi;</text>
+        <rect x="478" y="28" width="194" height="48" rx="9" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+        <text x="575" y="49" font-size="13" fill="#e2e8f0">Haddon 1990</text>
+        <text x="575" y="66" font-size="10" fill="#64748b">cycle-sort &middot; single walk via save</text>
+        <rect x="716" y="28" width="184" height="48" rx="9" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="808" y="49" font-size="13" fill="#7dd3fc">shuffler permute</text>
+        <text x="808" y="66" font-size="10" fill="#64748b">swaps through the stack top</text>
+      </g>
+      <text x="460" y="108" text-anchor="middle" font-size="11" fill="#475569">Haddon cites Duijvestijn's procedure by name: his cycle sorts are &ldquo;effectively modifications of the procedure permute&rdquo;.</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ==================== DUIJVESTIJN ==================== -->
+<section id="duijvestijn">
+  <h2>1 &middot; Duijvestijn's <code>permute</code> &mdash; exchange and re-chase</h2>
+  <p class="sub">BIT 12 (1972). Algorithm due to Windley; Duijvestijn supplies the invariant-based proof.</p>
+  <p>
+    Convention alert: Duijvestijn's <strong>f points source-ward</strong> &mdash; f(k) is the position
+    where the element <em>destined for</em> k currently lives (f = &sigma;<sup>&minus;1</sup>, and his
+    arrays are 1-indexed). The algorithm scans k = 1&hellip;G. For each k it asks: <em>where is my
+    element now?</em> It starts at f(k) and, if that position was already finalised
+    (index &lt; k), keeps chasing <code>kn := f(kn)</code> &mdash; each finalised position passes the
+    buck to wherever <em>its</em> exchange pushed the displaced element. The chase stops at the first
+    index &ge; k: that is &psi;<sub>k</sub>(k), the element's true current home. One
+    <code>exchange(VEC[kn], VEC[k])</code> finishes position k forever.
+  </p>
+  <div class="note">
+    The loop invariant is <b>E1 &and; E2</b>: positions below k are final
+    (<span class="mono">VEC[i] = &alpha;<sub>f(i)</sub></span> for i &lt; k), and every pending
+    element is parked exactly where &psi;<sub>k</sub> says it is. At k = 1, E1 is empty and E2 is
+    the initial state; at k = G+1, E2 is empty and E1 is the theorem.
+  </div>
+  <p>
+    Cost: at most one exchange per position &mdash; exactly n &minus; c exchanges (the Cayley
+    optimum, 3 on our example). The price is the chasing: pointer hops are re-walked from scratch
+    for every k, so index work can degenerate even though data movement is optimal.
+  </p>
+
+  <div class="stepper" id="stD"></div>
+</section>
+
+<!-- ==================== HADDON ==================== -->
+<section id="haddon">
+  <h2>2 &middot; Haddon's cycle-sort &mdash; rotate through <code>save</code></h2>
+  <p class="sub">The Computer Journal 33(4), 1990. Shown here: <code>special_cycle_sort</code> (every key distinct, keys = home positions).</p>
+  <p>
+    Haddon removes the re-chasing by walking each cycle <strong>once</strong>, carrying one element
+    in a register. Scan i = 1&hellip;n; when the element at i is not home (its key j &ne; i),
+    lift it into <code>save</code> and rotate: write <code>save</code> into its home, picking up the
+    displaced element into <code>save</code>, and repeat until the displaced element's home is the
+    hole left at i &mdash; the cycle closes. Elements move <em>directly</em> to their final
+    positions: one write each, never an exchange.
+  </p>
+  <div class="note amber">
+    The hand is <b>outside the array</b> &mdash; that is the whole difference from the other two
+    machines. Entering a cycle costs nothing (<code>save := a[i]</code> is a register load), and
+    a length-&ell; cycle costs &ell;+1 moves instead of 3(&ell;&minus;1) for exchange-based
+    rotation. His <code>general_cycle_sort</code> adds a histogram so duplicate keys each get a
+    distinct home &mdash; the same problem the shuffler solves with equal-slot retagging.
+  </div>
+  <p>
+    Scanning finds every cycle because each non-unit cycle must contain an element above its home
+    (a<sub>1</sub> &lt; a<sub>2</sub> &lt; &hellip; &lt; a<sub>c</sub> &lt; a<sub>1</sub> being
+    impossible); positions of finished cycles simply test as home and are skipped. Linear time,
+    each element touched at most twice.
+  </p>
+
+  <div class="stepper" id="stH"></div>
+</section>
+
+<!-- ==================== SHUFFLER ==================== -->
+<section id="shuffler">
+  <h2>3 &middot; The shuffler's <code>permute</code> &mdash; swaps through the stack top</h2>
+  <p class="sub"><code>libyul/backends/evm/ssa/stack/Shuffler.cpp</code>, <code>Emission::permute</code>. The EVM's only primitive is SWAPn: exchange the top with the slot at depth n.</p>
+  <p>
+    The EVM has no <code>save</code> register and no arbitrary <code>exchange</code> &mdash; every
+    data movement must involve the <strong>top of the stack</strong> (a <em>star
+    transposition</em>). So the top itself becomes the hand: while the top's slot is not home, swap
+    it with its destination &mdash; that single swap <em>places</em> the top's slot and
+    <em>lifts</em> the displaced one, which is Haddon's rotation step and Duijvestijn's exchange in
+    one. When the cycle containing the top closes, the top tests as home; the algorithm then scans
+    downward for any misplaced slot and pays <strong>one entry swap</strong> to merge the top into
+    that cycle before walking it.
+  </p>
+  <div class="note green">
+    Cost per cycle: the cycle containing the top resolves in &ell;&minus;1 swaps; every other
+    non-trivial cycle costs its length + 1 (the entry toll) &mdash; on our example
+    (3+1) + (2+1) = <b>7 swaps</b>, versus the unrestricted optimum of 3 exchanges.
+    Group-theoretically the entry swap <em>merges</em> the top's 1-cycle into the target cycle;
+    every in-cycle swap <em>splits</em> a placed element off.
+  </div>
+  <p>
+    Two refinements the simulation below doesn't need (all values distinct) but the real code has:
+    <strong>equal-slot retagging</strong> &mdash; equal values are interchangeable, so
+    <code>swapDestinations</code> re-labels destinations instead of physically swapping equal
+    slots, dissolving cycles that would only shuttle identical values (Haddon's histogram, done
+    lazily); and the <strong>reach limit</strong> &mdash; SWAPn only reaches 16 deep, so a needed
+    slot beyond reach aborts the attempt with <code>Blocked</code>, feeding the planner's
+    victim-dropping loop. Neither ancestor has a failure mode; the EVM does.
+  </p>
+
+  <div class="stepper" id="stS"></div>
+</section>
+
+<!-- ==================== COMPARISON ==================== -->
+<section id="compare">
+  <h2>Side by side</h2>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <tr><th></th><th>Duijvestijn 1972</th><th>Haddon 1990</th><th>shuffler <code>permute</code></th></tr>
+      <tr><td>primitive</td><td>exchange(i, k)</td><td>write via <code>save</code> register</td><td>SWAPn &mdash; exchange with the top only</td></tr>
+      <tr><td>the &ldquo;hand&rdquo;</td><td>scan position k</td><td>register outside the array</td><td>the stack top (an array position!)</td></tr>
+      <tr><td>finds pending elements</td><td>re-chases f past finalised indices (&psi;, computed lazily)</td><td>walks each cycle once, forward</td><td>mapping updated eagerly on every swap (&psi;, materialised)</td></tr>
+      <tr><td>cycle entry</td><td>free (scan arrives)</td><td>free (register load)</td><td><b>one swap</b> &mdash; the star-transposition toll</td></tr>
+      <tr><td>cost, &ell;-cycle</td><td>&ell;&minus;1 exchanges</td><td>&ell;+1 moves</td><td>&ell;&minus;1 swaps (top's cycle) / &ell;+1 (others)</td></tr>
+      <tr><td>on the shared example</td><td>3 exchanges (+4 chase hops)</td><td>5 writes (+2 saves)</td><td>7 swaps</td></tr>
+      <tr><td>duplicates</td><td>n/a (true permutation)</td><td>histogram hands out homes per key block</td><td>equal-slot retag via <code>swapDestinations</code></td></tr>
+      <tr><td>failure mode</td><td>none</td><td>none</td><td><code>Blocked</code> when a slot is beyond SWAP reach</td></tr>
+      <tr><td>direction of the map</td><td>f source-ward (fetch from)</td><td>key destination-ward</td><td><code>_permutation[i]</code> destination-ward</td></tr>
+    </table>
+  </div>
+  <p>
+    The synthesis: the shuffler keeps <strong>Duijvestijn's primitive</strong> (exchanges are all
+    the EVM offers) and <strong>Haddon's single-walk structure</strong> (no re-chasing &mdash; the
+    working mapping <em>is</em> &psi;, kept current by <code>swapDestinations</code>), and adds
+    what neither ancestor needed: an entry toll, because its hand is part of the array, and a
+    bail-out, because its arm is only sixteen slots long.
+  </p>
+</section>
+
+</div>
+
+<script>
+"use strict";
+const CW = 64, GAP = 10, PITCH = CW + GAP;
+
+/* ---------- generic stepper ---------- */
+function Stepper(rootId, steps, opts) {
+  const root = document.getElementById(rootId);
+  const n = opts.n;
+  root.innerHTML = `
+    <div class="tag">${opts.title}</div>
+    <div class="stage">
+      <svg class="arcsvg" width="${n*PITCH-GAP}" height="54"></svg>
+      <div class="row"></div>
+      <div class="idxrow">${opts.idxLabels.map(l=>`<div>${l}</div>`).join("")}</div>
+    </div>
+    <div class="auxline"></div>
+    <div class="desc"></div>
+    <div class="controls">
+      <button class="bReset">&#8634; reset</button>
+      <button class="bPrev">&larr; prev</button>
+      <button class="bNext">next &rarr;</button>
+      <button class="bPlay">&#9654; play</button>
+      <span class="counter"></span>
+    </div>`;
+  const rowEl = root.querySelector(".row"), arcEl = root.querySelector(".arcsvg"),
+        auxEl = root.querySelector(".auxline"), descEl = root.querySelector(".desc"),
+        cntEl = root.querySelector(".counter");
+  const bR = root.querySelector(".bReset"), bP = root.querySelector(".bPrev"),
+        bN = root.querySelector(".bNext"), bPl = root.querySelector(".bPlay");
+  let i = 0, timer = null;
+
+  function arc(a, b, color, dashed) {
+    const x1 = a*PITCH + CW/2, x2 = b*PITCH + CW/2;
+    const mid = (x1+x2)/2;
+    return `<path d="M ${x1} 50 C ${x1} 12, ${x2} 12, ${x2} 50" fill="none"
+      stroke="${color}" stroke-width="1.8" ${dashed?'stroke-dasharray="5 4"':''} marker-end="url(#stepArr${color.replace('#','')})"/>
+      <defs><marker id="stepArr${color.replace('#','')}" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="${color}"/></marker></defs>`;
+  }
+
+  function render() {
+    const s = steps[i];
+    rowEl.innerHTML = s.cells.map(c =>
+      `<div class="cell ${c.cls||""}"><div class="v">${c.v}</div>${c.s!==undefined?`<div class="s">${c.s}</div>`:""}</div>`).join("");
+    arcEl.innerHTML = (s.arcs||[]).map(a => arc(a.a, a.b, a.color, a.dashed)).join("");
+    auxEl.innerHTML = opts.aux ? opts.aux(s) : "";
+    descEl.innerHTML = s.desc;
+    cntEl.textContent = `step ${i+1} / ${steps.length}`;
+    bP.disabled = i === 0; bN.disabled = i === steps.length-1;
+  }
+  function go(j) { i = Math.max(0, Math.min(steps.length-1, j)); render(); }
+  function stop() { if (timer) { clearInterval(timer); timer = null; bPl.innerHTML = "&#9654; play"; } }
+  bR.onclick = () => { stop(); go(0); };
+  bP.onclick = () => { stop(); go(i-1); };
+  bN.onclick = () => { stop(); go(i+1); };
+  bPl.onclick = () => {
+    if (timer) { stop(); return; }
+    if (i === steps.length-1) go(0);
+    bPl.innerHTML = "&#10074;&#10074; pause";
+    timer = setInterval(() => { if (i < steps.length-1) go(i+1); else stop(); }, 1100);
+  };
+  render();
+}
+
+/* ---------- 1. Duijvestijn (1-indexed) ---------- */
+(function () {
+  const G = 6, f = [5,4,1,2,3,6];                 // f[x-1] = where x's element lives
+  let V = ["a","b","c","d","e","f"];
+  const steps = [];
+  const snap = (desc, hl, arcs) => steps.push({
+    cells: V.map((v,idx) => {
+      const pos = idx+1;
+      let cls = (pos < (hl.k||1)) ? "final" : "";
+      if (hl.pair && hl.pair.includes(pos)) cls = "pair";
+      else if (hl.chase && hl.chase.includes(pos)) cls += " chase";
+      if (hl.doneAll) cls = "final";
+      return { v, s: "f="+f[idx], cls };
+    }),
+    desc, arcs: arcs||[]
+  });
+
+  snap(`Initial state. <code>f = [5 4 1 2 3 6]</code> (1-indexed, source-ward: position k's element lives at f(k)). Scan k upward; green = finalised.`, {k:1});
+  for (let k = 1; k <= G; k++) {
+    let kn = f[k-1];
+    let hops = [];
+    if (kn !== k) snap(`k = ${k}: my element lives at f(${k}) = ${kn}.` + (kn<k?` But ${kn} &lt; k is already finalised &mdash; its exchange pushed my element elsewhere. Chase.`:""), {k, pair:[k], chase:[kn]});
+    while (kn < k) {
+      hops.push(kn);
+      const nx = f[kn-1];
+      snap(`&hellip;chase: <code>kn := f(${kn}) = ${nx}</code> ${nx>=k?"&mdash; at last an index &ge; k. That is &psi;<sub>"+k+"</sub>("+k+").":"&mdash; still below k, keep chasing."}`, {k, pair:[k], chase:[...hops, nx]});
+      kn = nx;
+    }
+    if (kn !== k) {
+      const t = V[kn-1]; V[kn-1] = V[k-1]; V[k-1] = t;
+      snap(`<b>exchange(VEC[${kn}], VEC[${k}])</b> &mdash; <code>${V[k-1]}</code> comes home to ${k}; <code>${V[kn-1]}</code> is displaced to ${kn}, where a later k will find it. Position ${k} is final.`,
+        {k:k+1}, [{a:k-1,b:kn-1,color:"#38bdf8"}]);
+    } else {
+      snap(`k = ${k}: kn = k &mdash; ${f[k-1]===k?"a fixed point; nothing to do.":"the cycle already delivered this element on an earlier k. No exchange."} Position ${k} is final.`, {k:k+1});
+    }
+  }
+  snap(`Done: <code>[${V.join(" ")}]</code>. Exactly 3 exchanges = n &minus; c = 6 &minus; 3 &mdash; Cayley-optimal &mdash; but 4 extra pointer hops were spent re-chasing.`, {doneAll:true});
+  Stepper("stD", steps, { n: 6, title: "Duijvestijn permute &middot; V = [a b c d e f], f = [5 4 1 2 3 6]",
+    idxLabels: ["1","2","3","4","5","6"] });
+})();
+
+/* ---------- 2. Haddon special_cycle_sort (1-indexed) ---------- */
+(function () {
+  const n = 6;
+  let A = [ {v:"a",k:3},{v:"b",k:4},{v:"c",k:5},{v:"d",k:2},{v:"e",k:1},{v:"f",k:6} ];
+  let save = null;
+  const finals = new Set();
+  const steps = [];
+  const snap = (desc, hl, arcs) => steps.push({
+    cells: A.map((c,idx) => {
+      const pos = idx+1;
+      let cls = finals.has(pos) ? "final" : "";
+      if (hl.pair && hl.pair.includes(pos)) cls = "pair";
+      if (hl.hole === pos) cls = "chase";
+      return { v: c.v, s: "key "+c.k, cls };
+    }),
+    desc, arcs: arcs||[], save: save ? {...save} : null,
+    holeAt: hl.hole
+  });
+
+  snap(`Initial state. Every record's key <em>is</em> its home position (special case: keys distinct, keys = 1&hellip;n). Scan i upward.`, {});
+  for (let i = 1; i <= n; i++) {
+    let j = A[i-1].k;
+    if (i !== j) {
+      save = {...A[i-1]};
+      snap(`i = ${i}: key ${j} &ne; ${i}. Lift <code>${save.v}</code> into <b>save</b> &mdash; a free cycle entry; position ${i} is now the hole the cycle will close into.`, {hole:i});
+      while (true) {
+        const displaced = {...A[j-1]};
+        A[j-1] = {...save};
+        finals.add(j);
+        const closes = displaced.k === i;
+        snap(`Write <code>${save.v}</code> into its home ${j} &mdash; one write, final forever. Displaced <code>${displaced.v}</code> (key ${displaced.k}) is lifted into save.${closes?" Its home is the hole at "+i+" &mdash; the cycle closes.":""}`,
+          {hole:i}, [{a:j-1,b:j-1,color:"#38bdf8"}]);
+        save = displaced;
+        j = save.k;
+        if (j === i) break;
+      }
+      A[i-1] = {...save};
+      finals.add(i);
+      const placed = save.v; save = null;
+      snap(`<code>${placed}</code> drops from save into the hole at ${i}. Cycle done &mdash; every member moved exactly once.`, {});
+    } else {
+      finals.add(i);
+      snap(`i = ${i}: <code>${A[i-1].v}</code> already home (key = position) &mdash; ${i<=2?"impossible on first entry, but common late in the scan: ":""}skip.`, {});
+    }
+  }
+  snap(`Done: <code>[${A.map(c=>c.v).join(" ")}]</code>, keys ascending. 5 elements moved, one write each; <code>f</code> never moved at all.`, {});
+  Stepper("stH", steps, { n: 6, title: "Haddon special_cycle_sort &middot; keys = home positions",
+    idxLabels: ["1","2","3","4","5","6"],
+    aux: s => `<span class="savechip ${s.save?'':'empty'}">save: ${s.save? s.save.v+" (key "+s.save.k+")" : "&mdash;"}</span>` +
+              (s.holeAt?`<span class="oplog">hole at position ${s.holeAt}</span>`:"") });
+})();
+
+/* ---------- 3. shuffler permute (0-indexed, top = 5) ---------- */
+(function () {
+  const n = 6, top = n-1;
+  let D = ["a","b","c","d","e","f"];
+  let P = [2,3,4,1,0,5];
+  const ops = [];
+  const steps = [];
+  const snap = (desc, hl, arcs) => steps.push({
+    cells: D.map((v,idx) => {
+      let cls = (P[idx] === idx) ? "final" : "";
+      if (idx === top) cls = (P[idx]===idx?"final ":"") + "hand";
+      if (hl.pair && hl.pair.includes(idx)) cls = "pair";
+      if (hl.scan === idx) cls = "chase";
+      return { v, s: "&rarr;"+P[idx], cls };
+    }),
+    desc, arcs: arcs||[], ops: ops.slice()
+  });
+
+  const doSwap = (pos) => {
+    ops.push("SWAP" + (top - pos));
+    [D[pos], D[top]] = [D[top], D[pos]];
+    [P[pos], P[top]] = [P[top], P[pos]];
+  };
+
+  snap(`Initial state. <code>_permutation = [2 3 4 1 0 5]</code> (destination-ward, under each slot). The top (amber) is the hand; green = slot already at its destination.`, {});
+  let guard = 0;
+  while (guard++ < 40) {
+    const d = P[top];
+    if (d !== top) {
+      const leaving = D[top], arriving = D[d];
+      doSwap(d);
+      snap(`Top's slot <code>${leaving}</code> is bound for ${d} &rarr; <b>SWAP${top-d}</b> places it and lifts <code>${arriving}</code>. One swap, one placement &mdash; Haddon's rotation and Duijvestijn's exchange in a single primitive.`,
+        {pair:[d]}, [{a:d,b:top,color:"#fbbf24"}]);
+    } else {
+      let mis = -1;
+      for (let p = top-1; p >= 0; p--) if (P[p] !== p) { mis = p; break; }
+      if (mis === -1) break;
+      snap(`The top is home &mdash; its cycle is resolved. Scan downward: slot at ${mis} is misplaced (&rarr;${P[mis]}). The next cycle contains no copy of the hand, so&hellip;`, {scan:mis});
+      const arriving = D[mis];
+      doSwap(mis);
+      snap(`&hellip;pay the <b>entry toll</b>: SWAP${top-mis} merges the top into that cycle (lifting <code>${arriving}</code>) without placing anything final. This is the star-transposition surcharge neither ancestor pays.`,
+        {pair:[mis]}, [{a:mis,b:top,color:"#f87171",dashed:true}]);
+    }
+  }
+  snap(`Done: <code>[${D.join(" ")}]</code> in <b>${ops.length} swaps</b> = (3+1) + (2+1): each cycle's length, plus one entry toll apiece &mdash; the top began as a fixed point, so no cycle contained it for free.`, {});
+  Stepper("stS", steps, { n: 6, title: "shuffler Emission::permute &middot; SWAPn only &middot; top is rightmost",
+    idxLabels: ["0","1","2","3","4","5 &middot; top"],
+    aux: s => `<span class="oplog">trace: ${s.ops.length? s.ops.map(o=>"<b>"+o+"</b>").join(" ") : "&mdash;"}</span>` });
+})();
+</script>
+</body>
+</html>

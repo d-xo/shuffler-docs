@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Seven Swaps Is the Law</title>
+<style>
+  :root {
+    --bg: #0f172a; --panel: #1e293b; --panel2: #131c2e; --line: #334155; --line2: #1e293b;
+    --txt: #e2e8f0; --mut: #94a3b8; --dim: #64748b; --faint: #475569;
+    --blue: #38bdf8; --blue2: #7dd3fc; --blue-bg: #16324a;
+    --amber: #fbbf24; --amber-bg: #3a2d10;
+    --green: #4ade80; --green-bg: #12261c;
+    --violet: #c084fc; --red: #f87171; --red-bg: #2a1721;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--txt);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.7; }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 40px 24px 90px; }
+  h1 { font-size: 30px; margin: 0 0 6px; line-height: 1.25; }
+  h2 { font-size: 21px; margin: 0 0 4px; }
+  h3 { font-size: 16.5px; margin: 30px 0 8px; }
+  .sub { color: var(--mut); margin: 0 0 10px; }
+  code, .mono { font-family: var(--mono); font-size: .92em; }
+  code { background: var(--panel2); border: 1px solid var(--line2); border-radius: 4px; padding: 1px 5px; }
+  p, li { color: var(--mut); }
+  p strong, li strong { color: var(--txt); font-weight: 600; }
+  em { color: var(--txt); font-style: italic; }
+  section { margin-top: 60px; }
+  .card { background: var(--panel2); border: 1px solid var(--line2); border-radius: 12px; padding: 20px 22px; margin: 18px 0; }
+  .tag { display: inline-block; font-size: 11px; font-family: var(--mono); color: var(--dim);
+    border: 1px solid var(--line); border-radius: 20px; padding: 1px 10px; margin-bottom: 8px; }
+  .svgbox { overflow-x: auto; }
+  .note { border-left: 3px solid var(--blue); padding: 2px 0 2px 14px; margin: 16px 0; font-size: 14px; color: var(--mut); }
+  .note.amber { border-color: var(--amber); } .note.green { border-color: var(--green); } .note.red { border-color: var(--red); }
+  .toc { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 14px; font-size: 13.5px; }
+  .toc a { text-decoration: none; border: 1px solid var(--line); border-radius: 20px; padding: 3px 13px; color: var(--mut); }
+  .toc a:hover { border-color: var(--blue); color: var(--txt); }
+  a { color: var(--blue2); }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line2); color: var(--mut); vertical-align: top; }
+  th { color: var(--txt); font-weight: 600; border-bottom: 1px solid var(--line); }
+  .good { color: var(--green); font-weight: 700; }
+  .bad { color: var(--red); font-weight: 700; }
+  .kmath { font-family: var(--mono); color: var(--blue2); }
+
+  /* cells */
+  .row { display: flex; gap: 10px; width: max-content; }
+  .cell { width: 64px; height: 58px; border-radius: 8px; flex: 0 0 auto;
+    background: var(--panel); border: 1.5px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--mono); transition: background .15s, border-color .15s; }
+  .cell .v { font-size: 17px; color: var(--blue2); }
+  .cell .s { font-size: 10px; color: var(--dim); margin-top: 1px; }
+  .cell.final { border-color: var(--green); background: var(--green-bg); }
+  .cell.final .v { color: var(--green); }
+  .cell.hand { border-color: var(--amber); background: var(--amber-bg); }
+  .cell.hand .v { color: var(--amber); }
+  .cell.pair { border-color: var(--blue); background: var(--blue-bg); }
+  .cell.hint { outline: 2px dashed var(--green); outline-offset: 3px; }
+  .idxrow { display: flex; gap: 10px; width: max-content; margin-top: 6px; }
+  .idxrow div { width: 64px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--dim); }
+  .arcsvg { display: block; height: 54px; width: max-content; }
+  .stage { overflow-x: auto; padding: 4px 2px 2px; }
+
+  .widget { background: var(--panel2); border: 1px solid var(--line2); border-radius: 12px; padding: 18px 20px; margin: 18px 0; }
+  .controls { margin-top: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .controls button, .playcell-btn { background: var(--panel); color: var(--txt); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 14px; font-size: 13px; cursor: pointer; }
+  .controls button:hover { border-color: var(--blue); }
+  .controls button:disabled { opacity: .35; cursor: default; }
+  .counter { font-family: var(--mono); font-size: 12px; color: var(--dim); margin-left: auto; }
+  .desc { margin-top: 12px; color: var(--mut); font-size: 14px; min-height: 46px; }
+  .desc code { color: var(--blue2); }
+  .meter { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 12px;
+    font-family: var(--mono); font-size: 13px; }
+  .meter .m { border: 1px solid var(--line); border-radius: 8px; padding: 4px 12px; color: var(--mut); }
+  .meter .m b { color: var(--txt); font-weight: 600; }
+  .meter .m.phi { border-color: var(--blue); } .meter .m.phi b { color: var(--blue2); }
+  .delta { font-weight: 700; border-radius: 20px; padding: 2px 10px; font-size: 12px; }
+  .delta.down { color: var(--green); border: 1px solid var(--green); }
+  .delta.up { color: var(--red); border: 1px solid var(--red); }
+  .cyc { display: inline-block; font-family: var(--mono); font-size: 12.5px; border-radius: 6px;
+    padding: 2px 9px; margin: 2px 4px 2px 0; border: 1px solid var(--line); }
+  .cyc.topc { color: var(--amber); border-color: var(--amber); background: var(--amber-bg); }
+  .cyc.other { color: var(--blue2); border-color: var(--blue); background: var(--blue-bg); }
+  .cyc.fixedc { color: var(--dim); }
+  .movetag { font-weight: 700; }
+  .banner { margin-top: 12px; border-radius: 8px; padding: 8px 14px; font-size: 14px; display: none; }
+  .banner.win { display: block; background: var(--green-bg); border: 1px solid var(--green); color: var(--green); }
+  .banner.win.over { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+  .playrow .cell:not(.hand) { cursor: pointer; }
+  .playrow .cell:not(.hand):hover { border-color: var(--blue2); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Why Seven Swaps Is the Law</h1>
+<p class="sub">How we <em>know</em> the shuffler's <code>permute</code> is optimal when every swap must go through the stack top.</p>
+<div class="toc">
+  <a href="#claim">the claim</a>
+  <a href="#vocab">vocabulary</a>
+  <a href="#cayley">warm-up: Cayley</a>
+  <a href="#star">the star proof</a>
+  <a href="#guided">guided run</a>
+  <a href="#sandbox">try to beat it</a>
+  <a href="#lit">the literature</a>
+  <a href="#fineprint">fine print</a>
+</div>
+
+<!-- ============ 1. THE CLAIM ============ -->
+<section id="claim">
+  <h2>1 &middot; The claim</h2>
+  <p>
+    The shuffler's <code>Emission::permute</code> takes a stack whose every slot has a known
+    destination and emits SWAPs until every slot is home. Throughout this page we use one running
+    example: six slots holding <span class="mono">a&hellip;f</span>, destinations
+    <span class="mono">[2 3 4 1 0 5]</span> (the slot at position i must end at position
+    <span class="mono">dest[i]</span>; position 5 is the stack top). The algorithm sorts this in
+    <strong>seven</strong> swaps. The claim under examination: <strong>no sequence of EVM swaps
+    whatsoever &mdash; however clever &mdash; can do it in fewer.</strong>
+  </p>
+  <p>
+    First, what does &ldquo;optimal&rdquo; even range over? Picture a giant graph: one node for
+    every possible ordering of the six values (there are 6! = 720), and an edge between two nodes
+    whenever a single legal swap turns one ordering into the other. Sorting is walking from the
+    scrambled node to the sorted node; a strategy is a path; the optimum is the length of the
+    <em>shortest</em> path. Mathematicians call this object a <em>Cayley graph</em>, but nothing
+    beyond &ldquo;graph of states, edges are moves&rdquo; is needed here.
+  </p>
+  <p>
+    Which edges exist depends on the machine. A CPU with random access may swap any two positions.
+    The EVM may not: <code>SWAPn</code> exchanges the <em>top</em> with the slot n below it &mdash;
+    every edge touches the top. Draw one vertex per stack position and connect two positions when
+    they may be swapped, and the CPU gives you the complete graph, while the EVM gives you a
+    <strong>star</strong>: the top at the center, everything else a spoke. This picture is why the
+    literature calls EVM-style swaps <em>star transpositions</em>.
+  </p>
+  <div class="card svgbox">
+    <div class="tag">which pairs may swap &middot; CPU vs EVM</div>
+    <svg viewBox="0 0 760 240" width="760" height="240">
+      <!-- complete graph K6 -->
+      <g stroke="#334155" stroke-width="1.2">
+        <line x1="150" y1="40" x2="228" y2="85"/><line x1="150" y1="40" x2="228" y2="175"/>
+        <line x1="150" y1="40" x2="150" y2="220"/><line x1="150" y1="40" x2="72" y2="175"/>
+        <line x1="150" y1="40" x2="72" y2="85"/><line x1="228" y1="85" x2="228" y2="175"/>
+        <line x1="228" y1="85" x2="150" y2="220"/><line x1="228" y1="85" x2="72" y2="175"/>
+        <line x1="228" y1="85" x2="72" y2="85"/><line x1="228" y1="175" x2="150" y2="220"/>
+        <line x1="228" y1="175" x2="72" y2="175"/><line x1="228" y1="175" x2="72" y2="85"/>
+        <line x1="150" y1="220" x2="72" y2="175"/><line x1="150" y1="220" x2="72" y2="85"/>
+        <line x1="72" y1="175" x2="72" y2="85"/>
+      </g>
+      <g font-family="ui-monospace,Menlo,monospace" font-size="11" text-anchor="middle">
+        <circle cx="150" cy="40" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="150" y="44" fill="#cbd5e1">0</text>
+        <circle cx="228" cy="85" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="228" y="89" fill="#cbd5e1">1</text>
+        <circle cx="228" cy="175" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="228" y="179" fill="#cbd5e1">2</text>
+        <circle cx="150" cy="220" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="150" y="224" fill="#cbd5e1">3</text>
+        <circle cx="72" cy="175" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="72" y="179" fill="#cbd5e1">4</text>
+        <circle cx="72" cy="85" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="72" y="89" fill="#cbd5e1">5</text>
+      </g>
+      <text x="150" y="130" text-anchor="middle" font-size="0"> </text>
+      <text x="150" y="248" text-anchor="middle" font-size="11" fill="#64748b"></text>
+      <text x="150" y="243" text-anchor="middle" font-size="11" fill="#94a3b8">CPU &middot; any pair swaps</text>
+      <!-- star -->
+      <g stroke="#fbbf24" stroke-width="1.5">
+        <line x1="560" y1="130" x2="560" y2="45"/><line x1="560" y1="130" x2="640" y2="88"/>
+        <line x1="560" y1="130" x2="640" y2="172"/><line x1="560" y1="130" x2="560" y2="215"/>
+        <line x1="560" y1="130" x2="480" y2="172"/>
+      </g>
+      <g font-family="ui-monospace,Menlo,monospace" font-size="11" text-anchor="middle">
+        <circle cx="560" cy="45" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="560" y="49" fill="#cbd5e1">0</text>
+        <circle cx="640" cy="88" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="640" y="92" fill="#cbd5e1">1</text>
+        <circle cx="640" cy="172" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="640" y="176" fill="#cbd5e1">2</text>
+        <circle cx="560" cy="215" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="560" y="219" fill="#cbd5e1">3</text>
+        <circle cx="480" cy="172" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="480" y="176" fill="#cbd5e1">4</text>
+        <circle cx="560" cy="130" r="15" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/><text x="560" y="134" fill="#fbbf24">5</text>
+      </g>
+      <text x="560" y="243" text-anchor="middle" font-size="11" fill="#94a3b8">EVM &middot; every swap touches the top &middot; a star</text>
+    </svg>
+  </div>
+  <p>
+    Proving a strategy optimal always has two halves. The <strong>upper bound</strong> is easy to
+    believe: run the algorithm, count its swaps &mdash; seven. The <strong>lower bound</strong> is the
+    interesting half: an argument that <em>every</em> path through the state graph, all
+    720-node-many of them, has length at least seven. You cannot check paths one by one; you need an
+    invariant. That invariant is the whole story of this page.
+  </p>
+</section>
+
+<!-- ============ 2. VOCABULARY ============ -->
+<section id="vocab">
+  <h2>2 &middot; Vocabulary, slowly</h2>
+
+  <h3>2.1 A permutation is a destination map</h3>
+  <p>
+    Forget the values on the stack for a moment; only the <em>routing plan</em> matters. The plan is
+    an array <code>dest</code> where <code>dest[i]</code> says where the slot currently at position
+    i must end up. Two properties make such an array a <strong>permutation</strong>: every position
+    gets a destination (<em>totality</em>) and no two positions share one (<em>injectivity</em>).
+    Equivalently: <code>dest</code> contains each of 0&hellip;n&minus;1 exactly once. When
+    <code>dest[i] = i</code> for all i, the plan is the <em>identity</em> &mdash; nothing to do,
+    stack sorted.
+  </p>
+  <p>
+    A physical swap of positions x and y does something very simple to the plan: <strong>it swaps
+    the entries <code>dest[x]</code> and <code>dest[y]</code></strong>. The slots traded places, so
+    they traded destinations-of-current-position. Sorting is the game of turning <code>dest</code>
+    into the identity using entry-swaps &mdash; the values themselves are just along for the ride.
+  </p>
+
+  <h3>2.2 Cycles: the arrows always come home</h3>
+  <p>
+    Start at any position and follow the plan: i &rarr; dest[i] &rarr; dest[dest[i]] &rarr; &hellip;
+    Because each position has exactly one outgoing arrow and exactly one incoming arrow, this walk
+    can never branch and never dead-end; in a finite set it must eventually revisit its start
+    (it cannot re-enter the middle of its own trail &mdash; that would give some position two
+    incoming arrows). The loop you traced is a <strong>cycle</strong>. Positions not on it form
+    their own cycles, so the whole plan splits into disjoint cycles &mdash; uniquely. A position with
+    <code>dest[i] = i</code> is a one-element cycle, a <strong>fixed point</strong>.
+  </p>
+  <p>
+    Our running example <span class="mono">dest = [2 3 4 1 0 5]</span> splits as
+    <span class="mono">(0&nbsp;2&nbsp;4)</span> &middot; <span class="mono">(1&nbsp;3)</span> &middot;
+    <span class="mono">(5)</span>: a 3-cycle, a 2-cycle, and the top sitting home. We write
+    <strong>c</strong> for the number of cycles <em>counting fixed points</em> &mdash; here c = 3.
+    Sorted means every cycle is a fixed point: c = n.
+  </p>
+
+  <h3>2.3 The surgery lemma: a swap merges or splits, nothing else</h3>
+  <p>
+    Here is the single most load-bearing fact, and it is checkable by tracing arrows. Swap the plan
+    entries at positions x and y and watch the cycle structure:
+  </p>
+  <ul>
+    <li><strong>If x and y sit in the same cycle</strong>, the cycle <em>splits</em> into two.
+      Intuition: the cycle is a ring of arrows through both x and y; rerouting the two arrows that
+      left x and y crosses the ring into two smaller rings.</li>
+    <li><strong>If x and y sit in different cycles</strong>, the two cycles <em>merge</em> into one.
+      Same picture in reverse: the rerouted arrows splice two rings into one.</li>
+  </ul>
+  <div class="card svgbox">
+    <div class="tag">the surgery lemma &middot; one swap = merge or split, always</div>
+    <svg viewBox="0 0 860 210" width="860" height="210">
+      <defs>
+        <marker id="sB" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/></marker>
+        <marker id="sA" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#fbbf24"/></marker>
+        <marker id="sS" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker>
+      </defs>
+      <!-- one big cycle -->
+      <g stroke="#38bdf8" stroke-width="1.6" fill="none">
+        <path d="M 122 52 C 152 60, 162 88, 152 112" marker-end="url(#sB)"/>
+        <path d="M 138 132 C 118 148, 86 148, 66 132" marker-end="url(#sB)"/>
+        <path d="M 52 112 C 42 88, 52 60, 82 52" marker-end="url(#sB)"/>
+        <path d="M 102 44 L 118 48" marker-end="url(#sB)" opacity="0"/>
+      </g>
+      <g font-family="ui-monospace,Menlo,monospace" font-size="11" text-anchor="middle">
+        <circle cx="102" cy="46" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/><text x="102" y="50" fill="#7dd3fc">x</text>
+        <circle cx="152" cy="122" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="152" y="126" fill="#cbd5e1">p</text>
+        <circle cx="52" cy="122" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/><text x="52" y="126" fill="#7dd3fc">y</text>
+      </g>
+      <text x="102" y="188" text-anchor="middle" font-size="11" fill="#94a3b8">x, y in one cycle</text>
+      <g stroke="#64748b" stroke-width="1.4"><line x1="215" y1="105" x2="275" y2="105" marker-end="url(#sS)"/></g>
+      <text x="245" y="93" text-anchor="middle" font-size="10.5" fill="#64748b">swap x,y</text>
+      <!-- split result -->
+      <g stroke="#38bdf8" stroke-width="1.6" fill="none">
+        <path d="M 352 62 C 372 78, 372 104, 352 118" marker-end="url(#sB)"/>
+        <path d="M 322 118 C 302 104, 302 78, 322 62" marker-end="url(#sB)"/>
+      </g>
+      <g font-family="ui-monospace,Menlo,monospace" font-size="11" text-anchor="middle">
+        <circle cx="337" cy="55" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/><text x="337" y="59" fill="#7dd3fc">x</text>
+        <circle cx="337" cy="126" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="337" y="130" fill="#cbd5e1">p</text>
+      </g>
+      <path d="M 425 80 C 417 58, 449 58, 442 79" fill="none" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#sB)"/>
+      <circle cx="433" cy="92" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
+      <text x="433" y="96" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#7dd3fc" text-anchor="middle">y</text>
+      <text x="390" y="188" text-anchor="middle" font-size="11" fill="#94a3b8">&rarr; two cycles &middot; c grows by 1</text>
+      <!-- merge -->
+      <g stroke="#fbbf24" stroke-width="1.6" fill="none">
+        <path d="M 592 62 C 612 78, 612 104, 592 118" marker-end="url(#sA)"/>
+        <path d="M 562 118 C 542 104, 542 78, 562 62" marker-end="url(#sA)"/>
+      </g>
+      <g font-family="ui-monospace,Menlo,monospace" font-size="11" text-anchor="middle">
+        <circle cx="577" cy="55" r="13" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/><text x="577" y="59" fill="#fbbf24">x</text>
+        <circle cx="577" cy="126" r="13" fill="#1e293b" stroke="#334155" stroke-width="1.5"/><text x="577" y="130" fill="#cbd5e1">q</text>
+      </g>
+      <path d="M 655 80 C 647 58, 679 58, 672 79" fill="none" stroke="#fbbf24" stroke-width="1.6" marker-end="url(#sA)"/>
+      <circle cx="663" cy="92" r="13" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
+      <text x="663" y="96" font-family="ui-monospace,Menlo,monospace" font-size="11" fill="#fbbf24" text-anchor="middle">y</text>
+      <text x="622" y="160" text-anchor="middle" font-size="11" fill="#94a3b8">x, y in different cycles</text>
+      <text x="622" y="176" text-anchor="middle" font-size="11" fill="#94a3b8">&rarr; swap x,y merges them &middot; c drops by 1</text>
+      <text x="790" y="105" text-anchor="middle" font-size="12" fill="#64748b">c changes by</text>
+      <text x="790" y="125" text-anchor="middle" font-size="15" font-family="ui-monospace,Menlo,monospace" fill="#e2e8f0">&plusmn;1</text>
+      <text x="790" y="145" text-anchor="middle" font-size="12" fill="#64748b">every time</text>
+    </svg>
+  </div>
+  <p>
+    Note what this rules out: no swap can create two new cycles at once, dissolve two at once, or
+    leave the count unchanged. <strong>c moves by exactly &plusmn;1 per swap, no exceptions.</strong>
+    You can verify this live in the <a href="#sandbox">sandbox</a> below &mdash; the readout names
+    every move a merge or a split.
+  </p>
+</section>
+
+<!-- ============ 3. CAYLEY WARM-UP ============ -->
+<section id="cayley">
+  <h2>3 &middot; Warm-up: optimality when any pair may swap</h2>
+  <p>
+    Before the star, solve the CPU. Define the <strong>potential</strong>
+    <span class="kmath">&Phi;&#8320;(dest) = n &minus; c</span>. Three observations, and note the
+    <em>shape</em> of the argument as much as the content &mdash; the star proof will reuse the shape
+    exactly:
+  </p>
+  <ul>
+    <li><strong>Sorted &hArr; &Phi;&#8320; = 0.</strong> Sorted means all n positions are fixed
+      points, i.e. c = n.</li>
+    <li><strong>Every swap changes &Phi;&#8320; by exactly &plusmn;1</strong> &mdash; that is the
+      surgery lemma verbatim.</li>
+    <li><strong>Therefore every sorting sequence has length &ge; &Phi;&#8320;(start).</strong>
+      A quantity that must travel from &Phi;&#8320; to 0 in steps of &plusmn;1 needs at least
+      &Phi;&#8320; steps. (Programmer's framing: &Phi;&#8320; is a loop variant that no instruction
+      can decrease by more than 1.)</li>
+  </ul>
+  <p>
+    That is the lower bound. The upper bound is a strategy that finds a &minus;1 move every time:
+    pick any position x not yet home and swap it with <code>dest[x]</code> &mdash; a same-cycle swap
+    that splits off a fixed point. Since a split is available whenever anything is unsorted, the
+    strategy uses exactly &Phi;&#8320; = n &minus; c swaps, meeting the bound. Equality; optimal.
+  </p>
+  <div class="note">
+    This result &mdash; minimum swaps = n &minus; c &mdash; is due to <strong>Cayley (1849)</strong>,
+    &ldquo;Note on the theory of permutations&rdquo;, and n &minus; c is nowadays called the
+    <em>Cayley distance</em>. Our example: n &minus; c = 6 &minus; 3 = <strong>3</strong>. A CPU
+    sorts it in three exchanges. The EVM demonstrably cannot &mdash; and quantifying that gap is
+    next.
+  </div>
+</section>
+
+<!-- ============ 4. STAR PROOF ============ -->
+<section id="star">
+  <h2>4 &middot; The star proof</h2>
+
+  <h3>4.1 Why n &minus; c stops being reachable</h3>
+  <p>
+    &Phi;&#8320; is still a valid lower bound on the EVM &mdash; star swaps are swaps. But it is no
+    longer <em>achievable</em>. Take the tiny plan <span class="mono">(1&nbsp;3)</span> with the top
+    at 5: two slots need to trade, the top is a bystander. n &minus; c = 1, yet no single
+    <code>SWAPn</code> sorts it &mdash; every swap moves the top, and the top is already home. You
+    must spend a swap <em>injecting</em> the top into the cycle (a merge: &Phi;&#8320; goes
+    <em>up</em>), then two placements. Three swaps, not one. The obstruction is structural:
+    <strong>a cycle that does not contain the top can only be reached by first merging the top into
+    it</strong>, and merges are exactly the moves &Phi;&#8320; counts as backwards.
+  </p>
+
+  <h3>4.2 Repairing the potential</h3>
+  <p>
+    So the true cost must charge those entries up front. Let <strong>b</strong> = the number of
+    nontrivial cycles (length &ge; 2) that do <em>not</em> contain the top &mdash; the cycles that
+    will each demand one paid entry. Define:
+  </p>
+  <p style="text-align:center; font-size:17px;"><span class="kmath">&Phi;(dest) &nbsp;=&nbsp; (n &minus; c) &nbsp;+&nbsp; 2b</span></p>
+  <p>
+    Check the anchor first: sorted &hArr; c = n and b = 0 &hArr; &Phi; = 0. And on the running
+    example: n &minus; c = 3, and both nontrivial cycles avoid the top so b = 2, giving
+    &Phi; = 3 + 4 = <strong>7</strong>. The number we are trying to explain has appeared out of the
+    definition.
+  </p>
+  <p>
+    Why the factor 2? A merge into a foreign cycle improves b by one (that cycle now contains the
+    top) but worsens n &minus; c by one &mdash; for the potential to credit entries as progress, the
+    b term must outweigh the c term: hence weight 2, net &minus;1. What remains is to check that
+    <em>no</em> star swap can beat &minus;1, which is a finite case analysis over what a swap
+    (top, x) can structurally do.
+  </p>
+
+  <h3>4.3 The case table &mdash; every star swap moves &Phi; by exactly &plusmn;1</h3>
+  <p>
+    Every star swap is a surgery involving the top's cycle and x's cycle. There are exactly seven
+    shapes it can take. Write t for the top; &ldquo;trivial&rdquo; means a fixed point.
+  </p>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <tr><th>move</th><th>configuration before</th><th>surgery</th><th>&Delta;(n&minus;c)</th><th>&Delta;2b</th><th>&Delta;&Phi;</th></tr>
+      <tr><td class="good">place</td><td>t and x share a cycle, and x is the top slot's destination</td><td>split; the piece at x is a fixed point &mdash; one slot homed</td><td>&minus;1</td><td>0</td><td class="good">&minus;1</td></tr>
+      <tr><td class="good">enter</td><td>t is home; x sits in a foreign nontrivial cycle</td><td>merge; the foreign cycle now contains the top</td><td>+1</td><td>&minus;2</td><td class="good">&minus;1</td></tr>
+      <tr><td class="good">absorb</td><td>t is mid-cycle; x sits in a different nontrivial cycle</td><td>merge; the two jobs fuse into one through the top</td><td>+1</td><td>&minus;2</td><td class="good">&minus;1</td></tr>
+      <tr><td class="bad">strand</td><td>t and x share a cycle; the swap homes the top but not x</td><td>split; the leftover piece loses the top</td><td>&minus;1</td><td>+2</td><td class="bad">+1</td></tr>
+      <tr><td class="bad">fracture</td><td>t and x share a cycle; neither end comes home</td><td>split; a topless nontrivial cycle is created</td><td>&minus;1</td><td>+2</td><td class="bad">+1</td></tr>
+      <tr><td class="bad">bury</td><td>x was already home; t is mid-cycle</td><td>merge; a finished slot is dragged back into work</td><td>+1</td><td>0</td><td class="bad">+1</td></tr>
+      <tr><td class="bad">churn</td><td>both t and x were home</td><td>merge; two finished slots un-finish each other</td><td>+1</td><td>0</td><td class="bad">+1</td></tr>
+    </table>
+  </div>
+  <p>
+    Walk any row: the &Delta;(n&minus;c) column is the surgery lemma (&plusmn;1 by merge/split); the
+    &Delta;2b column just asks whether a topless nontrivial cycle was created or destroyed. Every
+    row nets <strong>exactly &plusmn;1</strong>. There is no row with &minus;2, and no row with 0.
+    (The three good rows are worth internalising: placing a slot, entering a fresh cycle, and
+    fusing two cycles through the top are <em>equally</em> productive &mdash; which is why optimal
+    solutions are far from unique.)
+  </p>
+
+  <h3>4.4 Assembling the theorem</h3>
+  <p>
+    <strong>Lower bound.</strong> &Phi; starts at &Phi;(dest), must reach 0, and moves by
+    &plusmn;1 per swap. Every sorting sequence &mdash; greedy, clairvoyant, or perverse &mdash; has
+    length at least &Phi;(dest). No enumeration of the 720-node graph required; the invariant does
+    all the work.
+  </p>
+  <p>
+    <strong>Upper bound.</strong> The shuffler's greedy always has a &minus;1 row available: if the
+    top is not home, its cycle is nontrivial and contains t, so <em>place</em> applies (swap the top
+    with its slot's destination); if the top is home but work remains, some topless nontrivial cycle
+    exists, so <em>enter</em> applies. Greedy therefore finishes in exactly &Phi;(dest) swaps.
+  </p>
+  <p>
+    Lower = upper. <strong>&Phi;(dest) = (n &minus; c) + 2b is the exact optimum, and
+    <code>permute</code> attains it.</strong> Regrouped per cycle this is the formula quoted
+    everywhere: a cycle of length &ell; containing the top costs &ell; &minus; 1; every other
+    nontrivial cycle costs &ell; + 1. For the running example, (3+1) + (2+1) = 7.
+  </p>
+  <div class="note green">
+    A bonus corollary from &ldquo;&plusmn;1 per step&rdquo;: any sorting sequence has the
+    <em>same parity</em> as &Phi;. You can take 7, 9, or 11 swaps on our example &mdash; never 8.
+    (This is the permutation's sign in disguise: each swap flips it.)
+  </div>
+  <div class="card svgbox">
+    <div class="tag">the descent &middot; optimal play walks &Phi; straight down; every mistake costs exactly two</div>
+    <svg viewBox="0 0 860 250" width="860" height="250">
+      <g stroke="#1e293b" stroke-width="1">
+        <line x1="70" y1="30" x2="70" y2="210"/><line x1="70" y1="210" x2="820" y2="210"/>
+      </g>
+      <g font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#64748b" text-anchor="end">
+        <text x="62" y="34">8</text><text x="62" y="56">7</text><text x="62" y="78">6</text>
+        <text x="62" y="100">5</text><text x="62" y="122">4</text><text x="62" y="144">3</text>
+        <text x="62" y="166">2</text><text x="62" y="188">1</text><text x="62" y="210">0</text>
+      </g>
+      <text x="40" y="120" font-size="11" fill="#94a3b8" transform="rotate(-90 40 120)" text-anchor="middle">&Phi;</text>
+      <!-- optimal: 7 steps from (start,7) to 0 -->
+      <polyline points="90,52 170,74 250,96 330,118 410,140 490,162 570,184 650,206" fill="none" stroke="#4ade80" stroke-width="2"/>
+      <g fill="#4ade80"><circle cx="90" cy="52" r="3.5"/><circle cx="170" cy="74" r="3.5"/><circle cx="250" cy="96" r="3.5"/><circle cx="330" cy="118" r="3.5"/><circle cx="410" cy="140" r="3.5"/><circle cx="490" cy="162" r="3.5"/><circle cx="570" cy="184" r="3.5"/><circle cx="650" cy="206" r="3.5"/></g>
+      <text x="430" y="128" text-anchor="middle" font-size="11" fill="#4ade80">optimal &middot; 7 swaps</text>
+      <!-- wasteful: up once -->
+      <polyline points="90,52 170,74 250,52 330,74 410,96 490,118 570,140 650,162 730,184 810,206" fill="none" stroke="#f87171" stroke-width="1.6" stroke-dasharray="5 4"/>
+      <g fill="#f87171"><circle cx="250" cy="52" r="3.5"/></g>
+      <text x="258" y="44" font-size="10.5" fill="#f87171">one bad move (+1)</text>
+      <text x="812" y="196" font-size="11" fill="#f87171" text-anchor="end">&rarr; 9 swaps</text>
+      <text x="445" y="238" text-anchor="middle" font-size="11" fill="#64748b">swaps &rarr; &middot; &Phi; moves by exactly &plusmn;1, so length &ge; &Phi;(start), and parity is fixed</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ============ 5. GUIDED ============ -->
+<section id="guided">
+  <h2>5 &middot; Watch the invariant work</h2>
+  <p>
+    The trace below is the shuffler's greedy on the running example, instrumented with the
+    potential. Watch three things: &Phi; drops by exactly 1 every swap; the move classification is
+    always <span class="good">place</span> or <span class="good">enter</span>; and c and b wobble in
+    opposite directions on entries, which is the 2b term earning its keep.
+  </p>
+  <div class="widget" id="guided-w"></div>
+</section>
+
+<!-- ============ 6. SANDBOX ============ -->
+<section id="sandbox">
+  <h2>6 &middot; Try to beat seven</h2>
+  <p>
+    Now the lower bound as an experience. <strong>Click any non-top cell to swap it with the
+    top.</strong> Any strategy you like. The readout classifies each of your moves against the case
+    table and tracks &Phi;. You will find: good moves exist in abundance (there are usually several),
+    but nothing ever moves &Phi; by more than 1 &mdash; so the sorted banner cannot appear before
+    seven swaps have been spent. Try to churn, bury, strand; try to be clever. The invariant does
+    not care.
+  </p>
+  <div class="widget" id="play-w"></div>
+</section>
+
+<!-- ============ 7. LITERATURE ============ -->
+<section id="lit">
+  <h2>7 &middot; What the literature calls all of this</h2>
+  <div class="card" style="overflow-x:auto">
+    <table>
+      <tr><th>this page says</th><th>the literature says</th><th>where</th></tr>
+      <tr><td>graph of stack states under SWAPs</td><td>Cayley graph of S<sub>n</sub>; for star generators, the <em>star graph</em> (an interconnection-network topology)</td><td>Akers &amp; Krishnamurthy 1989</td></tr>
+      <tr><td>minimum swaps, any pair allowed = n &minus; c</td><td>Cayley distance</td><td>Cayley 1849</td></tr>
+      <tr><td>EVM swap</td><td>star transposition (1 i)</td><td>&mdash;</td></tr>
+      <tr><td>the exact star optimum, per cycle: &ell;&minus;1 with top, &ell;+1 without</td><td>minimal star T-factorizations; T-rank on the star</td><td>Portier &amp; Vaughan 1990 (star poset); also derivable from Akers &amp; Krishnamurthy's routing analysis</td></tr>
+      <tr><td>how many distinct optimal sequences exist</td><td>counting minimal star factorizations: depends only on cycle type</td><td>Pak 1999; Irving &amp; Rattan 2009</td></tr>
+      <tr><td>greedy on a general swap-network tree</td><td>the VPA algorithm; A-steps (place), C-steps (paid detours around fixed points) &mdash; provably minimal only for star and path</td><td>Vaughan &amp; Portier 1995</td></tr>
+      <tr><td>&ldquo;how bad can other trees get?&rdquo;</td><td>exact T-rank for general transposition trees: open problem; classical diameter bound can be loose by n&minus;4</td><td>Vaughan 1991; Ganesan 2012</td></tr>
+      <tr><td>worst case over all plans, n reachable slots</td><td>star graph diameter = &lfloor;3(n&minus;1)/2&rfloor;</td><td>Akers &amp; Krishnamurthy 1989</td></tr>
+    </table>
+  </div>
+  <p>
+    Two remarks tie the strands together. First, Vaughan &amp; Portier's minimality
+    characterisation says extra cost above their path-length bound arises exactly when <em>a fixed
+    point sits on an active route</em> &mdash; on the star, every route runs through the center, so a
+    homed top blocking remaining cycles is that obstruction, and our <em>enter</em> row is their
+    C-step in EVM clothing. Second, the star and the path are the <em>only</em> swap-network trees
+    where greedy is proven optimal; the EVM landed on one of the two lucky topologies.
+  </p>
+</section>
+
+<!-- ============ 8. FINE PRINT ============ -->
+<section id="fineprint">
+  <h2>8 &middot; Fine print for the shuffler</h2>
+  <p>
+    The theorem above is exactly true for the model it states: <strong>distinct values, unlimited
+    reach, pure permutation</strong>. <code>Emission::permute</code> lives in a messier world, and
+    each deviation is worth naming honestly:
+  </p>
+  <ul>
+    <li><strong>Equal values beat the formula &mdash; legitimately.</strong> If two slots hold equal
+      values, destinations between them are interchangeable, and the &ldquo;permutation&rdquo; is
+      really a choice among several. <code>permute</code>'s preprocessing and its
+      <code>swapDestinations</code> retags pick, on the fly, the assignment with the cheapest &Phi;
+      &mdash; dissolving cycles that would only shuttle identical values. The optimum is then
+      min over assignments of &Phi;, and retagging costs zero swaps.</li>
+    <li><strong>Reach is finite.</strong> SWAPn stops at depth 16, so the EVM is a star with
+      shortened spokes. A needed slot beyond reach has no legal edge at all; <code>permute</code>
+      reports <code>Blocked</code> and the planner drops regenerable slots and retries. The
+      optimality theorem simply does not speak about this regime &mdash; no closed-form theory does,
+      which is why the shuffler handles it with iteration rather than a formula.</li>
+    <li><strong>&Phi; prices the whole pipeline.</strong> <code>permuteAtLowestHeight</code> runs
+      when the stack is shortest (spokes at their longest, in reach terms), and parks
+      not-yet-placeable slots in holes so that later generation swaps double as free placements
+      &mdash; moves chosen so the eventual permutation has small &Phi; and its swaps do double duty.
+      The potential is a good mental meter for reading all of the emission code, not just
+      <code>permute</code>.</li>
+  </ul>
+  <p class="sub" style="margin-top:28px">Companion to <span class="mono">permute-algorithms.html</span> &middot; sources in <span class="mono">papers/</span> &middot; <span class="mono">libyul/backends/evm/ssa/stack/Shuffler.cpp</span></p>
+</section>
+
+</div>
+
+<script>
+"use strict";
+const N = 6, TOP = 5, CW = 64, GAP = 10, PITCH = CW + GAP;
+const START_DATA = ["a","b","c","d","e","f"];
+const START_PERM = [2,3,4,1,0,5];
+
+/* ---------- cycle utilities ---------- */
+function cyclesOf(p) {
+  const seen = new Array(p.length).fill(false), out = [];
+  for (let i = 0; i < p.length; i++) {
+    if (seen[i]) continue;
+    const cyc = []; let j = i;
+    while (!seen[j]) { seen[j] = true; cyc.push(j); j = p[j]; }
+    out.push(cyc);
+  }
+  return out;
+}
+function stats(p) {
+  const cyc = cyclesOf(p);
+  const c = cyc.length;
+  const nontriv = cyc.filter(x => x.length > 1);
+  const b = nontriv.filter(x => !x.includes(TOP)).length;
+  return { cyc, c, b, phi: (N - c) + 2*b };
+}
+function cycHTML(p) {
+  const { cyc } = stats(p);
+  const fixed = [], parts = [];
+  for (const x of cyc) {
+    if (x.length === 1) { fixed.push(x[0]); continue; }
+    const cls = x.includes(TOP) ? "topc" : "other";
+    parts.push(`<span class="cyc ${cls}">(${x.join(" ")})</span>`);
+  }
+  if (fixed.length) parts.push(`<span class="cyc fixedc">fixed: ${fixed.join(" ")}</span>`);
+  return parts.join("");
+}
+function classify(pBefore, x) {
+  const { cyc } = stats(pBefore);
+  const ct = cyc.find(cc => cc.includes(TOP)), cx = cyc.find(cc => cc.includes(x));
+  const same = ct === cx;
+  const after = pBefore.slice(); [after[x], after[TOP]] = [after[TOP], after[x]];
+  if (same) {
+    if (after[x] === x) return ["place", -1, "split &middot; slot homed at " + x];
+    if (after[TOP] === TOP) return ["strand", +1, "split &middot; the top parks itself and orphans the rest"];
+    return ["fracture", +1, "split &middot; created a topless cycle"];
+  }
+  const tTriv = ct.length === 1, xTriv = cx.length === 1;
+  if (tTriv && !xTriv) return ["enter", -1, "merge &middot; the top joins a fresh cycle (the entry toll)"];
+  if (!tTriv && !xTriv) return ["absorb", -1, "merge &middot; two jobs fused through the top"];
+  if (!tTriv && xTriv) return ["bury", +1, "merge &middot; dragged a finished slot back into work"];
+  return ["churn", +1, "merge &middot; two finished slots un-finished each other"];
+}
+const MOVE_COLOR = { place: "var(--green)", enter: "var(--amber)", absorb: "var(--blue2)",
+  strand: "var(--red)", fracture: "var(--red)", bury: "var(--red)", churn: "var(--red)" };
+
+function cellsHTML(data, perm, extra) {
+  extra = extra || {};
+  return data.map((v, i) => {
+    let cls = perm[i] === i ? "final" : "";
+    if (i === TOP) cls += " hand";
+    if (extra.pair && extra.pair.includes(i)) cls = "pair" + (i === TOP ? " hand" : "");
+    if (extra.hint === i) cls += " hint";
+    return `<div class="cell ${cls}" data-i="${i}"><div class="v">${v}</div><div class="s">&rarr;${perm[i]}</div></div>`;
+  }).join("");
+}
+function arcHTML(a, b, color, dashed) {
+  const x1 = a*PITCH + CW/2, x2 = b*PITCH + CW/2;
+  const id = "arr" + color.replace(/[^a-z0-9]/gi, "");
+  return `<defs><marker id="${id}" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto">
+    <path d="M0,0 L8,4 L0,8 z" fill="${color}"/></marker></defs>
+    <path d="M ${x1} 50 C ${x1} 12, ${x2} 12, ${x2} 50" fill="none" stroke="${color}" stroke-width="1.8"
+    ${dashed ? 'stroke-dasharray="5 4"' : ""} marker-end="url(#${id})"/>`;
+}
+function meterHTML(st, delta, moveName) {
+  const d = delta === null ? "" :
+    `<span class="delta ${delta < 0 ? "down" : "up"}">&Delta;&Phi; = ${delta > 0 ? "+1" : "&minus;1"}</span>`;
+  const mv = moveName ? `<span class="movetag" style="color:${MOVE_COLOR[moveName]}">${moveName}</span>` : "";
+  return `<span class="m">c = <b>${st.c}</b></span>
+          <span class="m">b = <b>${st.b}</b></span>
+          <span class="m phi">&Phi; = (${N} &minus; ${st.c}) + 2&middot;${st.b} = <b>${st.phi}</b></span>
+          ${mv} ${d}`;
+}
+
+/* ---------- guided stepper ---------- */
+(function () {
+  const steps = [];
+  let data = START_DATA.slice(), perm = START_PERM.slice();
+  const push = (desc, extra, arc, delta, move) => steps.push({
+    cells: cellsHTML(data, perm, extra), cycs: cycHTML(perm),
+    meter: meterHTML(stats(perm), delta === undefined ? null : delta, move),
+    desc, arc: arc || ""
+  });
+  push(`Start. &Phi; = 7 announces the price before a single swap is emitted. The greedy will pay it exactly.`);
+  let guard = 0;
+  while (guard++ < 40) {
+    const d = perm[TOP];
+    if (d !== TOP) {
+      const [name] = classify(perm, d);
+      const before = stats(perm).phi;
+      [data[d], data[TOP]] = [data[TOP], data[d]];
+      [perm[d], perm[TOP]] = [perm[TOP], perm[d]];
+      push(`<b>SWAP${TOP - d}</b> &mdash; the top's slot goes home to ${d}. A same-cycle split that severs a fixed point: the textbook &minus;1.`,
+        { pair: [d, TOP] }, arcHTML(d, TOP, "#4ade80"), stats(perm).phi - before, name);
+    } else {
+      let mis = -1;
+      for (let p2 = TOP - 1; p2 >= 0; p2--) if (perm[p2] !== p2) { mis = p2; break; }
+      if (mis === -1) break;
+      const [name] = classify(perm, mis);
+      const before = stats(perm).phi;
+      [data[mis], data[TOP]] = [data[TOP], data[mis]];
+      [perm[mis], perm[TOP]] = [perm[TOP], perm[mis]];
+      push(`The top is home but b &gt; 0 &mdash; a topless cycle remains. <b>SWAP${TOP - mis}</b> merges the top into it: n&minus;c worsens by 1, but 2b improves by 2. Net &minus;1: the entry toll, priced into &Phi; from the start.`,
+        { pair: [mis, TOP] }, arcHTML(mis, TOP, "#fbbf24", true), stats(perm).phi - before, name);
+    }
+  }
+  push(`&Phi; = 0 &mdash; sorted, in exactly seven swaps. The potential never skipped a value on the way down: that staircase <em>is</em> the optimality proof, replayed.`);
+
+  const root = document.getElementById("guided-w");
+  root.innerHTML = `
+    <div class="tag">greedy, instrumented &middot; dest = [2 3 4 1 0 5] &middot; top = 5</div>
+    <div class="stage">
+      <svg class="arcsvg" width="${N*PITCH-GAP}" height="54"></svg>
+      <div class="row"></div>
+      <div class="idxrow">${[0,1,2,3,4,"5 &middot; top"].map(l=>`<div>${l}</div>`).join("")}</div>
+    </div>
+    <div class="meter"></div>
+    <div style="margin-top:10px">${""}<span class="cycwrap"></span></div>
+    <div class="desc"></div>
+    <div class="controls">
+      <button class="bR">&#8634; reset</button><button class="bP">&larr; prev</button>
+      <button class="bN">next &rarr;</button><button class="bPl">&#9654; play</button>
+      <span class="counter"></span>
+    </div>`;
+  let i = 0, timer = null;
+  const $ = s => root.querySelector(s);
+  function render() {
+    const s = steps[i];
+    $(".row").innerHTML = s.cells;
+    $(".arcsvg").innerHTML = s.arc;
+    $(".meter").innerHTML = s.meter;
+    $(".cycwrap").innerHTML = s.cycs;
+    $(".desc").innerHTML = s.desc;
+    $(".counter").textContent = `step ${i+1} / ${steps.length}`;
+    $(".bP").disabled = i === 0; $(".bN").disabled = i === steps.length - 1;
+  }
+  const stop = () => { if (timer) { clearInterval(timer); timer = null; $(".bPl").innerHTML = "&#9654; play"; } };
+  const go = j => { i = Math.max(0, Math.min(steps.length - 1, j)); render(); };
+  $(".bR").onclick = () => { stop(); go(0); };
+  $(".bP").onclick = () => { stop(); go(i-1); };
+  $(".bN").onclick = () => { stop(); go(i+1); };
+  $(".bPl").onclick = () => {
+    if (timer) { stop(); return; }
+    if (i === steps.length-1) go(0);
+    $(".bPl").innerHTML = "&#10074;&#10074; pause";
+    timer = setInterval(() => { if (i < steps.length-1) go(i+1); else stop(); }, 1400);
+  };
+  render();
+})();
+
+/* ---------- sandbox ---------- */
+(function () {
+  const root = document.getElementById("play-w");
+  let data, perm, swaps, history, lastMsg, lastMeterDelta, lastMove;
+  function reset() {
+    data = START_DATA.slice(); perm = START_PERM.slice();
+    swaps = 0; history = []; lastMsg = `Click a cell to swap it with the top. &Phi; = 7, so seven is the floor.`;
+    lastMeterDelta = null; lastMove = null;
+    render();
+  }
+  function hintTarget() {
+    if (perm[TOP] !== TOP) return perm[TOP];
+    for (let p2 = TOP - 1; p2 >= 0; p2--) if (perm[p2] !== p2) return p2;
+    return -1;
+  }
+  function render(hint) {
+    const st = stats(perm);
+    const done = st.phi === 0;
+    root.innerHTML = `
+      <div class="tag">sandbox &middot; your moves, the invariant's rules</div>
+      <div class="stage">
+        <div class="row playrow">${cellsHTML(data, perm, { hint })}</div>
+        <div class="idxrow">${[0,1,2,3,4,"5 &middot; top"].map(l=>`<div>${l}</div>`).join("")}</div>
+      </div>
+      <div class="meter">${meterHTML(st, lastMeterDelta, lastMove)}
+        <span class="m">swaps used: <b>${swaps}</b></span></div>
+      <div style="margin-top:10px">${cycHTML(perm)}</div>
+      <div class="desc">${lastMsg}</div>
+      <div class="banner ${done ? "win" : ""} ${swaps > 7 ? "over" : ""}">
+        ${done ? (swaps === 7
+          ? `Sorted in 7 swaps &mdash; the optimum. Every move was a &minus;1 row.`
+          : `Sorted in ${swaps} swaps = 7 + ${swaps-7}. Each +1 move cost you exactly two (the +1, and the &minus;1 to undo it) &mdash; and note ${swaps} has the same parity as 7.`) : ""}
+      </div>
+      <div class="controls">
+        <button class="bR">&#8634; reset</button>
+        <button class="bU" ${history.length ? "" : "disabled"}>&#8617; undo</button>
+        <button class="bH" ${done ? "disabled" : ""}>&#128161; hint</button>
+        <span class="counter">optimal = 7 &middot; parity locked to odd</span>
+      </div>`;
+    root.querySelector(".bR").onclick = reset;
+    root.querySelector(".bU").onclick = () => {
+      const h = history.pop();
+      if (h) { data = h.data; perm = h.perm; swaps = h.swaps; lastMsg = "Undone."; lastMeterDelta = null; lastMove = null; render(); }
+    };
+    root.querySelector(".bH").onclick = () => {
+      const t = hintTarget();
+      lastMsg = t >= 0 ? `Greedy would swap with position ${t} (${perm[TOP] !== TOP ? "place the top's slot" : "enter the next cycle"}).` : "Nothing to do.";
+      render(t);
+    };
+    root.querySelectorAll(".playrow .cell").forEach(el => {
+      const x = +el.dataset.i;
+      if (x === TOP) return;
+      el.onclick = () => {
+        if (stats(perm).phi === 0) return;
+        history.push({ data: data.slice(), perm: perm.slice(), swaps });
+        const [name, delta, how] = classify(perm, x);
+        [data[x], data[TOP]] = [data[TOP], data[x]];
+        [perm[x], perm[TOP]] = [perm[TOP], perm[x]];
+        swaps++;
+        lastMove = name; lastMeterDelta = delta;
+        lastMsg = `<b>SWAP${TOP - x}</b> &mdash; <span class="movetag" style="color:${MOVE_COLOR[name]}">${name}</span>: ${how}.`;
+        render();
+      };
+    });
+  }
+  reset();
+})();
+</script>
+</body>
+</html>
