@@ -9,6 +9,8 @@ It does this by operating in 4 phases:
 3. attempt to realise the mapping
 4. if realisation failed: compress the source stack and start again from 1.
 
+![One shuffle from start to finish, including a blocked attempt and compression](shuffle-lifecycle.svg)
+
 Termination is guaranteed by the following facts:
   - we either achieve a valid trace and terminate after step 3 or move to step 4 and compress the source stack
   - the set of items removed from the source stack during the compression phase is strictly
@@ -195,6 +197,9 @@ cases:
 We loop on the above until all slots are in place. This loop alone is enough to produce a trace that
 moves each slot on the source into it's target slot.
 
+If at any point we try to generate a swap that is out of reach, we bail as `blocked` and jump ahead
+to stack compression in preparation for another loop through trace generation.
+
 In addition two optimization phases are implemented for duplicate elements that skip unescessary
 swaps for slots that have the same value.
 
@@ -248,8 +253,82 @@ be an injection, we know that the number of holes must exactly match the number 
 be parked: since we are permuting the source into the suffix of the target with the same size, a
 hole can only exist if a source slot is mapped to an index above the currently considered suffix.
 
-
 #### Bottom Up Generation
+
+This is the final phase of emission. The goal is to produce an element on stack for every target
+slot that does not yet have a source bound in the mapping. This is done by working bottom up on the
+target and addings `dup`/`push`/`mload` instructions to the trace as needed. calls to `permute` are
+interleaved throughout this process, as well as a final call to `permute` once the current stack is
+at the same height as the target.
+
+While conceptually simple at a high level, the current implementation is a little more fiddly and
+has some extra optimizations and heuristics that avoid emitting unescessary opcodes and attempt to
+prioritise duplication of elements that are at risk of going out of reach.
+
+The current count of elements that must still be generated is stored in the `m_pendingGenerations`
+member variable that is initialized based on the mapping provided at the start of the emission
+phase.
+
+In the following description "produce" refers to inserting one of `dup`, `push`, `mload` as makes
+sense for the specific slot into the trace to place the desired value on the top of the stack.
+"generate" refers to producing the desired value, and then swapping it into place. These are direct
+analogues of the `produce` and `generate` functions in `Shuffle.cpp`.
+
+TODO: generate is a little more subtle than presented here. expand on it's details.
+
+BuildBottomUp operates in a loop from the bottom of the target stack, and modifies the current stack
+and trace as it goes. Each loop iteration consists of the following phases:
+
+- skip: if the slot at the current target index is final (i.e. in place according to the mapping),
+    then skip to the next iteration
+- finish: if m_pendingGenerations == 0 then we are done generating and can proceed to the final
+    permute.
+- urgency-scan: search for slots that should be duped urgently to avoid going out of reach
+- urgent-dup: if an urgent dup is identified during the scan, dup the source and place it eagerly
+    before retrying the current iteration
+- free-placement: if the target slot at the height of the current working stack does not have a
+    mapped source slot, produce it and retry the current offset.
+- retained-fetch: if the target slot at the currently considered offset has a mapped source slot,
+    bring it bring it up to the top. attempts to leverage value equality to minimize swaps and handle
+    unreachable source slots.
+- generate-at-idx: if the target slot at the currently considered offset has no mapped source slot,
+    generate it.
+- place: swap the top down into j.
+
+A more detailed investigation of the non trivial phases continues below
+
+##### urgency-scan
+
+The urgency scan walks up from `j` (the current offset), and looks for the shallowest target offset
+that has a mapped source exactly at the max dup depth (i.e. the source would go out of dup reach if
+we produce anything more on the current stack).
+
+![Dup reach and the urgency scan](urgency-scan-reach.svg)
+
+If the scan locates a source copy that is already out of reach, then we bail as blocked immediately
+and skip to compression.
+
+There is one exemption here: if the dup source is at index `j` in the source. In this case, it can
+be ignored, and we rely on the later retained-fetch or generate-at-idx phase to pull the dup source
+to the top. Note that this exemption makes quite some assumptions about the behaviour of the rest of
+`BuildBottomUp`.
+
+TODO: expand on assumptions
+
+##### urgent-dup
+
+In this phase, if an urgent dup was identified in the previous phase, we check to ensure that
+executing the dup will not move the current target out of swap range, and if that is the case, we
+call `generate` to produce the dup.
+
+The same exemption from the previous phase is also applied: if the index of the dup source is the
+same as the current target offset we skip this phase (TODO: presumably this check is redundant?).
+
+##### free-placement
+
+##### retained-fetch
+
+##### Invariant: Every Offset Below TargetOffset is Final
 
 ### Compression
 
