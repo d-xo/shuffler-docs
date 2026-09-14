@@ -192,7 +192,23 @@ cases:
   - iterate top down over the current stack and find the first out of position slot
   - swap the top with the misplaced element
 
-We loop on the above until all slots are in place.
+We loop on the above until all slots are in place. This loop alone is enough to produce a trace that
+moves each slot on the source into it's target slot.
+
+In addition two optimization phases are implemented for duplicate elements that skip unescessary
+swaps for slots that have the same value.
+
+1. Deterministic mapping for duplicate elements (first block of `permute` in `Shuffle.cpp`): gathers
+   all duplicate elements and modifies the input permutation to one that skips swapping slots if the
+   value at same source and target indices is identical. Slots that must move are currenly mapped in
+   ascending order so that the lowest slot in the source is also the lowest slot in the target. In
+   future we probably want to change this to a heuristic that minimizes the total number of cycles
+   in the permutation.
+
+2. Retagging for same value elements in `exchangeWithTop`: the utility function that handles swap
+   bookkeeping will skip adding a `swapX` opcode to the trace and instead just direclty update the
+   mapping / permutation in place if both the source and target have the same value. TODO: is this
+   redundent given the above?
 
 ###### Swapping through a cycle containing the top resolves it
 
