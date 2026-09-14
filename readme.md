@@ -226,7 +226,14 @@ destination).
 
 ##### `permuteAtLowestHeight`
 
-##### Holes / Parked Slots Correspondence
+In addition to the generic `permute` described, above the shuffler also implements a special case
+`permuteAtLowestHeight` that is called directly after the excess removal phase. At this point the
+source stack is at it's shortest (and thus most reachable) height, so running as many swaps here as
+possible will likely result in less memory spilling due to out of reach elements.
+
+since the source stack is potentially shorter than the target at this point, `permuteAtLowestHeight`
+first does some bookkeeping to produce a permutation from the current mapping that ensures that the
+target of every source slot lands in the bounds of the target suffix.
 
 ![Parked slots and holes](parked-and-holes.svg)
 
