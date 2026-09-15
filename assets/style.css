@@ -41,7 +41,7 @@
 body {
   margin: 0; background: var(--bg); color: var(--txt);
   font-family: var(--serif);
-  font-size: 17px; line-height: 1.7;
+  font-size: 20.4px; line-height: 1.7;
 }
 .wrap { max-width: 820px; margin: 0 auto; padding: 48px 24px 96px; }
 
