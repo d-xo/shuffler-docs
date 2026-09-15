@@ -48,12 +48,29 @@ assets/
   template.html        pandoc HTML template (theme + MathJax + iframe resizer)
   style.css            shared theme for the page and every viz
   viz-embed.js         child-side height reporter for embedded viz
+assets/
+  strip-title.lua      pandoc filter: lift the first H1 into the page title
+  fonts/               self-hosted Computer Modern (CMU) woff, OFL
 viz/                   standalone interactive visualizations (one file each)
 *.svg                  static diagrams, referenced from readme.md as images
 Makefile
 flake.nix              pinned dev tooling (pandoc, make, entr, live-server)
 .envrc                 direnv: `use flake`
 ```
+
+## Theme & fonts
+
+The look follows Manim's defaults: black background, white text, the 3b1b
+color palette (`assets/style.css` `:root`, values taken from
+`manim/utils/color/manim_colors.py`), and Computer Modern type — the LaTeX face
+Manim's `Tex` renders with. The CMU woff files are self-hosted under
+`assets/fonts/` so the published site makes no external requests. MathJax
+renders formulae in the surrounding text color, so it inherits the same look.
+
+The page carries a table of contents: `make` runs pandoc with `--toc`, and
+`strip-title.lua` removes the leading `# H1` from the body (it becomes the
+title via `-M title`), which also keeps it out of the TOC so the sections sit
+at the top level.
 
 ## Embedding interactive visualizations
 

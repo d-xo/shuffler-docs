@@ -10,15 +10,18 @@ TITLE  := The Plan Based Shuffler
 PORT   ?= 8080
 
 # Sources that require a pandoc rebuild when they change (entr watches these).
-WATCH  := readme.md assets/template.html
+WATCH  := readme.md assets/template.html assets/strip-title.lua
 
-$(OUT): $(SRC) assets/template.html assets/style.css
+$(OUT): $(SRC) assets/template.html assets/style.css assets/strip-title.lua
 	$(PANDOC) $(SRC) \
 	  --from=gfm+tex_math_dollars \
 	  --to=html5 \
 	  --standalone \
 	  --template=assets/template.html \
+	  --lua-filter=assets/strip-title.lua \
+	  --toc --toc-depth=3 \
 	  --mathjax \
+	  --metadata title="$(TITLE)" \
 	  --metadata pagetitle="$(TITLE)" \
 	  --output=$(OUT)
 

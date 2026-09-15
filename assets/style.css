@@ -1,44 +1,70 @@
 /* Shared theme for the shuffler docs site and its embedded visualizations.
-   Palette lifted from the original standalone viz pages so the generated
-   prose and the interactive pieces read as one system. */
+   Follows Manim's defaults: black background, white text, the 3b1b palette,
+   and Computer Modern (Latin Modern / CMU) type — the LaTeX face Manim's Tex
+   mobjects render with (\usepackage{lmodern}). */
+
+/* ---- Computer Modern Unicode, self-hosted (OFL) ---- */
+@font-face { font-family: "CMU Serif"; src: url("fonts/cmunrm.woff") format("woff"); font-weight: 400; font-style: normal;  font-display: swap; }
+@font-face { font-family: "CMU Serif"; src: url("fonts/cmunbx.woff") format("woff"); font-weight: 700; font-style: normal;  font-display: swap; }
+@font-face { font-family: "CMU Serif"; src: url("fonts/cmunti.woff") format("woff"); font-weight: 400; font-style: italic;  font-display: swap; }
+@font-face { font-family: "CMU Typewriter Text"; src: url("fonts/cmuntt.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
+
 :root {
-  --bg: #0f172a; --panel: #1e293b; --panel2: #131c2e; --line: #334155; --line2: #1e293b;
-  --txt: #e2e8f0; --mut: #94a3b8; --dim: #64748b; --faint: #475569;
-  --blue: #38bdf8; --blue2: #7dd3fc; --blue-bg: #16324a;
-  --amber: #fbbf24; --amber-bg: #3a2d10;
-  --green: #4ade80; --green-bg: #12261c;
-  --violet: #c084fc; --violet-bg: #2b2140;
-  --red: #f87171; --red-bg: #2a1721;
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  /* Manim palette (manim/utils/color/manim_colors.py) */
+  --bg: #000000;        /* BLACK   — camera background */
+  --panel: #222222;     /* GRAY_E  — raised surface (slots, buttons) */
+  --panel2: #0d0d0d;    /* near-black surface for cards / code blocks */
+  --line: #444444;      /* GRAY_D  — borders */
+  --line2: #222222;     /* GRAY_E  — faint borders */
+  --txt: #ffffff;       /* WHITE   — default mobject/text color */
+  --mut: #dddddd;       /* GRAY_A  — body copy */
+  --dim: #888888;       /* GRAY_C  — secondary */
+  --faint: #444444;     /* GRAY_D  — tertiary */
+  --blue: #58c4dd;      /* BLUE    (BLUE_C) */
+  --blue2: #9cdceb;     /* BLUE_B */
+  --blue-bg: #17313d;
+  --amber: #f7d96f;     /* YELLOW  (YELLOW_C) */
+  --amber-bg: #3a3416;
+  --green: #83c167;     /* GREEN   (GREEN_C) */
+  --green-bg: #1c2a16;
+  --violet: #9a72ac;    /* PURPLE  (PURPLE_C) */
+  --violet-bg: #241a2e;
+  --red: #fc6255;       /* RED     (RED_C) */
+  --red-bg: #2e1a17;
+  --teal: #5cd0b3;      /* TEAL */
+  --gold: #f0ac5f;      /* GOLD */
+
+  --serif: "CMU Serif", Georgia, "Times New Roman", serif;
+  --mono: "CMU Typewriter Text", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 * { box-sizing: border-box; }
 body {
   margin: 0; background: var(--bg); color: var(--txt);
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 15px; line-height: 1.65;
+  font-family: var(--serif);
+  font-size: 17px; line-height: 1.7;
 }
-.wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 48px 24px 96px; }
 
 /* ---- prose ---- */
-h1 { font-size: 32px; margin: 0 0 24px; line-height: 1.2; }
-h2 { font-size: 23px; margin: 52px 0 12px; padding-top: 12px; border-top: 1px solid var(--line2); }
-h3 { font-size: 18px; margin: 34px 0 8px; }
-h4 { font-size: 15px; margin: 26px 0 6px; color: var(--blue2); }
-h5, h6 { font-size: 14px; margin: 22px 0 6px; color: var(--mut); font-weight: 600; }
-p { color: var(--mut); margin: 0 0 14px; }
-p strong, li strong { color: var(--txt); font-weight: 600; }
+h1 { font-size: 34px; margin: 0 0 24px; line-height: 1.15; font-weight: 700; }
+h2 { font-size: 25px; margin: 52px 0 12px; padding-top: 14px; border-top: 1px solid var(--line2); font-weight: 700; }
+h3 { font-size: 20px; margin: 34px 0 8px; font-weight: 700; }
+h4 { font-size: 17px; margin: 26px 0 6px; color: var(--blue2); font-weight: 700; }
+h5, h6 { font-size: 15px; margin: 22px 0 6px; color: var(--mut); font-weight: 700; }
+p { color: var(--mut); margin: 0 0 15px; }
+p strong, li strong { color: var(--txt); font-weight: 700; }
 a { color: var(--blue); text-decoration: none; }
 a:hover { text-decoration: underline; }
-ul, ol { color: var(--mut); padding-left: 22px; }
-li { margin: 4px 0; }
+ul, ol { color: var(--mut); padding-left: 24px; }
+li { margin: 5px 0; }
 li::marker { color: var(--dim); }
 
-code, .mono { font-family: var(--mono); font-size: 0.92em; }
+code, .mono { font-family: var(--mono); font-size: 0.95em; }
 code { background: var(--panel2); border: 1px solid var(--line2); border-radius: 4px; padding: 1px 5px; color: var(--blue2); }
 pre { background: var(--panel2); border: 1px solid var(--line2); border-radius: 10px; padding: 16px 18px; overflow-x: auto; }
 pre code { background: none; border: none; padding: 0; color: var(--txt); }
 
-blockquote { margin: 14px 0; padding: 2px 16px; border-left: 3px solid var(--line); color: var(--dim); }
+blockquote { margin: 15px 0; padding: 2px 16px; border-left: 3px solid var(--blue-bg); color: var(--dim); }
 hr { border: none; border-top: 1px solid var(--line2); margin: 40px 0; }
 
 table { border-collapse: collapse; width: 100%; margin: 16px 0; display: block; overflow-x: auto; }
@@ -47,8 +73,24 @@ th { background: var(--panel2); color: var(--txt); }
 
 /* diagrams (svg) rendered from markdown images */
 img { max-width: 100%; height: auto; display: block; margin: 20px auto; }
-svg text { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+svg text { font-family: var(--serif); }
 svg .mono { font-family: var(--mono); }
+
+/* ---- table of contents (pandoc --toc) ---- */
+#toc {
+  border: 1px solid var(--line2); border-radius: 10px;
+  padding: 16px 22px; margin: 28px 0 44px; background: var(--panel2);
+}
+#toc::before {
+  content: "Contents"; display: block;
+  font-family: var(--mono); font-size: 12px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 10px;
+}
+#toc ul { list-style: none; padding-left: 0; margin: 0; color: var(--mut); }
+#toc > ul ul { padding-left: 18px; margin: 2px 0; }
+#toc li { margin: 3px 0; }
+#toc a { color: var(--blue2); }
+#toc a:hover { color: var(--blue); }
 
 /* ---- embedded interactive visualizations ----
    An iframe.viz isolates each standalone viz file. Height is set at runtime
