@@ -3,68 +3,192 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Interactive EVM Stack (demo)</title>
-  <!-- Reference template for an embeddable visualization.
-       - self-contained: everything it needs is here or in shared assets
-       - shares the site theme via assets/style.css
-       - includes assets/viz-embed.js so the host iframe auto-fits its height
-       Paths are ../assets/* so this works both standalone and when embedded
-       from an index.html one level up. -->
+  <title>Interactive EVM Stack</title>
+  <!-- Embeddable visualization. Self-contained; shares the site theme and
+       reports its height to the host iframe. Works standalone or embedded.
+       Paths are ../assets/* so both cases resolve. -->
   <link rel="stylesheet" href="../assets/style.css">
   <style>
-    /* embedded pieces set their own inner padding; the host draws the border */
     body { background: transparent; }
     .demo { padding: 20px 22px; }
-    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 4px; }
+    .group { display: flex; gap: 6px; }
+    .sep { width: 1px; align-self: stretch; background: var(--line2); margin: 2px 4px; }
     button {
       font: inherit; font-size: 13px; cursor: pointer;
       background: var(--panel); color: var(--txt);
-      border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
+      border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px;
+      transition: border-color .15s, opacity .15s;
     }
-    button:hover { border-color: var(--blue); }
-    .stack { display: flex; flex-direction: column-reverse; gap: 8px; min-height: 60px; }
+    button:hover:not(:disabled) { border-color: var(--blue); }
+    button:disabled { opacity: .35; cursor: not-allowed; }
+    button.op { color: var(--blue2); font-family: var(--mono); }
+
+    .status { color: var(--dim); font-size: 12px; font-family: var(--mono); min-height: 16px; margin: 12px 0 14px; }
+    .status b { color: var(--blue2); font-weight: 600; }
+
+    .stack { display: flex; flex-direction: column; gap: 8px; min-height: 64px; }
+    .empty { color: var(--faint); font-size: 13px; font-style: italic; padding: 14px 2px; }
     .slot {
-      font-family: var(--mono); font-size: 16px; color: var(--blue2);
+      display: flex; align-items: center; justify-content: space-between;
+      width: 220px; padding: 10px 14px; border-radius: 8px;
       background: var(--panel); border: 1.5px solid var(--line);
-      border-radius: 8px; padding: 10px 14px; width: 160px;
-      display: flex; justify-content: space-between;
-      animation: pop .18s ease;
     }
-    .slot .idx { color: var(--dim); font-size: 12px; }
-    @keyframes pop { from { transform: translateY(-6px); opacity: 0; } }
-    .hint { color: var(--dim); font-size: 12px; margin-top: 14px; }
+    .slot .val { font-family: var(--mono); font-size: 16px; color: var(--blue2); }
+    .slot .depth { font-family: var(--mono); font-size: 11px; color: var(--dim); }
+    .slot .toptag { font-family: var(--mono); font-size: 10px; color: var(--amber); margin-left: 8px; }
+    .slot.enter { animation: enter .2s ease; }
+    .slot.flash { animation: flash .5s ease; }
+    @keyframes enter { from { transform: translateY(-8px); opacity: 0; } }
+    @keyframes flash { 0%,100% { border-color: var(--line); } 40% { border-color: var(--amber); background: var(--amber-bg); } }
+
+    .legend { color: var(--dim); font-size: 12px; margin-top: 16px; }
+    .legend code { font-size: 11px; }
   </style>
 </head>
 <body>
   <div class="demo">
     <div class="controls">
-      <button onclick="push()">push</button>
-      <button onclick="pop()">pop</button>
-      <button onclick="swap()">swap1</button>
-      <button onclick="reset()">reset</button>
+      <div class="group">
+        <button class="op" data-op="push">push</button>
+        <button class="op" data-op="pop">pop</button>
+      </div>
+      <div class="sep"></div>
+      <div class="group" id="swaps"></div>
+      <div class="sep"></div>
+      <div class="group" id="dups"></div>
     </div>
+
+    <div class="status" id="status">stack empty — <b>push</b> to begin.</div>
+
     <div class="stack" id="stack"></div>
-    <p class="hint">A placeholder interactive piece. Replace with a real visualization; keep the shared &lt;link&gt; and &lt;script&gt; below.</p>
+
+    <p class="legend">
+      Top of stack is at the top. <code>swapN</code> exchanges the top with the
+      item <code>N</code> below it; <code>dupN</code> copies the item at depth
+      <code>N</code> (1 = top) onto the top. Illegal operations are disabled.
+    </p>
   </div>
 
   <script>
+    var MAX_DEPTH = 4;      // swap1-4 / dup1-4
+
+    // state: stack[0] is the BOTTOM, stack[len-1] is the TOP.
     var stack = [];
-    var next = 0x1a;
-    var el = document.getElementById("stack");
-    function render() {
-      el.innerHTML = "";
-      stack.forEach(function (v, i) {
-        var d = document.createElement("div");
-        d.className = "slot";
-        d.innerHTML = '<span>0x' + v.toString(16) + '</span><span class="idx">[' + i + ']</span>';
-        el.appendChild(d);
-      });
+    var flash = [];         // indices to flash after the next render
+    var entered = -1;       // index that just entered (pop-in animation)
+
+    var stackEl = document.getElementById("stack");
+    var statusEl = document.getElementById("status");
+
+    function randWord() {
+      // a random-looking literal; two bytes keeps it short and legible
+      var n = Math.floor(Math.random() * 0x10000);
+      return "0x" + n.toString(16).padStart(4, "0");
     }
-    function push() { stack.push(next++); render(); }
-    function pop() { stack.pop(); render(); }
-    function swap() { if (stack.length > 1) { var n = stack.length; var t = stack[n-1]; stack[n-1] = stack[n-2]; stack[n-2] = t; render(); } }
-    function reset() { stack = []; next = 0x1a; render(); }
+
+    // --- operations: pure transforms on the stack array, plus a status string ---
+    function push() {
+      var v = randWord();
+      stack = stack.concat([v]);
+      entered = stack.length - 1;
+      return "push " + v;
+    }
+    function pop() {
+      var v = stack[stack.length - 1];
+      stack = stack.slice(0, -1);
+      return "pop  " + v;
+    }
+    function swap(n) {           // swap top with the item n below it
+      var i = stack.length - 1, j = stack.length - 1 - n;
+      var next = stack.slice();
+      var t = next[i]; next[i] = next[j]; next[j] = t;
+      stack = next;
+      flash = [i, j];
+      return "swap" + n;
+    }
+    function dup(n) {            // copy item at depth n (1 = top) onto the top
+      var src = stack.length - n;
+      stack = stack.concat([stack[src]]);
+      entered = stack.length - 1;
+      flash = [src];
+      return "dup" + n + "  " + stack[stack.length - 1];
+    }
+
+    // legality: pop needs 1; swapN needs n+1; dupN needs n
+    function legal(op, n) {
+      if (op === "push") return true;
+      if (op === "pop") return stack.length >= 1;
+      if (op === "swap") return stack.length >= n + 1;
+      if (op === "dup") return stack.length >= n;
+      return false;
+    }
+
+    function run(fn, label) {
+      var msg = fn();
+      statusEl.innerHTML = "last: <b>" + label + "</b>";
+      render();
+      flash = []; entered = -1;
+    }
+
+    function render() {
+      stackEl.innerHTML = "";
+      if (stack.length === 0) {
+        var e = document.createElement("div");
+        e.className = "empty";
+        e.textContent = "(empty)";
+        stackEl.appendChild(e);
+      } else {
+        // render top-first
+        for (var idx = stack.length - 1; idx >= 0; idx--) {
+          var depth = stack.length - idx;          // 1 = top
+          var d = document.createElement("div");
+          d.className = "slot" + (idx === entered ? " enter" : "") + (flash.indexOf(idx) >= 0 ? " flash" : "");
+          d.innerHTML =
+            '<span class="val">' + stack[idx] + '</span>' +
+            '<span><span class="depth">depth ' + depth + '</span>' +
+            (depth === 1 ? '<span class="toptag">top</span>' : '') + '</span>';
+          stackEl.appendChild(d);
+        }
+      }
+      updateButtons();
+    }
+
+    function updateButtons() {
+      var btns = document.querySelectorAll("button[data-op]");
+      for (var i = 0; i < btns.length; i++) {
+        var b = btns[i];
+        b.disabled = !legal(b.dataset.op, parseInt(b.dataset.n || "0", 10));
+      }
+    }
+
+    // build swapN / dupN buttons
+    (function build() {
+      var swaps = document.getElementById("swaps");
+      var dups = document.getElementById("dups");
+      for (var n = 1; n <= MAX_DEPTH; n++) (function (n) {
+        var s = document.createElement("button");
+        s.className = "op"; s.textContent = "swap" + n;
+        s.dataset.op = "swap"; s.dataset.n = n;
+        s.onclick = function () { run(function () { return swap(n); }, "swap" + n); };
+        swaps.appendChild(s);
+
+        var u = document.createElement("button");
+        u.className = "op"; u.textContent = "dup" + n;
+        u.dataset.op = "dup"; u.dataset.n = n;
+        u.onclick = function () { run(function () { return dup(n); }, "dup" + n); };
+        dups.appendChild(u);
+      })(n);
+    })();
+
+    document.querySelector('[data-op="push"]').onclick = function () { run(push, "push"); };
+    document.querySelector('[data-op="pop"]').onclick = function () { run(pop, "pop"); };
+
+    // seed a few values so the ops are immediately usable
     push(); push(); push();
+    statusEl.innerHTML = "seeded 3 values — try <b>dup2</b> or <b>swap1</b>.";
+    render(); flash = []; entered = -1;
   </script>
   <script src="../assets/viz-embed.js"></script>
 </body>
