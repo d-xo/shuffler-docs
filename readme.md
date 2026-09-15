@@ -203,17 +203,19 @@ to stack compression in preparation for another loop through trace generation.
 In addition two optimization phases are implemented for duplicate elements that skip unescessary
 swaps for slots that have the same value.
 
-1. Deterministic mapping for duplicate elements (first block of `permute` in `Shuffle.cpp`): gathers
-   all duplicate elements and modifies the input permutation to one that skips swapping slots if the
-   value at same source and target indices is identical. Slots that must move are currenly mapped in
-   ascending order so that the lowest slot in the source is also the lowest slot in the target. In
-   future we probably want to change this to a heuristic that minimizes the total number of cycles
-   in the permutation.
+1. Deterministic mapping for duplicate elements (first block of `permute` in `Shuffler.cpp`):
+   rewrites the permutation among equal slots so that a slot stays put if an equal slot is destined
+   for the offset it's already standing on — it fills that demand itself. Slots that must move are
+   currently mapped in ascending order so that the lowest slot in the source is also the lowest
+   slot in the target. In future we probably want to change this to a heuristic that minimizes the
+   total number of cycles in the permutation.
+
+   ![Deterministic remapping of duplicate elements](duplicate-remapping.svg)
 
 2. Retagging for same value elements in `exchangeWithTop`: the utility function that handles swap
    bookkeeping will skip adding a `swapX` opcode to the trace and instead just direclty update the
-   mapping / permutation in place if both the source and target have the same value. TODO: is this
-   redundent given the above?
+   mapping / permutation in place if both the current top and swap target have the same value. TODO:
+   is this redundent given the above?
 
 ###### Swapping through a cycle containing the top resolves it
 
@@ -272,7 +274,7 @@ phase.
 In the following description "produce" refers to inserting one of `dup`, `push`, `mload` as makes
 sense for the specific slot into the trace to place the desired value on the top of the stack.
 "generate" refers to producing the desired value, and then swapping it into place. These are direct
-analogues of the `produce` and `generate` functions in `Shuffle.cpp`.
+analogues of the `produce` and `generate` functions in `Shuffler.cpp`.
 
 TODO: generate is a little more subtle than presented here. expand on it's details.
 
