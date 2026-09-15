@@ -173,7 +173,7 @@ Permutation is split into two phases
 
 ![What is a permutation](permutation.svg)
 
-A permutation is a rearrangement of a sets elements (a bijection from the set onto itself). For a
+A permutation is a mapping of a sets elements (a bijection from the set onto itself). For a
 finite set of n positions you can write a permutation as the function $`σ`$ where $`σ(i)`$ is where element
 $`i`$ goes, e.g. on $`{0,1,2}`$: $`σ = (0→2, 1→0, 2→1)`$.
 
@@ -324,9 +324,29 @@ call `generate` to produce the dup.
 The same exemption from the previous phase is also applied: if the index of the dup source is the
 same as the current target offset we skip this phase (TODO: presumably this check is redundant?).
 
+If the generation fails, we bail with blocked and go to compression.
+
+If the generation does not fail, we start the loop again with the same targetOffset
+
+![The urgent dup's swap-range guard](urgent-dup-guard.svg)
+
 ##### free-placement
 
+If the current target offset is the same as the size of the working stack, and the target slot at
+the current target offset does not have a bound source in the map (i.e. requires generation) then a
+push / dup / mload at this point in the trace will produce the required value exactly at it's target
+slot. This is clearly optimal since it avoids the need for any swap.
+
+The same checks around swap depth as in the previous phase apply.
+
+TODO: why do we restart the loop here? didn't we fill this already?
+
+
 ##### retained-fetch
+
+If the value at
+
+##### generate-at-idx
 
 ##### Invariant: Every Offset Below TargetOffset is Final
 
