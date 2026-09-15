@@ -11,7 +11,7 @@ It does this by operating in 4 phases:
 3. attempt to realise the mapping
 4. if realisation failed: compress the source stack and start again from 1.
 
-![One shuffle from start to finish, including a blocked attempt and compression](shuffle-lifecycle.svg)
+<iframe class="viz" src="viz/shuffle-lifecycle.html" title="One shuffle from start to finish, stepped interactively"></iframe>
 
 Termination is guaranteed by the following facts:
   - we either achieve a valid trace and terminate after step 3 or move to step 4 and compress the source stack

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Shuffler, Start to Finish</title>
+  <!-- Interactive lifecycle for the example source [x c b a] -> target [c b a]:
+       one blocked attempt, one compression, then success. Step through it with
+       the buttons; the mapping between the working stack and the target is
+       redrawn at every step. Self-contained; shares the site theme and reports
+       its height to the host iframe. -->
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    body { background: transparent; }
+    .demo { padding: 20px 22px; }
+    .phase { font-weight: 700; font-size: 16px; margin: 0 0 4px; min-height: 22px; }
+    .phase.white { color: #ffffff; }
+    .phase.red { color: #fc6255; }
+    .phase.yellow { color: #f7d96f; }
+    .phase.green { color: #83c167; }
+    .sub { color: var(--dim); font-size: 12.5px; margin: 0 0 14px; }
+    .sub .mono { color: var(--blue2); }
+
+    .row { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
+    .stagebox { flex: 1 1 460px; min-width: 300px; }
+    .stagebox svg { width: 100%; height: auto; display: block; }
+
+    .trace { flex: 1 1 210px; min-width: 190px; border-left: 1px solid var(--line2); padding-left: 18px; }
+    .trace h4 { margin: 2px 0 10px; color: var(--mut); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-family: var(--mono); font-weight: 700; }
+    .trace .att { font-size: 12px; margin: 12px 0 6px; }
+    .trace .att.red { color: #fc6255; }
+    .trace .att.mut { color: var(--dim); }
+    .trace .op { font-family: var(--mono); font-size: 13px; margin: 4px 0; display: flex; gap: 10px; }
+    .trace .op .k { color: #dddddd; min-width: 62px; }
+    .trace .op .ann { color: var(--dim); font-size: 11.5px; }
+    .trace .empty { color: var(--faint); font-size: 12px; font-style: italic; }
+
+    .note { color: var(--mut); font-size: 13.5px; margin: 16px 0 4px; min-height: 40px; }
+    .mapline { font-family: var(--mono); font-size: 12px; color: var(--dim); margin: 2px 0 14px; }
+    .mapline b { color: var(--blue2); font-weight: 400; }
+
+    .controls { display: flex; align-items: center; gap: 12px; }
+    button {
+      font: inherit; font-size: 14px; cursor: pointer;
+      background: var(--panel); color: var(--txt);
+      border: 1px solid var(--line); border-radius: 8px; padding: 7px 16px;
+    }
+    button:hover:not(:disabled) { border-color: var(--blue); }
+    button:disabled { opacity: .35; cursor: not-allowed; }
+    .step { font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+    .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0 0; font-size: 11.5px; color: var(--dim); }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend i { width: 11px; height: 11px; border-radius: 3px; border: 1.5px solid; display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <div class="phase white" id="phase"></div>
+    <p class="sub">source <span class="mono">[x c b a]</span> &#8594; target <span class="mono">[c b a]</span> &#183; swap reach drawn as 2</p>
+
+    <div class="row">
+      <div class="stagebox"><svg id="stage" viewBox="0 168 500 198" role="img" aria-label="shuffler state"></svg></div>
+      <div class="trace">
+        <h4>trace</h4>
+        <div id="tracelist"></div>
+      </div>
+    </div>
+
+    <p class="note" id="note"></p>
+    <p class="mapline" id="mapline"></p>
+
+    <div class="controls">
+      <button id="back">&#9664; back</button>
+      <button id="next">next &#9654;</button>
+      <span class="step" id="step"></span>
+    </div>
+
+    <div class="legend">
+      <span><i style="border-color:#f7d96f"></i>surplus</span>
+      <span><i style="border-color:#fc6255"></i>blocked / dropped</span>
+      <span><i style="border-color:#9a72ac"></i>parked</span>
+      <span><i style="border-color:#83c167"></i>regenerated / home</span>
+    </div>
+  </div>
+
+  <script>
+    // --- box styles by slot state ---
+    var STY = {
+      map:     { fill: "#222222", stroke: "#444444", text: "#dddddd" },
+      surplus: { fill: "#222222", stroke: "#f7d96f", text: "#f7d96f", dash: true },
+      blocked: { fill: "#2e1a17", stroke: "#fc6255", text: "#fc6255" },
+      drop:    { fill: "#2e1a17", stroke: "#fc6255", text: "#fc6255" },
+      regen:   { fill: "#1c2a16", stroke: "#83c167", text: "#83c167" },
+      home:    { fill: "#1c2a16", stroke: "#83c167", text: "#83c167" },
+      parked:  { fill: "#241a2e", stroke: "#9a72ac", text: "#c9a9dd" },
+      target:  { fill: "none",    stroke: "#444444", text: "#bbbbbb", dash: true }
+    };
+
+    function S(id, val, state) { return { id: id, val: val, state: state }; }
+
+    // Each frame is a full state: working stack (bottom->top), the current
+    // mapping (slot id -> target offset), the trace so far, and annotations.
+    var frames = [
+      { phase: ["1 · mapping — connect source slots to target slots", "white"],
+        stack: [S("x","x","surplus"), S("c","c","map"), S("b","b","map"), S("a","a","map")],
+        map: { c:0, b:1, a:2 }, reach: false, upto: 0,
+        note: "Every retained source slot is connected to the target offset it must reach. x has no target — it is surplus and must be removed." },
+
+      { phase: ["2 · excess removal — pop the surplus x", "white"],
+        stack: [S("x","x","surplus"), S("c","c","map"), S("b","b","map"), S("a","a","map")],
+        map: { c:0, b:1, a:2 }, reach: true, upto: 0,
+        note: "To pop x it must first be swapped to the top — but the swap reach is only 2, and x sits at depth 3." },
+
+      { phase: ["✗ blocked — x is at depth 3, swap reach is 2", "red"],
+        stack: [S("x","x","blocked"), S("c","c","map"), S("b","b","map"), S("a","a","map")],
+        map: { c:0, b:1, a:2 }, reach: true, upto: 2,
+        note: "The surplus is out of reach. The attempt bails as blocked and hands off to compression." },
+
+      { phase: ["4 · compression — drop c (a literal, cheap to regenerate), restart", "yellow"],
+        stack: [S("x","x","surplus"), S("c","c","drop"), S("b","b","map"), S("a","a","map")],
+        map: { b:1, a:2 }, reach: false, upto: 2,
+        note: "Compression drops c from the retained set. The set of removed slots strictly grows between attempts, which is what guarantees termination." },
+
+      { phase: ["1 · mapping — b and a retained · c and x now surplus", "white"],
+        stack: [S("x","x","surplus"), S("c","c","surplus"), S("b","b","map"), S("a","a","map")],
+        map: { b:1, a:2 }, reach: false, upto: 4,
+        note: "Remap for attempt 2. Only b and a are retained; c is surplus now too and will be regenerated later." },
+
+      { phase: ["2 · excess removal — both pops now reach", "white"],
+        stack: [S("x","x","surplus"), S("a","a","map"), S("b","b","map"), S("c","c","surplus")],
+        map: { b:1, a:2 }, reach: true, upto: 5,
+        note: "swap2 lifts c to the top — now within reach." },
+
+      { phase: ["2 · excess removal — both pops now reach", "white"],
+        stack: [S("x","x","surplus"), S("a","a","map"), S("b","b","map")],
+        map: { b:1, a:2 }, reach: false, upto: 6,
+        note: "c popped (it will be regenerated later). Now bring the surplus x up." },
+
+      { phase: ["2 · excess removal — both pops now reach", "white"],
+        stack: [S("b","b","map"), S("a","a","map"), S("x","x","surplus")],
+        map: { b:1, a:2 }, reach: false, upto: 7,
+        note: "swap2 lifts x to the top." },
+
+      { phase: ["2 · excess removal — both pops now reach", "white"],
+        stack: [S("b","b","map"), S("a","a","map")],
+        map: { b:1, a:2 }, reach: false, upto: 8,
+        note: "Excess removed. The stack is now at its lowest height — its most reachable state, the ideal point to start permuting." },
+
+      { phase: ["3 · permute at lowest height — b goes home, a parks in c’s hole", "white"],
+        stack: [S("a","a","parked"), S("b","b","home")],
+        map: { b:1, a:2 }, reach: false, upto: 9,
+        note: "b reaches its home t1. a cannot reach t2 yet (the stack is too short), so it parks in the hole where c belongs (t0)." },
+
+      { phase: ["3 · bottom-up generation — regenerate c, swap it home", "white"],
+        stack: [S("a","a","parked"), S("b","b","home"), S("c","c","regen")],
+        map: { b:1, a:2, c:0 }, reach: false, upto: 10,
+        note: "c is regenerated with a push (it was a literal). Now swap it down to its home t0." },
+
+      { phase: ["3 · bottom-up generation — regenerate c, swap it home", "white"],
+        stack: [S("c","c","home"), S("b","b","home"), S("a","a","home")],
+        map: { c:0, b:1, a:2 }, reach: false, upto: 11,
+        note: "swap2 drops c into t0; a floats up into t2. Every slot is home." },
+
+      { phase: ["✓ done — the stack matches the target", "green"],
+        stack: [S("c","c","home"), S("b","b","home"), S("a","a","home")],
+        map: { c:0, b:1, a:2 }, reach: false, upto: 12,
+        note: "The working stack equals the target. The trace is complete." }
+    ];
+
+    // trace items appear once the frame index reaches `from`.
+    var TRACE = [
+      { from: 2, kind: "att", text: "attempt 1 · blocked — nothing emitted", color: "red" },
+      { from: 4, kind: "att", text: "attempt 2", color: "mut" },
+      { from: 5, kind: "op", k: "swap2", ann: "bring c up" },
+      { from: 6, kind: "op", k: "pop",   ann: "drop c" },
+      { from: 7, kind: "op", k: "swap2", ann: "bring x up" },
+      { from: 8, kind: "op", k: "pop",   ann: "drop x" },
+      { from: 9, kind: "op", k: "swap1", ann: "b home · a parks" },
+      { from: 10, kind: "op", k: "push c", ann: "regenerate c" },
+      { from: 11, kind: "op", k: "swap2", ann: "c home · a floats home" }
+    ];
+
+    var TARGET = [["c", 0], ["b", 1], ["a", 2]];
+    var BW = 120, BH = 32, ROW = 40, BOTTOM = 300, TX = 372, TW = 100;
+    function yOff(i) { return BOTTOM - i * ROW; }
+
+    function box(x, y, w, val, state) {
+      var s = STY[state] || STY.map;
+      var dash = s.dash ? ' stroke-dasharray="5 4"' : "";
+      return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + BH + '" rx="5" fill="' + s.fill + '" stroke="' + s.stroke + '" stroke-width="1.6"' + dash + "/>" +
+             '<text x="' + (x + w / 2) + '" y="' + (y + 21) + '" text-anchor="middle" font-size="14" fill="' + s.text + '" class="mono">' + val + "</text>";
+    }
+
+    var cur = 0;
+    var stage = document.getElementById("stage");
+    var phaseEl = document.getElementById("phase");
+    var noteEl = document.getElementById("note");
+    var mapEl = document.getElementById("mapline");
+    var traceEl = document.getElementById("tracelist");
+    var stepEl = document.getElementById("step");
+    var backBtn = document.getElementById("back");
+    var nextBtn = document.getElementById("next");
+
+    function render() {
+      var f = frames[cur];
+      phaseEl.textContent = f.phase[0];
+      phaseEl.className = "phase " + f.phase[1];
+      noteEl.textContent = f.note;
+
+      var s = '<defs><marker id="ah" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#58c4dd"/></marker></defs>';
+
+      // target ghosts
+      for (var t = 0; t < TARGET.length; t++) {
+        var ty = yOff(TARGET[t][1]);
+        s += box(TX, ty, TW, TARGET[t][0], "target");
+      }
+      // reach line (only meaningful when a box sits below it)
+      if (f.reach && f.stack.length >= 4) {
+        var ry = yOff(1) + BH + 4;
+        s += '<line x1="14" y1="' + ry + '" x2="150" y2="' + ry + '" stroke="#f7d96f" stroke-width="1.1" stroke-dasharray="6 4"/>' +
+             '<text x="153" y="' + (ry + 3) + '" font-size="8.5" fill="#f7d96f">swap reach · 2</text>';
+      }
+      // working stack + offset labels
+      for (var i = 0; i < f.stack.length; i++) {
+        var y = yOff(i);
+        s += '<text x="16" y="' + (y + 21) + '" font-size="9" fill="#888888" text-anchor="end" class="mono">' + i + "</text>";
+        s += box(24, y, BW, f.stack[i].val, f.stack[i].state);
+      }
+      // mapping arrows: working slot -> its target offset
+      for (var j = 0; j < f.stack.length; j++) {
+        var id = f.stack[j].id;
+        if (f.map[id] != null) {
+          var wy = yOff(j) + BH / 2;
+          var gy = yOff(f.map[id]) + BH / 2;
+          s += '<line x1="146" y1="' + wy + '" x2="370" y2="' + gy + '" stroke="#58c4dd" stroke-width="1.4" marker-end="url(#ah)" opacity="0.9"/>';
+        }
+      }
+      s += '<text x="84" y="352" text-anchor="middle" font-size="10" fill="#888888">working stack</text>';
+      s += '<text x="422" y="352" text-anchor="middle" font-size="10" fill="#888888">target</text>';
+      stage.innerHTML = s;
+
+      // mapping readout
+      var pairs = [];
+      for (var k = 0; k < f.stack.length; k++) {
+        var sid = f.stack[k].id;
+        if (f.map[sid] != null) pairs.push(f.stack[k].val + "→t" + f.map[sid]);
+      }
+      mapEl.innerHTML = "mapping: <b>" + (pairs.length ? pairs.join("  ") : "—") + "</b>";
+
+      // trace
+      var items = TRACE.filter(function (it) { return it.from <= f.upto; });
+      if (!items.length) {
+        traceEl.innerHTML = '<div class="empty">nothing emitted yet</div>';
+      } else {
+        traceEl.innerHTML = items.map(function (it) {
+          if (it.kind === "att") return '<div class="att ' + it.color + '">' + it.text + "</div>";
+          return '<div class="op"><span class="k">' + it.k + '</span><span class="ann">' + it.ann + "</span></div>";
+        }).join("");
+      }
+
+      stepEl.textContent = (cur + 1) + " / " + frames.length;
+      backBtn.disabled = cur === 0;
+      nextBtn.disabled = cur === frames.length - 1;
+    }
+
+    backBtn.onclick = function () { if (cur > 0) { cur--; render(); } };
+    nextBtn.onclick = function () { if (cur < frames.length - 1) { cur++; render(); } };
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") backBtn.onclick();
+      else if (e.key === "ArrowRight") nextBtn.onclick();
+    });
+    // optional deep-link: #<step> (1-based) selects a starting frame
+    var h = parseInt((location.hash || "").replace("#", ""), 10);
+    if (!isNaN(h)) cur = Math.max(0, Math.min(frames.length - 1, h - 1));
+    render();
+  </script>
+  <script src="../assets/viz-embed.js"></script>
+</body>
+</html>
