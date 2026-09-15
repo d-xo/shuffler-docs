@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive EVM Stack (demo)</title>
+  <!-- Reference template for an embeddable visualization.
+       - self-contained: everything it needs is here or in shared assets
+       - shares the site theme via assets/style.css
+       - includes assets/viz-embed.js so the host iframe auto-fits its height
+       Paths are ../assets/* so this works both standalone and when embedded
+       from an index.html one level up. -->
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    /* embedded pieces set their own inner padding; the host draws the border */
+    body { background: transparent; }
+    .demo { padding: 20px 22px; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    button {
+      font: inherit; font-size: 13px; cursor: pointer;
+      background: var(--panel); color: var(--txt);
+      border: 1px solid var(--line); border-radius: 8px; padding: 6px 12px;
+    }
+    button:hover { border-color: var(--blue); }
+    .stack { display: flex; flex-direction: column-reverse; gap: 8px; min-height: 60px; }
+    .slot {
+      font-family: var(--mono); font-size: 16px; color: var(--blue2);
+      background: var(--panel); border: 1.5px solid var(--line);
+      border-radius: 8px; padding: 10px 14px; width: 160px;
+      display: flex; justify-content: space-between;
+      animation: pop .18s ease;
+    }
+    .slot .idx { color: var(--dim); font-size: 12px; }
+    @keyframes pop { from { transform: translateY(-6px); opacity: 0; } }
+    .hint { color: var(--dim); font-size: 12px; margin-top: 14px; }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <div class="controls">
+      <button onclick="push()">push</button>
+      <button onclick="pop()">pop</button>
+      <button onclick="swap()">swap1</button>
+      <button onclick="reset()">reset</button>
+    </div>
+    <div class="stack" id="stack"></div>
+    <p class="hint">A placeholder interactive piece. Replace with a real visualization; keep the shared &lt;link&gt; and &lt;script&gt; below.</p>
+  </div>
+
+  <script>
+    var stack = [];
+    var next = 0x1a;
+    var el = document.getElementById("stack");
+    function render() {
+      el.innerHTML = "";
+      stack.forEach(function (v, i) {
+        var d = document.createElement("div");
+        d.className = "slot";
+        d.innerHTML = '<span>0x' + v.toString(16) + '</span><span class="idx">[' + i + ']</span>';
+        el.appendChild(d);
+      });
+    }
+    function push() { stack.push(next++); render(); }
+    function pop() { stack.pop(); render(); }
+    function swap() { if (stack.length > 1) { var n = stack.length; var t = stack[n-1]; stack[n-1] = stack[n-2]; stack[n-2] = t; render(); } }
+    function reset() { stack = []; next = 0x1a; render(); }
+    push(); push(); push();
+  </script>
+  <script src="../assets/viz-embed.js"></script>
+</body>
+</html>

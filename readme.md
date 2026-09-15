@@ -30,6 +30,8 @@ practical use in the compiler.
 For this reason various we prefer to use heuristic approaches with empirically demonstrated
 performance characteristics on representative solidity programs, and strong termination guarantees.
 
+> Interactive: [Why Seven Swaps Is the Law](viz/star-optimality.html) — a walk through a lower bound on swap count.
+
 ## The EVM Stack
 
 ![The EVM stack](evm-stack.svg)
@@ -48,6 +50,8 @@ Shuffling concerns itself with the following stack manipulation operations:
     index `X - 1` (zero indexed) into the top slot.
 - [`swapX`](https://www.evm.codes/?fork=osaka#90): 16 individual opcodes that swap the item at index
     `X` (zero indexed) with the item in the top slot.
+
+<iframe class="viz" src="viz/stack-demo.html" title="Interactive EVM stack"></iframe>
 
 ### `StackData` & `StackSlot`
 
@@ -162,6 +166,8 @@ only one source slot.
 
 Permutation moves out of place slots in the source into their mapped destination in the target. The
 swaps are generated using a result from group theory: cycle decomposition.
+
+> Interactive: [Three Ways to Realise a Permutation](viz/permute-algorithms.html).
 
 Permutation is split into two phases
 

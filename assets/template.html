@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="$lang$" xml:lang="$lang$">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+$for(author-meta)$
+  <meta name="author" content="$author-meta$">
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$">
+$endif$
+  <link rel="stylesheet" href="assets/style.css">
+$if(math)$
+  <script>
+    window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] } };
+  </script>
+  $math$
+$endif$
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+<main class="wrap">
+$if(title)$
+<header id="title-block-header">
+  <h1 class="title">$title$</h1>
+$if(subtitle)$
+  <p class="subtitle">$subtitle$</p>
+$endif$
+</header>
+$endif$
+$if(toc)$
+<nav id="toc" role="doc-toc">
+$table-of-contents$
+</nav>
+$endif$
+$body$
+</main>
+<script>
+  // Parent-side: size each iframe.viz to the height reported by its content.
+  window.addEventListener("message", function (e) {
+    if (!e.data || e.data.type !== "viz-height") return;
+    var frames = document.querySelectorAll("iframe.viz");
+    for (var i = 0; i < frames.length; i++) {
+      if (frames[i].contentWindow === e.source) {
+        frames[i].style.height = e.data.height + "px";
+      }
+    }
+  });
+</script>
+</body>
+</html>
