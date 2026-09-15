@@ -5,15 +5,32 @@ The site is generated from a single markdown source, `readme.md`, by
 it renders on GitHub too (with the interactive embeds degrading to nothing — see
 below).
 
+## Dev environment
+
+Tooling is pinned in `flake.nix` (pandoc, gnumake, entr, live-server). Enter the
+shell with either:
+
+```sh
+nix develop        # one-off shell
+# or, automatic on cd, once per machine:
+direnv allow       # uses .envrc -> `use flake`
+```
+
+With `direnv` set up the shell loads whenever you enter the directory.
+
 ## Build locally
 
 ```sh
 make        # readme.md -> index.html
-make serve  # build, then serve at http://localhost:8000
+make serve  # serve at http://localhost:8080 with live reload
 make clean
+PORT=3000 make serve   # override the port
 ```
 
-Requires `pandoc` and, for `serve`, `python3`.
+`make serve` runs two things: `entr` rebuilds `index.html` when `readme.md` or
+`assets/template.html` change, and `live-server` serves the tree and refreshes
+the browser on every change it sees. So editing the markdown, a `viz/*` file, or
+`assets/style.css` updates the open page automatically. Ctrl-c stops both.
 
 ## How it publishes
 
@@ -34,6 +51,8 @@ assets/
 viz/                   standalone interactive visualizations (one file each)
 *.svg                  static diagrams, referenced from readme.md as images
 Makefile
+flake.nix              pinned dev tooling (pandoc, make, entr, live-server)
+.envrc                 direnv: `use flake`
 ```
 
 ## Embedding interactive visualizations

@@ -3,3 +3,7 @@ papers/
 # generated site output
 /index.html
 /_site/
+
+# nix / direnv
+/.direnv/
+/result
