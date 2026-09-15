@@ -1,5 +1,7 @@
 # The Plan Based Shuffler
 
+**visit https://d-xo.github.io/shuffler-docs/ for the full version**
+
 The shuffler takes two evm stacks: a source and a target and produces a trace consisting of the evm operations required to transform the first into the second. Unlike previous stack shufflers that have been implemented inside of solidity, the plan based approach guarantees termination
 
 It does this by operating in 4 phases:
