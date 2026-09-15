@@ -172,6 +172,8 @@ cases:
 We loop on the above until all slots are in place. This loop alone is enough to produce a trace that
 moves each slot on the source into it's target slot.
 
+<iframe class="viz" src="viz/permute-run.html" title="A full run of permute, stepped interactively"></iframe>
+
 If at any point we try to generate a swap that is out of reach, we bail as `blocked` and jump ahead
 to stack compression in preparation for another loop through trace generation.
 
