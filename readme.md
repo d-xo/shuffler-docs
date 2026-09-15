@@ -55,46 +55,6 @@ Shuffling concerns itself with the following stack manipulation operations:
 
 <iframe class="viz" src="viz/stack-demo.html" title="Interactive EVM stack"></iframe>
 
-### `StackData` & `StackSlot`
-
-![StackData Layout](stackdata-layout.svg)
-
-The in-memory representation of the EVM stack used by the shuffler is defined in `SSACFGTypes.h`. It
-is an `std::vector` of `StackSlots`s. `StackData` is indexed from the bottom up (i.e. index zero in
-the `StackData` vector represents the bottom of the stack. This bottom-up indexing means that
-indexes remain stable even as the stack grows, and this property is relied upon throughout the
-shuffler.
-
-A `StackSlot` (defined in `StackSlot.h`) is a tagged union with a `uint32` payload. It can have one of the following four kinds:
-
-- `Value`: Either a literal or variable. The payload contains the `InstId` that identifies which
-    kind of instruction produced this value, allowing the shuffler to classify the value as either a
-    literal or variable.
-- `Junk`: A wildcard slot that can contain any value.
-- `FunctionCallReturnLabel` / `FunctionReturnLabel`: Represents the location that should be jumped
-    to when returning from a function. The payload is an abstract ID representing the concrete byte
-    offset that will be inserted during final codegen. The distinction between kinds is needed since the
-    codegen phase will perform different asserts depending on if it is in the calling context
-    (`FunctionCallReturnLabel`), or callee context (`FunctionReturnLabel`).
-
-### FunctionReturnLabel / FunctionCallReturnLabel
-
-Functions do not exist on the evm level, and are implemented simply as jumps. When we jump into a
-function, we must place a value on the stack that represents the location that will be jumped to
-when control is returned to the caller. This piece of data is represented as a slot with kind
-`FunctionCallReturnLabel` if we are in a calling context, or `FunctionReturnLabel` if we are in a
-callee context.
-
-Additional invariants are enforced on slots with kind `FunctionReturnLabel`: they can only be
-swapped, but cannot be pushed, duped, or popped. This invariant guards against bugs where we
-accidentally return control to a function other than the one that called us.
-
-Since the caller is responsible for introducing and destroying the return location, this invariant
-is not enforced on slots with kind `FunctionCallReturnLabel`.
-
-TODO: potential additional invariants?: no duping of `FunctionCallReturnLabel`, at most one
-`FunctionCallReturnLabel` present on stack at any one time.
-
 ### Wildcard / Junk slots
 
 There are cases where a slot is not required, but removing it immediately would be more expensive
@@ -108,6 +68,13 @@ retained on stack, but whose value is not important.
 
 Newer code uses the `Wildcard` terminology, but some older code still uses the `Junk` naming. Both
 are equivalent.
+
+### Bottom Up Indexing and Stability
+
+The stack representation used inside the shuffler indexes from the bottom up (i.e. `0` points to the
+bottom of the stack). This means that stack indicies remain stable even as we grow the stack via
+`dup` / `push` / `mload`. This property of the bottom up indexing scheme is leaned on heavily
+throughout the shuffler.
 
 ## Shuffler Phases
 
@@ -362,4 +329,45 @@ If the value at
 
 ### Compression
 
+## Implementation
+
+### `StackData` & `StackSlot`
+
+![StackData Layout](stackdata-layout.svg)
+
+The in-memory representation of the EVM stack used by the shuffler is defined in `SSACFGTypes.h`. It
+is an `std::vector` of `StackSlots`s. `StackData` is indexed from the bottom up (i.e. index zero in
+the `StackData` vector represents the bottom of the stack. This bottom-up indexing means that
+indexes remain stable even as the stack grows, and this property is relied upon throughout the
+shuffler.
+
+A `StackSlot` (defined in `StackSlot.h`) is a tagged union with a `uint32` payload. It can have one of the following four kinds:
+
+- `Value`: Either a literal or variable. The payload contains the `InstId` that identifies which
+    kind of instruction produced this value, allowing the shuffler to classify the value as either a
+    literal or variable.
+- `Junk`: A wildcard slot that can contain any value.
+- `FunctionCallReturnLabel` / `FunctionReturnLabel`: Represents the location that should be jumped
+    to when returning from a function. The payload is an abstract ID representing the concrete byte
+    offset that will be inserted during final codegen. The distinction between kinds is needed since the
+    codegen phase will perform different asserts depending on if it is in the calling context
+    (`FunctionCallReturnLabel`), or callee context (`FunctionReturnLabel`).
+
+### FunctionReturnLabel / FunctionCallReturnLabel
+
+Functions do not exist on the evm level, and are implemented simply as jumps. When we jump into a
+function, we must place a value on the stack that represents the location that will be jumped to
+when control is returned to the caller. This piece of data is represented as a slot with kind
+`FunctionCallReturnLabel` if we are in a calling context, or `FunctionReturnLabel` if we are in a
+callee context.
+
+Additional invariants are enforced on slots with kind `FunctionReturnLabel`: they can only be
+swapped, but cannot be pushed, duped, or popped. This invariant guards against bugs where we
+accidentally return control to a function other than the one that called us.
+
+Since the caller is responsible for introducing and destroying the return location, this invariant
+is not enforced on slots with kind `FunctionCallReturnLabel`.
+
+TODO: potential additional invariants?: no duping of `FunctionCallReturnLabel`, at most one
+`FunctionCallReturnLabel` present on stack at any one time.
 
