@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
   <defs>
     <marker id="cB" viewBox="0 0 8 8" markerWidth="6.5" markerHeight="6.5" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#58c4dd"/>
     </marker>
     <marker id="cS" viewBox="0 0 8 8" markerWidth="7" markerHeight="7" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 z" fill="#64748b"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#888888"/>
     </marker>
   </defs>
 
-  <rect width="1000" height="560" rx="12" fill="#0f172a"/>
+  <rect width="1000" height="560" rx="12" fill="#000000"/>
 
   <!-- title -->
-  <text x="500" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#f1f5f9">Why Swapping Through a Cycle Resolves It</text>
-  <text x="500" y="66" text-anchor="middle" font-size="12.5" fill="#94a3b8">the top is a courier and the cycle is its route &#8212; every drop-off address holds the next parcel, and the route ends at the depot</text>
+  <text x="500" y="42" text-anchor="middle" font-size="24" font-weight="700" fill="#ffffff">Why Swapping Through a Cycle Resolves It</text>
+  <text x="500" y="66" text-anchor="middle" font-size="12.5" fill="#bbbbbb">the top is a courier and the cycle is its route &#8212; every drop-off address holds the next parcel, and the route ends at the depot</text>
 
   <!-- captions -->
-  <g font-size="10.5" fill="#94a3b8" text-anchor="middle">
+  <g font-size="10.5" fill="#bbbbbb" text-anchor="middle">
     <text x="155" y="122">start &#183; a 4-cycle through the top</text>
     <text x="390" y="122">after 1 swap &#183; a 3-cycle</text>
     <text x="625" y="122">after 2 swaps &#183; a 2-cycle</text>
@@ -23,113 +23,113 @@
   </g>
 
   <!-- ===== state A: (t 0 2 4) ===== -->
-  <g stroke="#38bdf8" stroke-width="1.6" fill="none">
+  <g stroke="#58c4dd" stroke-width="1.6" fill="none">
     <path d="M 170.6 164.6 A 48 48 0 0 1 200.4 194.4" marker-end="url(#cB)"/>
     <path d="M 200.4 225.6 A 48 48 0 0 1 170.6 255.4" marker-end="url(#cB)"/>
     <path d="M 139.4 255.4 A 48 48 0 0 1 109.6 225.6" marker-end="url(#cB)"/>
     <path d="M 109.6 194.4 A 48 48 0 0 1 139.4 164.6" marker-end="url(#cB)"/>
   </g>
-  <circle cx="203" cy="210" r="19" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <circle cx="203" cy="210" r="19" fill="none" stroke="#f7d96f" stroke-width="1.2" stroke-dasharray="4 3"/>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" text-anchor="middle">
-    <circle cx="155" cy="162" r="14" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
-    <text x="155" y="166" font-size="11.5" fill="#fbbf24">t</text>
-    <circle cx="203" cy="210" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="203" y="214" font-size="11" fill="#7dd3fc">0</text>
-    <circle cx="155" cy="258" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="155" y="262" font-size="11" fill="#7dd3fc">2</text>
-    <circle cx="107" cy="210" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="107" y="214" font-size="11" fill="#7dd3fc">4</text>
+    <circle cx="155" cy="162" r="14" fill="#3a3416" stroke="#f7d96f" stroke-width="1.8"/>
+    <text x="155" y="166" font-size="11.5" fill="#f7d96f">t</text>
+    <circle cx="203" cy="210" r="13" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="203" y="214" font-size="11" fill="#9cdceb">0</text>
+    <circle cx="155" cy="258" r="13" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="155" y="262" font-size="11" fill="#9cdceb">2</text>
+    <circle cx="107" cy="210" r="13" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="107" y="214" font-size="11" fill="#9cdceb">4</text>
   </g>
-  <rect x="90" y="312" width="130" height="22" rx="11" fill="none" stroke="#fbbf24" stroke-width="1"/>
-  <text x="155" y="327" text-anchor="middle" font-size="10" fill="#fbbf24">carrying: slot &#8594; 0</text>
+  <rect x="90" y="312" width="130" height="22" rx="11" fill="none" stroke="#f7d96f" stroke-width="1"/>
+  <text x="155" y="327" text-anchor="middle" font-size="10" fill="#f7d96f">carrying: slot &#8594; 0</text>
 
   <!-- swap arrow 1 -->
-  <text x="272" y="197" text-anchor="middle" font-size="9.5" fill="#94a3b8">swap t &#8596; 0</text>
-  <line x1="243" y1="208" x2="302" y2="208" stroke="#64748b" stroke-width="1.4" marker-end="url(#cS)"/>
-  <text x="272" y="226" text-anchor="middle" font-size="9" fill="#4ade80">0 is home for good</text>
+  <text x="272" y="197" text-anchor="middle" font-size="9.5" fill="#bbbbbb">swap t &#8596; 0</text>
+  <line x1="243" y1="208" x2="302" y2="208" stroke="#888888" stroke-width="1.4" marker-end="url(#cS)"/>
+  <text x="272" y="226" text-anchor="middle" font-size="9" fill="#83c167">0 is home for good</text>
 
   <!-- ===== state B: (t 2 4) ===== -->
-  <g stroke="#38bdf8" stroke-width="1.6" fill="none">
+  <g stroke="#58c4dd" stroke-width="1.6" fill="none">
     <path d="M 405.6 164.6 A 48 48 0 0 1 437.1 219.2" marker-end="url(#cB)"/>
     <path d="M 421.5 246.2 A 48 48 0 0 1 358.5 246.2" marker-end="url(#cB)"/>
     <path d="M 342.9 219.2 A 48 48 0 0 1 374.4 164.6" marker-end="url(#cB)"/>
   </g>
-  <circle cx="431.6" cy="234" r="19" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <circle cx="431.6" cy="234" r="19" fill="none" stroke="#f7d96f" stroke-width="1.2" stroke-dasharray="4 3"/>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" text-anchor="middle">
-    <circle cx="390" cy="162" r="14" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
-    <text x="390" y="166" font-size="11.5" fill="#fbbf24">t</text>
-    <circle cx="431.6" cy="234" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="431.6" y="238" font-size="11" fill="#7dd3fc">2</text>
-    <circle cx="348.4" cy="234" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="348.4" y="238" font-size="11" fill="#7dd3fc">4</text>
+    <circle cx="390" cy="162" r="14" fill="#3a3416" stroke="#f7d96f" stroke-width="1.8"/>
+    <text x="390" y="166" font-size="11.5" fill="#f7d96f">t</text>
+    <circle cx="431.6" cy="234" r="13" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="431.6" y="238" font-size="11" fill="#9cdceb">2</text>
+    <circle cx="348.4" cy="234" r="13" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="348.4" y="238" font-size="11" fill="#9cdceb">4</text>
   </g>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" text-anchor="middle">
-    <rect x="371" y="282" width="38" height="20" rx="10" fill="#12261c" stroke="#4ade80" stroke-width="1"/>
-    <text x="390" y="296" fill="#4ade80">&#10003; 0</text>
+    <rect x="371" y="282" width="38" height="20" rx="10" fill="#1c2a16" stroke="#83c167" stroke-width="1"/>
+    <text x="390" y="296" fill="#83c167">&#10003; 0</text>
   </g>
-  <rect x="325" y="312" width="130" height="22" rx="11" fill="none" stroke="#fbbf24" stroke-width="1"/>
-  <text x="390" y="327" text-anchor="middle" font-size="10" fill="#fbbf24">carrying: slot &#8594; 2</text>
+  <rect x="325" y="312" width="130" height="22" rx="11" fill="none" stroke="#f7d96f" stroke-width="1"/>
+  <text x="390" y="327" text-anchor="middle" font-size="10" fill="#f7d96f">carrying: slot &#8594; 2</text>
 
   <!-- swap arrow 2 -->
-  <text x="507" y="197" text-anchor="middle" font-size="9.5" fill="#94a3b8">swap t &#8596; 2</text>
-  <line x1="478" y1="208" x2="537" y2="208" stroke="#64748b" stroke-width="1.4" marker-end="url(#cS)"/>
-  <text x="507" y="226" text-anchor="middle" font-size="9" fill="#4ade80">2 is home for good</text>
+  <text x="507" y="197" text-anchor="middle" font-size="9.5" fill="#bbbbbb">swap t &#8596; 2</text>
+  <line x1="478" y1="208" x2="537" y2="208" stroke="#888888" stroke-width="1.4" marker-end="url(#cS)"/>
+  <text x="507" y="226" text-anchor="middle" font-size="9" fill="#83c167">2 is home for good</text>
 
   <!-- ===== state C: (t 4) ===== -->
-  <g stroke="#38bdf8" stroke-width="1.6" fill="none">
+  <g stroke="#58c4dd" stroke-width="1.6" fill="none">
     <path d="M 640.6 164.6 A 48 48 0 0 1 640.6 255.4" marker-end="url(#cB)"/>
     <path d="M 609.4 255.4 A 48 48 0 0 1 609.4 164.6" marker-end="url(#cB)"/>
   </g>
-  <circle cx="625" cy="258" r="19" fill="none" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <circle cx="625" cy="258" r="19" fill="none" stroke="#f7d96f" stroke-width="1.2" stroke-dasharray="4 3"/>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" text-anchor="middle">
-    <circle cx="625" cy="162" r="14" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
-    <text x="625" y="166" font-size="11.5" fill="#fbbf24">t</text>
-    <circle cx="625" cy="258" r="13" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="625" y="262" font-size="11" fill="#7dd3fc">4</text>
+    <circle cx="625" cy="162" r="14" fill="#3a3416" stroke="#f7d96f" stroke-width="1.8"/>
+    <text x="625" y="166" font-size="11.5" fill="#f7d96f">t</text>
+    <circle cx="625" cy="258" r="13" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="625" y="262" font-size="11" fill="#9cdceb">4</text>
   </g>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" text-anchor="middle">
-    <rect x="583" y="282" width="38" height="20" rx="10" fill="#12261c" stroke="#4ade80" stroke-width="1"/>
-    <text x="602" y="296" fill="#4ade80">&#10003; 0</text>
-    <rect x="627" y="282" width="38" height="20" rx="10" fill="#12261c" stroke="#4ade80" stroke-width="1"/>
-    <text x="646" y="296" fill="#4ade80">&#10003; 2</text>
+    <rect x="583" y="282" width="38" height="20" rx="10" fill="#1c2a16" stroke="#83c167" stroke-width="1"/>
+    <text x="602" y="296" fill="#83c167">&#10003; 0</text>
+    <rect x="627" y="282" width="38" height="20" rx="10" fill="#1c2a16" stroke="#83c167" stroke-width="1"/>
+    <text x="646" y="296" fill="#83c167">&#10003; 2</text>
   </g>
-  <rect x="560" y="312" width="130" height="22" rx="11" fill="none" stroke="#fbbf24" stroke-width="1"/>
-  <text x="625" y="327" text-anchor="middle" font-size="10" fill="#fbbf24">carrying: slot &#8594; 4</text>
+  <rect x="560" y="312" width="130" height="22" rx="11" fill="none" stroke="#f7d96f" stroke-width="1"/>
+  <text x="625" y="327" text-anchor="middle" font-size="10" fill="#f7d96f">carrying: slot &#8594; 4</text>
 
   <!-- swap arrow 3 -->
-  <text x="742" y="197" text-anchor="middle" font-size="9.5" fill="#94a3b8">swap t &#8596; 4</text>
-  <line x1="713" y1="208" x2="772" y2="208" stroke="#64748b" stroke-width="1.4" marker-end="url(#cS)"/>
-  <text x="742" y="226" text-anchor="middle" font-size="9" fill="#4ade80">4 is home for good</text>
+  <text x="742" y="197" text-anchor="middle" font-size="9.5" fill="#bbbbbb">swap t &#8596; 4</text>
+  <line x1="713" y1="208" x2="772" y2="208" stroke="#888888" stroke-width="1.4" marker-end="url(#cS)"/>
+  <text x="742" y="226" text-anchor="middle" font-size="9" fill="#83c167">4 is home for good</text>
 
   <!-- ===== state D: done ===== -->
-  <circle cx="860" cy="196" r="17" fill="#12261c" stroke="#4ade80" stroke-width="1.8"/>
-  <text x="860" y="201" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" fill="#4ade80">t</text>
-  <text x="860" y="236" text-anchor="middle" font-size="10" fill="#4ade80">the courier's own parcel</text>
-  <text x="860" y="250" text-anchor="middle" font-size="10" fill="#4ade80">is addressed &#8594; t: home already</text>
+  <circle cx="860" cy="196" r="17" fill="#1c2a16" stroke="#83c167" stroke-width="1.8"/>
+  <text x="860" y="201" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="11.5" fill="#83c167">t</text>
+  <text x="860" y="236" text-anchor="middle" font-size="10" fill="#83c167">the courier's own parcel</text>
+  <text x="860" y="250" text-anchor="middle" font-size="10" fill="#83c167">is addressed &#8594; t: home already</text>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="10" text-anchor="middle">
-    <rect x="796" y="282" width="38" height="20" rx="10" fill="#12261c" stroke="#4ade80" stroke-width="1"/>
-    <text x="815" y="296" fill="#4ade80">&#10003; 0</text>
-    <rect x="840" y="282" width="38" height="20" rx="10" fill="#12261c" stroke="#4ade80" stroke-width="1"/>
-    <text x="859" y="296" fill="#4ade80">&#10003; 2</text>
-    <rect x="884" y="282" width="38" height="20" rx="10" fill="#12261c" stroke="#4ade80" stroke-width="1"/>
-    <text x="903" y="296" fill="#4ade80">&#10003; 4</text>
+    <rect x="796" y="282" width="38" height="20" rx="10" fill="#1c2a16" stroke="#83c167" stroke-width="1"/>
+    <text x="815" y="296" fill="#83c167">&#10003; 0</text>
+    <rect x="840" y="282" width="38" height="20" rx="10" fill="#1c2a16" stroke="#83c167" stroke-width="1"/>
+    <text x="859" y="296" fill="#83c167">&#10003; 2</text>
+    <rect x="884" y="282" width="38" height="20" rx="10" fill="#1c2a16" stroke="#83c167" stroke-width="1"/>
+    <text x="903" y="296" fill="#83c167">&#10003; 4</text>
   </g>
-  <rect x="795" y="312" width="130" height="22" rx="11" fill="none" stroke="#4ade80" stroke-width="1"/>
-  <text x="860" y="327" text-anchor="middle" font-size="10" fill="#4ade80">4 slots &#183; 3 swaps</text>
+  <rect x="795" y="312" width="130" height="22" rx="11" fill="none" stroke="#83c167" stroke-width="1"/>
+  <text x="860" y="327" text-anchor="middle" font-size="10" fill="#83c167">4 slots &#183; 3 swaps</text>
 
   <!-- ===== why this cannot go wrong ===== -->
-  <line x1="60" y1="366" x2="940" y2="366" stroke="#1e293b" stroke-width="1"/>
-  <text x="60" y="394" font-size="13" font-weight="700" fill="#f1f5f9">why this cannot go wrong</text>
-  <g font-size="11.5" fill="#94a3b8">
-    <circle cx="66" cy="418" r="4" fill="#38bdf8"/>
-    <text x="80" y="422">the next parcel is always waiting at the drop-off &#8212; the arrow 0 &#8594; 2 <tspan font-style="italic" fill="#e2e8f0">is</tspan> the statement &#8220;the slot at 0 belongs at 2&#8221;; that is what a cycle means</text>
-    <circle cx="66" cy="444" r="4" fill="#4ade80"/>
+  <line x1="60" y1="366" x2="940" y2="366" stroke="#222222" stroke-width="1"/>
+  <text x="60" y="394" font-size="13" font-weight="700" fill="#ffffff">why this cannot go wrong</text>
+  <g font-size="11.5" fill="#bbbbbb">
+    <circle cx="66" cy="418" r="4" fill="#58c4dd"/>
+    <text x="80" y="422">the next parcel is always waiting at the drop-off &#8212; the arrow 0 &#8594; 2 <tspan font-style="italic" fill="#ffffff">is</tspan> the statement &#8220;the slot at 0 belongs at 2&#8221;; that is what a cycle means</text>
+    <circle cx="66" cy="444" r="4" fill="#83c167"/>
     <text x="80" y="448">a delivered address is never touched again &#8212; each position is the destination of exactly one slot (injectivity), so the &#10003; set only grows</text>
-    <circle cx="66" cy="470" r="4" fill="#fbbf24"/>
+    <circle cx="66" cy="470" r="4" fill="#f7d96f"/>
     <text x="80" y="474">the last delivery is free &#8212; the cycle closes at t, so the final slot is home the moment its predecessor is placed: k elements, k &#8722; 1 swaps</text>
   </g>
 
-  <text x="60" y="512" font-size="11.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#64748b">(t 0 2 4) = (t 4)(t 2)(t 0) &#8212; the factorization of a cycle into star swaps <tspan fill="#475569">is</tspan> the courier's route</text>
+  <text x="60" y="512" font-size="11.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#888888">(t 0 2 4) = (t 4)(t 2)(t 0) &#8212; the factorization of a cycle into star swaps <tspan fill="#444444">is</tspan> the courier's route</text>
 
-  <text x="940" y="544" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">Shuffler.cpp &#183; Emission::permute &#183; exchangeWithTop</text>
+  <text x="940" y="544" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#444444">Shuffler.cpp &#183; Emission::permute &#183; exchangeWithTop</text>
 </svg>

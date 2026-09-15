@@ -1,176 +1,176 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
   <defs>
     <marker id="arrSlate" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" fill="#64748b"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#888888"/>
     </marker>
     <marker id="arrRed" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" fill="#f87171"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#fc6255"/>
     </marker>
     <marker id="arrViolet" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" fill="#c084fc"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#9a72ac"/>
     </marker>
     <marker id="arrAmber" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse">
-      <path d="M0,0 L8,4 L0,8 z" fill="#fbbf24"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#f7d96f"/>
     </marker>
   </defs>
 
-  <rect width="1000" height="700" rx="12" fill="#0f172a"/>
+  <rect width="1000" height="700" rx="12" fill="#000000"/>
 
   <!-- title -->
-  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#f1f5f9">Excess Removal &#183; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">removeSurplus</tspan></text>
-  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">every surplus slot &#8212; one with no destination in the mapping &#8212; is brought to the top and popped</text>
+  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#ffffff">Excess Removal &#183; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">removeSurplus</tspan></text>
+  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#bbbbbb">every surplus slot &#8212; one with no destination in the mapping &#8212; is brought to the top and popped</text>
 
   <!-- ===== the loop ===== -->
   <!-- repeat edge -->
-  <path d="M 778 112 L 778 92 L 150 92 L 150 110" fill="none" stroke="#334155" stroke-width="1.5" marker-end="url(#arrSlate)"/>
-  <text x="464" y="87" text-anchor="middle" font-size="10" fill="#64748b">repeat</text>
+  <path d="M 778 112 L 778 92 L 150 92 L 150 110" fill="none" stroke="#444444" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <text x="464" y="87" text-anchor="middle" font-size="10" fill="#888888">repeat</text>
 
   <!-- scan -->
-  <rect x="60" y="112" width="180" height="48" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="150" y="132" text-anchor="middle" font-size="12" fill="#e2e8f0">scan top &#8594; bottom</text>
-  <text x="150" y="149" text-anchor="middle" font-size="9.5" fill="#94a3b8">shallowest &#183; deepest reachable surplus</text>
-  <line x1="240" y1="136" x2="258" y2="136" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <rect x="60" y="112" width="180" height="48" rx="8" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+  <text x="150" y="132" text-anchor="middle" font-size="12" fill="#ffffff">scan top &#8594; bottom</text>
+  <text x="150" y="149" text-anchor="middle" font-size="9.5" fill="#bbbbbb">shallowest &#183; deepest reachable surplus</text>
+  <line x1="240" y1="136" x2="258" y2="136" stroke="#888888" stroke-width="1.5" marker-end="url(#arrSlate)"/>
 
   <!-- any surplus? -->
-  <rect x="262" y="112" width="110" height="48" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="317" y="141" text-anchor="middle" font-size="12" fill="#e2e8f0">any surplus?</text>
-  <line x1="372" y1="136" x2="390" y2="136" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
-  <text x="381" y="128" text-anchor="middle" font-size="9.5" fill="#64748b">yes</text>
+  <rect x="262" y="112" width="110" height="48" rx="8" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+  <text x="317" y="141" text-anchor="middle" font-size="12" fill="#ffffff">any surplus?</text>
+  <line x1="372" y1="136" x2="390" y2="136" stroke="#888888" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <text x="381" y="128" text-anchor="middle" font-size="9.5" fill="#888888">yes</text>
 
   <!-- reachable? -->
-  <rect x="394" y="112" width="120" height="48" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="454" y="141" text-anchor="middle" font-size="12" fill="#e2e8f0">any in swap reach?</text>
-  <line x1="514" y1="136" x2="532" y2="136" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
-  <text x="523" y="128" text-anchor="middle" font-size="9.5" fill="#64748b">yes</text>
+  <rect x="394" y="112" width="120" height="48" rx="8" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+  <text x="454" y="141" text-anchor="middle" font-size="12" fill="#ffffff">any in swap reach?</text>
+  <line x1="514" y1="136" x2="532" y2="136" stroke="#888888" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <text x="523" y="128" text-anchor="middle" font-size="9.5" fill="#888888">yes</text>
 
   <!-- bring to top -->
-  <rect x="536" y="112" width="180" height="48" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-  <text x="626" y="132" text-anchor="middle" font-size="12" fill="#e2e8f0">bring a surplus to the top</text>
-  <text x="626" y="149" text-anchor="middle" font-size="9.5" fill="#94a3b8">already there &#183; retag an equal &#183; swap</text>
-  <line x1="716" y1="136" x2="734" y2="136" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <rect x="536" y="112" width="180" height="48" rx="8" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+  <text x="626" y="132" text-anchor="middle" font-size="12" fill="#ffffff">bring a surplus to the top</text>
+  <text x="626" y="149" text-anchor="middle" font-size="9.5" fill="#bbbbbb">already there &#183; retag an equal &#183; swap</text>
+  <line x1="716" y1="136" x2="734" y2="136" stroke="#888888" stroke-width="1.5" marker-end="url(#arrSlate)"/>
 
   <!-- pop -->
-  <rect x="738" y="112" width="80" height="48" rx="8" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-  <text x="778" y="141" text-anchor="middle" font-size="13" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#f87171">pop</text>
+  <rect x="738" y="112" width="80" height="48" rx="8" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+  <text x="778" y="141" text-anchor="middle" font-size="13" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#fc6255">pop</text>
 
   <!-- exits -->
-  <line x1="317" y1="160" x2="317" y2="186" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
-  <text x="327" y="177" font-size="9.5" fill="#64748b">no</text>
-  <rect x="262" y="190" width="110" height="30" rx="8" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
-  <text x="317" y="209" text-anchor="middle" font-size="12" fill="#4ade80">&#10003; done</text>
+  <line x1="317" y1="160" x2="317" y2="186" stroke="#888888" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <text x="327" y="177" font-size="9.5" fill="#888888">no</text>
+  <rect x="262" y="190" width="110" height="30" rx="8" fill="#1c2a16" stroke="#83c167" stroke-width="1.5"/>
+  <text x="317" y="209" text-anchor="middle" font-size="12" fill="#83c167">&#10003; done</text>
 
-  <line x1="454" y1="160" x2="454" y2="186" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrSlate)"/>
-  <text x="464" y="177" font-size="9.5" fill="#64748b">no</text>
-  <rect x="394" y="190" width="160" height="30" rx="8" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-  <text x="474" y="209" text-anchor="middle" font-size="12" fill="#f87171">&#10007; blocked &#8594; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">resolve()</tspan></text>
+  <line x1="454" y1="160" x2="454" y2="186" stroke="#888888" stroke-width="1.5" marker-end="url(#arrSlate)"/>
+  <text x="464" y="177" font-size="9.5" fill="#888888">no</text>
+  <rect x="394" y="190" width="160" height="30" rx="8" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+  <text x="474" y="209" text-anchor="middle" font-size="12" fill="#fc6255">&#10007; blocked &#8594; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">resolve()</tspan></text>
 
   <!-- ===== the cases ===== -->
-  <text x="60" y="252" font-size="12" fill="#64748b">bringing a surplus to the top &#8212; cheapest first &#183; and the bail-out</text>
+  <text x="60" y="252" font-size="12" fill="#888888">bringing a surplus to the top &#8212; cheapest first &#183; and the bail-out</text>
 
   <!-- headers -->
-  <g font-size="12.5" font-weight="700" fill="#e2e8f0" text-anchor="middle">
+  <g font-size="12.5" font-weight="700" fill="#ffffff" text-anchor="middle">
     <text x="165" y="278">a &#183; top is surplus</text>
     <text x="395" y="278">b &#183; equal surplus below</text>
     <text x="625" y="278">c &#183; swap one up</text>
-    <text x="855" y="278" fill="#f87171">&#10007; &#183; out of swap reach</text>
+    <text x="855" y="278" fill="#fc6255">&#10007; &#183; out of swap reach</text>
   </g>
 
   <!-- panel a: [x* b c a], pop directly -->
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
-    <rect x="115" y="306" width="100" height="28" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-    <text x="165" y="325" fill="#f87171">x</text>
-    <rect x="115" y="339" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="165" y="358" fill="#cbd5e1">b</text>
-    <rect x="115" y="372" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="165" y="391" fill="#cbd5e1">c</text>
-    <rect x="115" y="405" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="165" y="424" fill="#cbd5e1">a</text>
+    <rect x="115" y="306" width="100" height="28" rx="5" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+    <text x="165" y="325" fill="#fc6255">x</text>
+    <rect x="115" y="339" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="165" y="358" fill="#dddddd">b</text>
+    <rect x="115" y="372" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="165" y="391" fill="#dddddd">c</text>
+    <rect x="115" y="405" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="165" y="424" fill="#dddddd">a</text>
   </g>
-  <line x1="111" y1="320" x2="81" y2="320" stroke="#f87171" stroke-width="2" marker-end="url(#arrRed)"/>
-  <text x="96" y="338" text-anchor="middle" font-size="10" fill="#f87171">pop</text>
+  <line x1="111" y1="320" x2="81" y2="320" stroke="#fc6255" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="96" y="338" text-anchor="middle" font-size="10" fill="#fc6255">pop</text>
 
   <!-- panel b: [b b* below], retag then pop -->
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
-    <rect x="345" y="306" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="395" y="325" fill="#fbbf24">b</text>
-    <rect x="345" y="339" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="395" y="358" fill="#cbd5e1">c</text>
-    <rect x="345" y="372" width="100" height="28" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-    <text x="395" y="391" fill="#fbbf24">b</text>
-    <rect x="345" y="405" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="395" y="424" fill="#cbd5e1">a</text>
+    <rect x="345" y="306" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="395" y="325" fill="#f7d96f">b</text>
+    <rect x="345" y="339" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="395" y="358" fill="#dddddd">c</text>
+    <rect x="345" y="372" width="100" height="28" rx="5" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+    <text x="395" y="391" fill="#f7d96f">b</text>
+    <rect x="345" y="405" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="395" y="424" fill="#dddddd">a</text>
   </g>
-  <path d="M 449 320 C 478 330, 478 376, 449 386" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4 3" marker-start="url(#arrViolet)" marker-end="url(#arrViolet)"/>
-  <text x="492" y="357" text-anchor="middle" font-size="10" fill="#c084fc">retag</text>
-  <line x1="341" y1="320" x2="311" y2="320" stroke="#f87171" stroke-width="2" marker-end="url(#arrRed)"/>
-  <text x="326" y="338" text-anchor="middle" font-size="10" fill="#f87171">pop</text>
+  <path d="M 449 320 C 478 330, 478 376, 449 386" fill="none" stroke="#9a72ac" stroke-width="1.5" stroke-dasharray="4 3" marker-start="url(#arrViolet)" marker-end="url(#arrViolet)"/>
+  <text x="492" y="357" text-anchor="middle" font-size="10" fill="#9a72ac">retag</text>
+  <line x1="341" y1="320" x2="311" y2="320" stroke="#fc6255" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="326" y="338" text-anchor="middle" font-size="10" fill="#fc6255">pop</text>
 
   <!-- panel c: swap deepest reachable up -->
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
-    <rect x="575" y="306" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="625" y="325" fill="#cbd5e1">a</text>
-    <rect x="575" y="339" width="100" height="28" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-    <text x="625" y="358" fill="#f87171">x</text>
-    <rect x="575" y="372" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="625" y="391" fill="#cbd5e1">c</text>
-    <rect x="575" y="405" width="100" height="28" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-    <text x="625" y="424" fill="#f87171">y</text>
-    <rect x="575" y="438" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="625" y="457" fill="#cbd5e1">d</text>
+    <rect x="575" y="306" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="625" y="325" fill="#dddddd">a</text>
+    <rect x="575" y="339" width="100" height="28" rx="5" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+    <text x="625" y="358" fill="#fc6255">x</text>
+    <rect x="575" y="372" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="625" y="391" fill="#dddddd">c</text>
+    <rect x="575" y="405" width="100" height="28" rx="5" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+    <text x="625" y="424" fill="#fc6255">y</text>
+    <rect x="575" y="438" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="625" y="457" fill="#dddddd">d</text>
   </g>
-  <path d="M 679 320 C 712 335, 712 404, 679 419" fill="none" stroke="#fbbf24" stroke-width="2" marker-start="url(#arrAmber)" marker-end="url(#arrAmber)"/>
-  <text x="716" y="374" text-anchor="middle" font-size="10" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#fbbf24">swap3</text>
-  <line x1="571" y1="320" x2="541" y2="320" stroke="#f87171" stroke-width="2" marker-end="url(#arrRed)"/>
-  <text x="556" y="338" text-anchor="middle" font-size="10" fill="#f87171">pop</text>
+  <path d="M 679 320 C 712 335, 712 404, 679 419" fill="none" stroke="#f7d96f" stroke-width="2" marker-start="url(#arrAmber)" marker-end="url(#arrAmber)"/>
+  <text x="716" y="374" text-anchor="middle" font-size="10" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#f7d96f">swap3</text>
+  <line x1="571" y1="320" x2="541" y2="320" stroke="#fc6255" stroke-width="2" marker-end="url(#arrRed)"/>
+  <text x="556" y="338" text-anchor="middle" font-size="10" fill="#fc6255">pop</text>
 
   <!-- panel blocked: surplus below reach -->
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
-    <rect x="805" y="306" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="855" y="325" fill="#cbd5e1">a</text>
-    <rect x="805" y="339" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="855" y="358" fill="#cbd5e1">b</text>
-    <rect x="805" y="372" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="855" y="391" fill="#cbd5e1">c</text>
-    <rect x="805" y="405" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="855" y="424" fill="#cbd5e1">d</text>
-    <rect x="805" y="438" width="100" height="28" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="855" y="457" fill="#cbd5e1">e</text>
-    <rect x="805" y="471" width="100" height="28" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.5"/>
-    <text x="855" y="490" fill="#f87171">x</text>
+    <rect x="805" y="306" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="855" y="325" fill="#dddddd">a</text>
+    <rect x="805" y="339" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="855" y="358" fill="#dddddd">b</text>
+    <rect x="805" y="372" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="855" y="391" fill="#dddddd">c</text>
+    <rect x="805" y="405" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="855" y="424" fill="#dddddd">d</text>
+    <rect x="805" y="438" width="100" height="28" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="855" y="457" fill="#dddddd">e</text>
+    <rect x="805" y="471" width="100" height="28" rx="5" fill="#2e1a17" stroke="#fc6255" stroke-width="1.5"/>
+    <text x="855" y="490" fill="#fc6255">x</text>
   </g>
-  <line x1="790" y1="468" x2="920" y2="468" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="5 4"/>
-  <text x="924" y="472" font-size="9.5" fill="#fbbf24">swap reach</text>
+  <line x1="790" y1="468" x2="920" y2="468" stroke="#f7d96f" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="924" y="472" font-size="9.5" fill="#f7d96f">swap reach</text>
 
   <!-- captions -->
-  <g font-size="11" fill="#94a3b8" text-anchor="middle">
+  <g font-size="11" fill="#bbbbbb" text-anchor="middle">
     <text x="165" y="520">the top has no destination</text>
-    <text x="165" y="536">&#8212; just <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#f87171">pop</tspan></text>
+    <text x="165" y="536">&#8212; just <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#fc6255">pop</tspan></text>
 
     <text x="395" y="520">a surplus below equals the top:</text>
     <text x="395" y="536"><tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">swapDestinations</tspan> retags the top</text>
     <text x="395" y="552">as the surplus (no opcode) &#8212; then pop</text>
 
     <text x="625" y="520">no equal copy &#8212; swap the deepest</text>
-    <text x="625" y="536">reachable surplus up (<tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#f87171">y</tspan>, not the</text>
-    <text x="625" y="552">shallower <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#f87171">x</tspan>) &#8212; then pop</text>
+    <text x="625" y="536">reachable surplus up (<tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#fc6255">y</tspan>, not the</text>
+    <text x="625" y="552">shallower <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#fc6255">x</tspan>) &#8212; then pop</text>
 
-    <text x="855" y="520" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#f87171">Blocked{offset, excess}</text>
+    <text x="855" y="520" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#fc6255">Blocked{offset, excess}</text>
     <text x="855" y="536"><tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">resolve()</tspan> drops regenerable slots</text>
     <text x="855" y="552">above it, then the plan retries</text>
   </g>
 
   <!-- notes -->
-  <line x1="60" y1="580" x2="940" y2="580" stroke="#1e293b" stroke-width="1"/>
-  <g font-size="11.5" fill="#94a3b8">
-    <rect x="70" y="596" width="12" height="12" rx="3" fill="#2a1721" stroke="#f87171" stroke-width="1.2"/>
+  <line x1="60" y1="580" x2="940" y2="580" stroke="#222222" stroke-width="1"/>
+  <g font-size="11.5" fill="#bbbbbb">
+    <rect x="70" y="596" width="12" height="12" rx="3" fill="#2e1a17" stroke="#fc6255" stroke-width="1.2"/>
     <text x="90" y="606">surplus &#8212; no destination, to be popped</text>
-    <rect x="330" y="596" width="12" height="12" rx="3" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+    <rect x="330" y="596" width="12" height="12" rx="3" fill="#222222" stroke="#444444" stroke-width="1.2"/>
     <text x="350" y="606">retained &#8212; bound for a target offset</text>
-    <line x1="600" y1="602" x2="630" y2="602" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <line x1="600" y1="602" x2="630" y2="602" stroke="#9a72ac" stroke-width="1.5" stroke-dasharray="4 3"/>
     <text x="640" y="606">mapping-only &#8212; no opcode emitted</text>
     <text x="70" y="634">each pop lowers the stack height, pulling deeper surplus into swap reach; the scan then repeats until none remains</text>
     <text x="70" y="656">on exit every slot has a destination and the stack is at its lowest height &#8212; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">permuteAtLowestHeight</tspan> runs next</text>
   </g>
 
-  <text x="940" y="688" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">Shuffler.cpp &#183; Emission::removeSurplus</text>
+  <text x="940" y="688" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#444444">Shuffler.cpp &#183; Emission::removeSurplus</text>
 </svg>

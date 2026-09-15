@@ -1,30 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
   <defs>
     <marker id="arrBlue" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#58c4dd"/>
     </marker>
     <marker id="arrAmber" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 z" fill="#fbbf24"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#f7d96f"/>
     </marker>
     <marker id="arrGreen" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 z" fill="#4ade80"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#83c167"/>
     </marker>
   </defs>
 
-  <rect width="1000" height="700" rx="12" fill="#0f172a"/>
+  <rect width="1000" height="700" rx="12" fill="#000000"/>
 
   <!-- title -->
-  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#f1f5f9">Parked = Holes</text>
-  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">each slot fires exactly one arrow &#183; no offset catches two &#183; an arrow that escapes the height leaves an offset unhit</text>
+  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#ffffff">Parked = Holes</text>
+  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#bbbbbb">each slot fires exactly one arrow &#183; no offset catches two &#183; an arrow that escapes the height leaves an offset unhit</text>
 
   <!-- beyond-height region -->
-  <rect x="613" y="96" width="327" height="410" fill="#fbbf24" opacity="0.04"/>
-  <line x1="613" y1="96" x2="613" y2="506" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <text x="776" y="114" text-anchor="middle" font-size="11" fill="#94a3b8">above the current height h &#183; doesn't exist yet</text>
+  <rect x="613" y="96" width="327" height="410" fill="#f7d96f" opacity="0.04"/>
+  <line x1="613" y1="96" x2="613" y2="506" stroke="#bbbbbb" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="776" y="114" text-anchor="middle" font-size="11" fill="#bbbbbb">above the current height h &#183; doesn't exist yet</text>
 
   <!-- top row: slots -->
-  <text x="80" y="122" font-size="12" fill="#94a3b8">the h slots, laid flat &#183; each chip shows its destination</text>
-  <g font-size="9.5" fill="#64748b" text-anchor="middle">
+  <text x="80" y="122" font-size="12" fill="#bbbbbb">the h slots, laid flat &#183; each chip shows its destination</text>
+  <g font-size="9.5" fill="#888888" text-anchor="middle">
     <text x="118" y="144">0</text>
     <text x="208" y="144">1</text>
     <text x="298" y="144">2</text>
@@ -33,95 +33,95 @@
     <text x="568" y="144">5</text>
   </g>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
-    <rect x="80" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="118" y="177" fill="#7dd3fc">&#8594; 0</text>
-    <rect x="170" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="208" y="177" fill="#7dd3fc">&#8594; 3</text>
-    <rect x="260" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="298" y="177" fill="#7dd3fc">&#8594; 1</text>
-    <rect x="350" y="150" width="76" height="44" rx="6" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
-    <text x="388" y="177" fill="#fbbf24">&#8594; 7</text>
-    <rect x="440" y="150" width="76" height="44" rx="6" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.5"/>
-    <text x="478" y="177" fill="#fbbf24">&#8594; 8</text>
-    <rect x="530" y="150" width="76" height="44" rx="6" fill="#16324a" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="568" y="177" fill="#7dd3fc">&#8594; 5</text>
+    <rect x="80" y="150" width="76" height="44" rx="6" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="118" y="177" fill="#9cdceb">&#8594; 0</text>
+    <rect x="170" y="150" width="76" height="44" rx="6" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="208" y="177" fill="#9cdceb">&#8594; 3</text>
+    <rect x="260" y="150" width="76" height="44" rx="6" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="298" y="177" fill="#9cdceb">&#8594; 1</text>
+    <rect x="350" y="150" width="76" height="44" rx="6" fill="#3a3416" stroke="#f7d96f" stroke-width="1.5"/>
+    <text x="388" y="177" fill="#f7d96f">&#8594; 7</text>
+    <rect x="440" y="150" width="76" height="44" rx="6" fill="#3a3416" stroke="#f7d96f" stroke-width="1.5"/>
+    <text x="478" y="177" fill="#f7d96f">&#8594; 8</text>
+    <rect x="530" y="150" width="76" height="44" rx="6" fill="#17313d" stroke="#58c4dd" stroke-width="1.5"/>
+    <text x="568" y="177" fill="#9cdceb">&#8594; 5</text>
   </g>
 
   <!-- destination arrows -->
-  <line x1="118" y1="216" x2="118" y2="415" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
-  <line x1="568" y1="216" x2="568" y2="415" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
-  <path d="M 208 216 C 208 320, 388 320, 388 415" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
-  <path d="M 298 216 C 298 320, 208 320, 208 415" fill="none" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#arrBlue)"/>
-  <path d="M 400 216 C 400 330, 748 330, 748 415" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrAmber)"/>
-  <path d="M 490 216 C 490 330, 838 330, 838 415" fill="none" stroke="#fbbf24" stroke-width="1.8" marker-end="url(#arrAmber)"/>
+  <line x1="118" y1="216" x2="118" y2="415" stroke="#58c4dd" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <line x1="568" y1="216" x2="568" y2="415" stroke="#58c4dd" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <path d="M 208 216 C 208 320, 388 320, 388 415" fill="none" stroke="#58c4dd" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <path d="M 298 216 C 298 320, 208 320, 208 415" fill="none" stroke="#58c4dd" stroke-width="1.8" marker-end="url(#arrBlue)"/>
+  <path d="M 400 216 C 400 330, 748 330, 748 415" fill="none" stroke="#f7d96f" stroke-width="1.8" marker-end="url(#arrAmber)"/>
+  <path d="M 490 216 C 490 330, 838 330, 838 415" fill="none" stroke="#f7d96f" stroke-width="1.8" marker-end="url(#arrAmber)"/>
 
   <!-- parking ties -->
-  <line x1="466" y1="216" x2="466" y2="415" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrGreen)"/>
-  <path d="M 368 216 C 368 330, 306 330, 306 415" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrGreen)"/>
-  <text x="452" y="400" text-anchor="end" font-size="9.5" fill="#4ade80">stays</text>
-  <text x="320" y="400" font-size="9.5" fill="#4ade80">parks</text>
+  <line x1="466" y1="216" x2="466" y2="415" stroke="#83c167" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrGreen)"/>
+  <path d="M 368 216 C 368 330, 306 330, 306 415" fill="none" stroke="#83c167" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrGreen)"/>
+  <text x="452" y="400" text-anchor="end" font-size="9.5" fill="#83c167">stays</text>
+  <text x="320" y="400" font-size="9.5" fill="#83c167">parks</text>
 
   <!-- counter pills -->
-  <rect x="170" y="296" width="160" height="26" rx="13" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2"/>
-  <text x="250" y="313" text-anchor="middle" font-size="11" fill="#7dd3fc">4 arrows land below h</text>
-  <rect x="622" y="296" width="176" height="26" rx="13" fill="#0f172a" stroke="#fbbf24" stroke-width="1.2"/>
-  <text x="710" y="313" text-anchor="middle" font-size="11" fill="#fbbf24">2 arrows escape past h</text>
+  <rect x="170" y="296" width="160" height="26" rx="13" fill="#000000" stroke="#58c4dd" stroke-width="1.2"/>
+  <text x="250" y="313" text-anchor="middle" font-size="11" fill="#9cdceb">4 arrows land below h</text>
+  <rect x="622" y="296" width="176" height="26" rx="13" fill="#000000" stroke="#f7d96f" stroke-width="1.2"/>
+  <text x="710" y="313" text-anchor="middle" font-size="11" fill="#f7d96f">2 arrows escape past h</text>
 
   <!-- bottom row: target offsets -->
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" text-anchor="middle">
-    <rect x="80" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="118" y="440" font-size="12" fill="#cbd5e1">0</text>
-    <rect x="170" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="208" y="440" font-size="12" fill="#cbd5e1">1</text>
-    <rect x="260" y="420" width="76" height="44" rx="6" fill="#12261c" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
-    <text x="298" y="440" font-size="12" fill="#4ade80">2</text>
-    <text x="298" y="456" font-size="9" fill="#4ade80">hole &#183; unhit</text>
-    <rect x="350" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="388" y="440" font-size="12" fill="#cbd5e1">3</text>
-    <rect x="440" y="420" width="76" height="44" rx="6" fill="#12261c" stroke="#4ade80" stroke-width="1.5" stroke-dasharray="5 3"/>
-    <text x="478" y="440" font-size="12" fill="#4ade80">4</text>
-    <text x="478" y="456" font-size="9" fill="#4ade80">hole &#183; unhit</text>
-    <rect x="530" y="420" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="568" y="440" font-size="12" fill="#cbd5e1">5</text>
-    <rect x="620" y="420" width="76" height="44" rx="6" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/>
-    <text x="658" y="440" font-size="12" fill="#475569">6</text>
-    <text x="658" y="456" font-size="8.5" fill="#475569">not a hole</text>
-    <rect x="710" y="420" width="76" height="44" rx="6" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/>
-    <text x="748" y="440" font-size="12" fill="#475569">7</text>
-    <rect x="800" y="420" width="76" height="44" rx="6" fill="none" stroke="#334155" stroke-width="1.2" stroke-dasharray="4 3"/>
-    <text x="838" y="440" font-size="12" fill="#475569">8</text>
+    <rect x="80" y="420" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="118" y="440" font-size="12" fill="#dddddd">0</text>
+    <rect x="170" y="420" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="208" y="440" font-size="12" fill="#dddddd">1</text>
+    <rect x="260" y="420" width="76" height="44" rx="6" fill="#1c2a16" stroke="#83c167" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="298" y="440" font-size="12" fill="#83c167">2</text>
+    <text x="298" y="456" font-size="9" fill="#83c167">hole &#183; unhit</text>
+    <rect x="350" y="420" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="388" y="440" font-size="12" fill="#dddddd">3</text>
+    <rect x="440" y="420" width="76" height="44" rx="6" fill="#1c2a16" stroke="#83c167" stroke-width="1.5" stroke-dasharray="5 3"/>
+    <text x="478" y="440" font-size="12" fill="#83c167">4</text>
+    <text x="478" y="456" font-size="9" fill="#83c167">hole &#183; unhit</text>
+    <rect x="530" y="420" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="568" y="440" font-size="12" fill="#dddddd">5</text>
+    <rect x="620" y="420" width="76" height="44" rx="6" fill="none" stroke="#444444" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="658" y="440" font-size="12" fill="#444444">6</text>
+    <text x="658" y="456" font-size="8.5" fill="#444444">not a hole</text>
+    <rect x="710" y="420" width="76" height="44" rx="6" fill="none" stroke="#444444" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="748" y="440" font-size="12" fill="#444444">7</text>
+    <rect x="800" y="420" width="76" height="44" rx="6" fill="none" stroke="#444444" stroke-width="1.2" stroke-dasharray="4 3"/>
+    <text x="838" y="440" font-size="12" fill="#444444">8</text>
   </g>
 
   <!-- region braces under offsets -->
-  <line x1="80" y1="478" x2="606" y2="478" stroke="#475569" stroke-width="1"/>
-  <text x="343" y="494" text-anchor="middle" font-size="10.5" fill="#94a3b8">below h &#183; the permutation must fill every one of these now</text>
-  <line x1="620" y1="478" x2="876" y2="478" stroke="#475569" stroke-width="1"/>
-  <text x="748" y="494" text-anchor="middle" font-size="10.5" fill="#64748b">above h &#183; filled later, once the stack grows</text>
+  <line x1="80" y1="478" x2="606" y2="478" stroke="#444444" stroke-width="1"/>
+  <text x="343" y="494" text-anchor="middle" font-size="10.5" fill="#bbbbbb">below h &#183; the permutation must fill every one of these now</text>
+  <line x1="620" y1="478" x2="876" y2="478" stroke="#444444" stroke-width="1"/>
+  <text x="748" y="494" text-anchor="middle" font-size="10.5" fill="#888888">above h &#183; filled later, once the stack grows</text>
 
   <!-- ledger -->
-  <line x1="60" y1="518" x2="940" y2="518" stroke="#1e293b" stroke-width="1"/>
+  <line x1="60" y1="518" x2="940" y2="518" stroke="#222222" stroke-width="1"/>
   <g font-size="12.5">
-    <text x="80" y="546" fill="#e2e8f0">slots</text>
-    <text x="270" y="546" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">6 =</text>
-    <text x="326" y="546" fill="#7dd3fc">4 land below h</text>
-    <text x="520" y="546" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">+</text>
-    <text x="548" y="546" fill="#fbbf24">2 escape above h</text>
-    <text x="740" y="546" fill="#64748b" font-size="10.5">(total &#8212; every slot fires)</text>
+    <text x="80" y="546" fill="#ffffff">slots</text>
+    <text x="270" y="546" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">6 =</text>
+    <text x="326" y="546" fill="#9cdceb">4 land below h</text>
+    <text x="520" y="546" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">+</text>
+    <text x="548" y="546" fill="#f7d96f">2 escape above h</text>
+    <text x="740" y="546" fill="#888888" font-size="10.5">(total &#8212; every slot fires)</text>
 
-    <text x="80" y="572" fill="#e2e8f0">offsets below h</text>
-    <text x="270" y="572" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">6 =</text>
-    <text x="326" y="572" fill="#cbd5e1">4 hit, once each</text>
-    <text x="520" y="572" fill="#e2e8f0" font-family="ui-monospace, 'SF Mono', Menlo, monospace">+</text>
-    <text x="548" y="572" fill="#4ade80">2 never hit</text>
-    <text x="740" y="572" fill="#64748b" font-size="10.5">(injective &#8212; no offset hit twice)</text>
+    <text x="80" y="572" fill="#ffffff">offsets below h</text>
+    <text x="270" y="572" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">6 =</text>
+    <text x="326" y="572" fill="#dddddd">4 hit, once each</text>
+    <text x="520" y="572" fill="#ffffff" font-family="ui-monospace, 'SF Mono', Menlo, monospace">+</text>
+    <text x="548" y="572" fill="#83c167">2 never hit</text>
+    <text x="740" y="572" fill="#888888" font-size="10.5">(injective &#8212; no offset hit twice)</text>
   </g>
-  <text x="80" y="602" font-size="13.5" fill="#e2e8f0">&#8756;&#160; <tspan fill="#fbbf24" font-weight="700">parked</tspan> = <tspan fill="#4ade80" font-weight="700">holes</tspan> &#8212; an escaping arrow fills no seat below h, so it leaves exactly one seat empty</text>
+  <text x="80" y="602" font-size="13.5" fill="#ffffff">&#8756;&#160; <tspan fill="#f7d96f" font-weight="700">parked</tspan> = <tspan fill="#83c167" font-weight="700">holes</tspan> &#8212; an escaping arrow fills no seat below h, so it leaves exactly one seat empty</text>
 
   <!-- refinement -->
-  <g font-size="11" fill="#64748b">
+  <g font-size="11" fill="#888888">
     <text x="80" y="634">the dashed green ties are the parking that this makes possible: a parked slot directly above a hole keeps it (slot 4),</text>
     <text x="80" y="650">the rest take the remaining holes in ascending order (slot 3 &#8594; hole 2) &#8212; <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">yulAssert(parked.size() == holes.size())</tspan></text>
   </g>
 
-  <text x="940" y="684" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">Shuffler.cpp &#183; Emission::permuteAtLowestHeight</text>
+  <text x="940" y="684" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#444444">Shuffler.cpp &#183; Emission::permuteAtLowestHeight</text>
 </svg>

@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
   <defs>
     <marker id="arrBlue" viewBox="0 0 8 8" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0,0 L8,4 L0,8 z" fill="#38bdf8"/>
+      <path d="M0,0 L8,4 L0,8 z" fill="#58c4dd"/>
     </marker>
   </defs>
 
-  <rect width="1000" height="640" rx="12" fill="#0f172a"/>
+  <rect width="1000" height="640" rx="12" fill="#000000"/>
 
   <!-- title -->
-  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#f1f5f9">What Is a Permutation?</text>
-  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#94a3b8">a rearrangement of a set's elements &#8212; a bijection from the set onto itself</text>
+  <text x="500" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#ffffff">What Is a Permutation?</text>
+  <text x="500" y="68" text-anchor="middle" font-size="13" fill="#bbbbbb">a rearrangement of a set's elements &#8212; a bijection from the set onto itself</text>
 
   <!-- position indexes -->
-  <g font-size="9.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+  <g font-size="9.5" fill="#888888" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
     <text x="148" y="142">0</text>
     <text x="244" y="142">1</text>
     <text x="340" y="142">2</text>
@@ -22,24 +22,24 @@
   </g>
 
   <!-- before row -->
-  <text x="96" y="177" text-anchor="end" font-size="12" fill="#94a3b8">before</text>
+  <text x="96" y="177" text-anchor="end" font-size="12" fill="#bbbbbb">before</text>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="15" text-anchor="middle">
-    <rect x="110" y="150" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="148" y="178" fill="#7dd3fc">a</text>
-    <rect x="206" y="150" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="244" y="178" fill="#7dd3fc">b</text>
-    <rect x="302" y="150" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="340" y="178" fill="#7dd3fc">c</text>
-    <rect x="398" y="150" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="436" y="178" fill="#7dd3fc">d</text>
-    <rect x="494" y="150" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="532" y="178" fill="#7dd3fc">e</text>
-    <rect x="590" y="150" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="628" y="178" fill="#7dd3fc">f</text>
+    <rect x="110" y="150" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="148" y="178" fill="#9cdceb">a</text>
+    <rect x="206" y="150" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="244" y="178" fill="#9cdceb">b</text>
+    <rect x="302" y="150" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="340" y="178" fill="#9cdceb">c</text>
+    <rect x="398" y="150" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="436" y="178" fill="#9cdceb">d</text>
+    <rect x="494" y="150" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="532" y="178" fill="#9cdceb">e</text>
+    <rect x="590" y="150" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="628" y="178" fill="#9cdceb">f</text>
   </g>
 
   <!-- arrows: sigma(i) = 2 3 4 1 0 5 -->
-  <g stroke="#38bdf8" stroke-width="1.8" fill="none">
+  <g stroke="#58c4dd" stroke-width="1.8" fill="none">
     <path d="M 148 196 C 148 270, 340 270, 340 335" marker-end="url(#arrBlue)"/>
     <path d="M 340 196 C 340 270, 532 270, 532 335" marker-end="url(#arrBlue)"/>
     <path d="M 532 196 C 532 270, 148 270, 148 335" marker-end="url(#arrBlue)"/>
@@ -49,22 +49,22 @@
   </g>
 
   <!-- after row -->
-  <text x="96" y="367" text-anchor="end" font-size="12" fill="#94a3b8">after</text>
+  <text x="96" y="367" text-anchor="end" font-size="12" fill="#bbbbbb">after</text>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="15" text-anchor="middle">
-    <rect x="110" y="340" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="148" y="368" fill="#7dd3fc">e</text>
-    <rect x="206" y="340" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="244" y="368" fill="#7dd3fc">d</text>
-    <rect x="302" y="340" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="340" y="368" fill="#7dd3fc">a</text>
-    <rect x="398" y="340" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="436" y="368" fill="#7dd3fc">b</text>
-    <rect x="494" y="340" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="532" y="368" fill="#7dd3fc">c</text>
-    <rect x="590" y="340" width="76" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="628" y="368" fill="#7dd3fc">f</text>
+    <rect x="110" y="340" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="148" y="368" fill="#9cdceb">e</text>
+    <rect x="206" y="340" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="244" y="368" fill="#9cdceb">d</text>
+    <rect x="302" y="340" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="340" y="368" fill="#9cdceb">a</text>
+    <rect x="398" y="340" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="436" y="368" fill="#9cdceb">b</text>
+    <rect x="494" y="340" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="532" y="368" fill="#9cdceb">c</text>
+    <rect x="590" y="340" width="76" height="44" rx="6" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="628" y="368" fill="#9cdceb">f</text>
   </g>
-  <g font-size="9.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+  <g font-size="9.5" fill="#888888" text-anchor="middle" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
     <text x="148" y="400">0</text>
     <text x="244" y="400">1</text>
     <text x="340" y="400">2</text>
@@ -72,23 +72,23 @@
     <text x="532" y="400">4</text>
     <text x="628" y="400">5</text>
   </g>
-  <text x="388" y="422" text-anchor="middle" font-size="11" fill="#94a3b8">the same six elements, rearranged &#8212; read: &#963;(0) = 2, &#8220;the element at 0 goes to 2&#8221;</text>
+  <text x="388" y="422" text-anchor="middle" font-size="11" fill="#bbbbbb">the same six elements, rearranged &#8212; read: &#963;(0) = 2, &#8220;the element at 0 goes to 2&#8221;</text>
 
   <!-- bijection callouts -->
-  <g font-size="12" fill="#94a3b8">
-    <text x="716" y="232"><tspan fill="#4ade80">&#10003;</tspan> total &#8212; every element goes somewhere</text>
-    <text x="716" y="262"><tspan fill="#4ade80">&#10003;</tspan> injective &#8212; no two land in the same place</text>
-    <text x="716" y="292"><tspan fill="#4ade80">&#10003;</tspan> surjective &#8212; every place receives one</text>
-    <text x="716" y="326" fill="#e2e8f0">= bijection: nothing is added,</text>
-    <text x="732" y="344" fill="#e2e8f0">lost, or duplicated</text>
+  <g font-size="12" fill="#bbbbbb">
+    <text x="716" y="232"><tspan fill="#83c167">&#10003;</tspan> total &#8212; every element goes somewhere</text>
+    <text x="716" y="262"><tspan fill="#83c167">&#10003;</tspan> injective &#8212; no two land in the same place</text>
+    <text x="716" y="292"><tspan fill="#83c167">&#10003;</tspan> surjective &#8212; every place receives one</text>
+    <text x="716" y="326" fill="#ffffff">= bijection: nothing is added,</text>
+    <text x="732" y="344" fill="#ffffff">lost, or duplicated</text>
   </g>
 
   <!-- three notations -->
-  <line x1="60" y1="440" x2="940" y2="440" stroke="#1e293b" stroke-width="1"/>
+  <line x1="60" y1="440" x2="940" y2="440" stroke="#222222" stroke-width="1"/>
 
   <!-- as a function -->
-  <text x="60" y="466" font-size="12.5" font-weight="700" fill="#e2e8f0">as a function</text>
-  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" fill="#cbd5e1">
+  <text x="60" y="466" font-size="12.5" font-weight="700" fill="#ffffff">as a function</text>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12.5" fill="#dddddd">
     <text x="70" y="496">&#963;(0) = 2</text>
     <text x="70" y="518">&#963;(1) = 3</text>
     <text x="70" y="540">&#963;(2) = 4</text>
@@ -96,29 +96,29 @@
     <text x="185" y="518">&#963;(4) = 0</text>
     <text x="185" y="540">&#963;(5) = 5</text>
   </g>
-  <text x="70" y="570" font-size="10" fill="#64748b">one equation per element &#8212; explicit but verbose</text>
+  <text x="70" y="570" font-size="10" fill="#888888">one equation per element &#8212; explicit but verbose</text>
 
   <!-- two-line notation -->
-  <text x="365" y="466" font-size="12.5" font-weight="700" fill="#e2e8f0">two-line notation</text>
+  <text x="365" y="466" font-size="12.5" font-weight="700" fill="#ffffff">two-line notation</text>
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace">
-    <text x="382" y="542" font-size="64" fill="#475569">(</text>
-    <text x="576" y="542" font-size="64" fill="#475569">)</text>
-    <g font-size="13" text-anchor="middle" fill="#94a3b8">
+    <text x="382" y="542" font-size="64" fill="#444444">(</text>
+    <text x="576" y="542" font-size="64" fill="#444444">)</text>
+    <g font-size="13" text-anchor="middle" fill="#bbbbbb">
       <text x="418" y="506">0</text><text x="444" y="506">1</text><text x="470" y="506">2</text><text x="496" y="506">3</text><text x="522" y="506">4</text><text x="548" y="506">5</text>
     </g>
-    <g font-size="13" text-anchor="middle" fill="#7dd3fc">
+    <g font-size="13" text-anchor="middle" fill="#9cdceb">
       <text x="418" y="534">2</text><text x="444" y="534">3</text><text x="470" y="534">4</text><text x="496" y="534">1</text><text x="522" y="534">0</text><text x="548" y="534">5</text>
     </g>
   </g>
-  <text x="375" y="570" font-size="10" fill="#64748b">top row: positions &#183; bottom row: where each one goes</text>
+  <text x="375" y="570" font-size="10" fill="#888888">top row: positions &#183; bottom row: where each one goes</text>
 
   <!-- one-line notation -->
-  <text x="670" y="466" font-size="12.5" font-weight="700" fill="#e2e8f0">one-line notation</text>
-  <text x="680" y="502" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13.5" fill="#cbd5e1">&#963; = [<tspan fill="#7dd3fc">2 3 4 1 0 5</tspan>]</text>
-  <text x="680" y="528" font-size="10.5" fill="#64748b">the bottom row alone &#8212; the top row is implied,</text>
-  <text x="680" y="543" font-size="10.5" fill="#64748b">positions 0 &#8230; n&#8722;1 in order</text>
-  <text x="680" y="568" font-size="10.5" fill="#94a3b8">what the code stores: <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">permutation[i] = &#963;(i)</tspan></text>
+  <text x="670" y="466" font-size="12.5" font-weight="700" fill="#ffffff">one-line notation</text>
+  <text x="680" y="502" font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13.5" fill="#dddddd">&#963; = [<tspan fill="#9cdceb">2 3 4 1 0 5</tspan>]</text>
+  <text x="680" y="528" font-size="10.5" fill="#888888">the bottom row alone &#8212; the top row is implied,</text>
+  <text x="680" y="543" font-size="10.5" fill="#888888">positions 0 &#8230; n&#8722;1 in order</text>
+  <text x="680" y="568" font-size="10.5" fill="#bbbbbb">what the code stores: <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">permutation[i] = &#963;(i)</tspan></text>
 
   <!-- footer -->
-  <text x="60" y="614" font-size="11.5" fill="#64748b">in the shuffler: once every offset is bound, <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">destinationOf</tspan> is a permutation &#8212; the vector passed to <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">permute()</tspan> is its one-line notation</text>
+  <text x="60" y="614" font-size="11.5" fill="#888888">in the shuffler: once every offset is bound, <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">destinationOf</tspan> is a permutation &#8212; the vector passed to <tspan font-family="ui-monospace, 'SF Mono', Menlo, monospace">permute()</tspan> is its one-line notation</text>
 </svg>

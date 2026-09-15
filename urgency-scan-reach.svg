@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="460" viewBox="0 0 760 460" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
-  <rect width="760" height="460" rx="12" fill="#0f172a"/>
+  <rect width="760" height="460" rx="12" fill="#000000"/>
 
-  <text x="380" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#f1f5f9">The Urgency Scan &#183; Dup Reach</text>
-  <text x="380" y="63" text-anchor="middle" font-size="12" fill="#94a3b8">a, b, c are still needed by target slots with no mapped source &#183; every push sinks every copy one deeper</text>
+  <text x="380" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#ffffff">The Urgency Scan &#183; Dup Reach</text>
+  <text x="380" y="63" text-anchor="middle" font-size="12" fill="#bbbbbb">a, b, c are still needed by target slots with no mapped source &#183; every push sinks every copy one deeper</text>
 
   <!-- depth labels -->
-  <g font-size="10" fill="#64748b" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+  <g font-size="10" fill="#888888" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
     <text x="112" y="123">0&#183;top</text>
     <text x="112" y="163">1</text>
     <text x="112" y="203">2</text>
@@ -16,35 +16,35 @@
 
   <!-- stack -->
   <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="13" text-anchor="middle">
-    <rect x="120" y="100" width="130" height="36" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="185" y="123" fill="#cbd5e1">x</text>
-    <rect x="120" y="140" width="130" height="36" rx="5" fill="#12261c" stroke="#4ade80" stroke-width="1.5"/>
-    <text x="185" y="163" fill="#4ade80">a</text>
-    <rect x="120" y="180" width="130" height="36" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="185" y="203" fill="#cbd5e1">y</text>
-    <rect x="120" y="220" width="130" height="36" rx="5" fill="#3a2d10" stroke="#fbbf24" stroke-width="1.8"/>
-    <text x="185" y="243" fill="#fbbf24">b</text>
-    <rect x="120" y="260" width="130" height="36" rx="5" fill="#2a1721" stroke="#f87171" stroke-width="1.8"/>
-    <text x="185" y="283" fill="#f87171">c</text>
-    <rect x="120" y="300" width="130" height="36" rx="5" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
-    <text x="185" y="323" fill="#cbd5e1">z</text>
+    <rect x="120" y="100" width="130" height="36" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="185" y="123" fill="#dddddd">x</text>
+    <rect x="120" y="140" width="130" height="36" rx="5" fill="#1c2a16" stroke="#83c167" stroke-width="1.5"/>
+    <text x="185" y="163" fill="#83c167">a</text>
+    <rect x="120" y="180" width="130" height="36" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="185" y="203" fill="#dddddd">y</text>
+    <rect x="120" y="220" width="130" height="36" rx="5" fill="#3a3416" stroke="#f7d96f" stroke-width="1.8"/>
+    <text x="185" y="243" fill="#f7d96f">b</text>
+    <rect x="120" y="260" width="130" height="36" rx="5" fill="#2e1a17" stroke="#fc6255" stroke-width="1.8"/>
+    <text x="185" y="283" fill="#fc6255">c</text>
+    <rect x="120" y="300" width="130" height="36" rx="5" fill="#222222" stroke="#444444" stroke-width="1.5"/>
+    <text x="185" y="323" fill="#dddddd">z</text>
   </g>
 
   <!-- dup reach waterline -->
-  <line x1="70" y1="258" x2="270" y2="258" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <text x="282" y="262" font-size="10.5" fill="#fbbf24">dup reach limit &#183; drawn as depth 3</text>
+  <line x1="70" y1="258" x2="270" y2="258" stroke="#f7d96f" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="282" y="262" font-size="10.5" fill="#f7d96f">dup reach limit &#183; drawn as depth 3</text>
 
   <!-- verdicts -->
   <g font-size="12">
-    <text x="282" y="163" fill="#4ade80">&#10003; fine &#8212; comfortably within reach</text>
-    <text x="282" y="243" fill="#fbbf24">&#9888; urgent &#8212; the next push sinks it: dup it now</text>
-    <text x="282" y="287" fill="#f87171">&#10007; already out of reach &#8212; bail as blocked &#8594; compression</text>
+    <text x="282" y="163" fill="#83c167">&#10003; fine &#8212; comfortably within reach</text>
+    <text x="282" y="243" fill="#f7d96f">&#9888; urgent &#8212; the next push sinks it: dup it now</text>
+    <text x="282" y="287" fill="#fc6255">&#10007; already out of reach &#8212; bail as blocked &#8594; compression</text>
   </g>
 
   <!-- notes -->
-  <line x1="70" y1="360" x2="690" y2="360" stroke="#1e293b" stroke-width="1"/>
-  <text x="70" y="386" font-size="11.5" fill="#94a3b8">the scan re-runs before every production, so a sinking copy is always observed on the boundary</text>
-  <text x="70" y="404" font-size="11.5" fill="#94a3b8">before the push that would drown it &#8212; urgent copies are duplicated first, drowned ones abort the attempt</text>
+  <line x1="70" y1="360" x2="690" y2="360" stroke="#222222" stroke-width="1"/>
+  <text x="70" y="386" font-size="11.5" fill="#bbbbbb">the scan re-runs before every production, so a sinking copy is always observed on the boundary</text>
+  <text x="70" y="404" font-size="11.5" fill="#bbbbbb">before the push that would drown it &#8212; urgent copies are duplicated first, drowned ones abort the attempt</text>
 
-  <text x="690" y="440" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#475569">Shuffler.cpp &#183; Emission::buildBottomUp &#183; urgency scan</text>
+  <text x="690" y="440" text-anchor="end" font-size="10.5" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#444444">Shuffler.cpp &#183; Emission::buildBottomUp &#183; urgency scan</text>
 </svg>
