@@ -313,18 +313,26 @@ If the generation does not fail, we start the loop again with the same targetOff
 
 ##### free-placement
 
-If the target slot at the same height as the top of the current working stack is unbound (i.e. must
-be generated), then a push / dup / mload at this point in the trace will produce the required value
-exactly at it's target slot. This is clearly optimal since it avoids the need for any swap.
+![Free placement: producing the slot demanded at the current stack height lands it in its target offset with no swap](free-placement.svg)
 
-We therefore check if this is the case for the top of the current working stack at each iteration of
-buildBottomUp.
+`sourceTop` is the offset a freshly produced slot would land on: one above the current top, i.e.
+`m_data.size()`. If the target slot at that offset has no bound source in the mapping (i.e. it must be
+generated), then a `push` / `dup` / `mload` at this point in the trace produces the required value
+exactly at its target offset. This is optimal since it avoids any swap.
 
-The same checks around swap depth as in the previous phase apply.
+Free placement only fires when:
 
-If the generation fails, we bail with blocked and go to compression.
+- nothing is urgent (the urgency scan found no dup that must happen first),
+- `sourceTop` lies within the target (`sourceTop < m_target.size()`) and above the offset currently
+  being filled (`sourceTop > targetOffset`),
+- no source is bound for `sourceTop` yet, so it genuinely needs generating,
+- and producing it keeps `targetOffset` within swap reach (`sourceTop - targetOffset < m_maxSwapDepth`),
+  the same guard as the urgent dup.
 
-If the generation does not fail, we start the loop again with the same targetOffset
+Producing the free slot grows the stack but leaves `targetOffset` itself unfilled, so the loop
+restarts at the same `targetOffset` (the `--targetOffset` cancels the loop's `++`). The free slot
+placed above it is already final and is skipped from then on.
+
 
 ##### retained-fetch
 

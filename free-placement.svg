@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="440" viewBox="0 0 780 440" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="ah" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#83c167"/>
+    </marker>
+  </defs>
+  <rect width="780" height="440" rx="12" fill="#000000"/>
+
+  <text x="390" y="32" text-anchor="middle" font-size="18" font-weight="700" fill="#ffffff">Free Placement &#183; A Slot That Lands In Place For Free</text>
+  <text x="390" y="52" text-anchor="middle" font-size="11" fill="#bbbbbb">the value demanded at the current height (offset = size) has no source on the stack &#8212;</text>
+  <text x="390" y="68" text-anchor="middle" font-size="11" fill="#bbbbbb">producing it now drops it straight into its target offset, with no swap</text>
+
+  <!-- ===== headers ===== -->
+  <g font-size="12" text-anchor="middle" fill="#dddddd">
+    <text x="129" y="150">target (goal)</text>
+    <text x="336" y="150">working stack &#183; before</text>
+    <text x="596" y="150">working stack &#183; after</text>
+  </g>
+  <text x="88" y="150" text-anchor="end" font-size="9" fill="#888888" font-family="ui-monospace, 'SF Mono', Menlo, monospace">offset &#8593;</text>
+
+  <!-- ===== TARGET column (x 96..162) ===== -->
+  <g font-size="9" fill="#888888" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="88" y="189">4</text>
+    <text x="88" y="221">3</text>
+    <text x="88" y="253">2</text>
+    <text x="88" y="285">1</text>
+    <text x="88" y="317">0</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" text-anchor="middle">
+    <rect x="96" y="170" width="66" height="28" rx="4" fill="#222222" stroke="#444444" stroke-width="1.4"/>
+    <text x="129" y="189" fill="#dddddd">e</text>
+    <rect x="96" y="202" width="66" height="28" rx="4" fill="#1c2a16" stroke="#83c167" stroke-width="1.6"/>
+    <text x="129" y="221" fill="#83c167">d</text>
+    <rect x="96" y="234" width="66" height="28" rx="4" fill="#222222" stroke="#444444" stroke-width="1.4"/>
+    <text x="129" y="253" fill="#dddddd">c</text>
+    <rect x="96" y="266" width="66" height="28" rx="4" fill="#222222" stroke="#444444" stroke-width="1.4"/>
+    <text x="129" y="285" fill="#dddddd">b</text>
+    <rect x="96" y="298" width="66" height="28" rx="4" fill="#222222" stroke="#444444" stroke-width="1.4"/>
+    <text x="129" y="317" fill="#dddddd">a</text>
+  </g>
+  <text x="168" y="219" font-size="9.5" fill="#83c167">&#9666; offset 3 = size</text>
+  <text x="168" y="231" font-size="9.5" fill="#83c167">&#160;&#160;&#160;(needs generation)</text>
+
+  <!-- ===== BEFORE column (x 300..372) ===== -->
+  <g font-size="9" fill="#888888" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="292" y="221">3</text>
+    <text x="292" y="253">2</text>
+    <text x="292" y="285">1</text>
+    <text x="292" y="317">0</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" text-anchor="middle">
+    <!-- ghost slot where a push would land -->
+    <rect x="300" y="202" width="72" height="28" rx="4" fill="none" stroke="#83c167" stroke-width="1.4" stroke-dasharray="4 3"/>
+    <text x="336" y="221" fill="#6f9e59">d?</text>
+    <!-- offset 2: retained, not final -->
+    <rect x="300" y="234" width="72" height="28" rx="4" fill="#222222" stroke="#444444" stroke-width="1.4"/>
+    <text x="336" y="253" fill="#dddddd">b</text>
+    <!-- offset 1: targetOffset j -->
+    <rect x="300" y="266" width="72" height="28" rx="4" fill="#3a3416" stroke="#f7d96f" stroke-width="1.8"/>
+    <text x="336" y="285" fill="#f7d96f">c</text>
+    <!-- offset 0: final -->
+    <rect x="300" y="298" width="72" height="28" rx="4" fill="#1c2a16" stroke="#83c167" stroke-width="1.6"/>
+    <text x="336" y="317" fill="#83c167">a</text>
+  </g>
+  <text x="376" y="289" font-size="9.5" fill="#f7d96f">&#9666; j &#183; being filled</text>
+
+  <!-- ===== arrow ===== -->
+  <line x1="384" y1="216" x2="546" y2="216" stroke="#83c167" stroke-width="2" marker-end="url(#ah)"/>
+  <text x="465" y="206" text-anchor="middle" font-size="11.5" fill="#83c167" font-family="ui-monospace, 'SF Mono', Menlo, monospace">produce d</text>
+  <text x="465" y="234" text-anchor="middle" font-size="9" fill="#888888">push / dup / mload &#183; +1 height</text>
+
+  <!-- ===== AFTER column (x 560..632) ===== -->
+  <g font-size="9" fill="#888888" text-anchor="end" font-family="ui-monospace, 'SF Mono', Menlo, monospace">
+    <text x="552" y="221">3</text>
+    <text x="552" y="253">2</text>
+    <text x="552" y="285">1</text>
+    <text x="552" y="317">0</text>
+  </g>
+  <g font-family="ui-monospace, 'SF Mono', Menlo, monospace" font-size="12" text-anchor="middle">
+    <!-- offset 3: freshly produced, in place -->
+    <rect x="560" y="202" width="72" height="28" rx="4" fill="#1c2a16" stroke="#83c167" stroke-width="1.8"/>
+    <text x="596" y="221" fill="#83c167">d</text>
+    <rect x="560" y="234" width="72" height="28" rx="4" fill="#222222" stroke="#444444" stroke-width="1.4"/>
+    <text x="596" y="253" fill="#dddddd">b</text>
+    <rect x="560" y="266" width="72" height="28" rx="4" fill="#3a3416" stroke="#f7d96f" stroke-width="1.8"/>
+    <text x="596" y="285" fill="#f7d96f">c</text>
+    <rect x="560" y="298" width="72" height="28" rx="4" fill="#1c2a16" stroke="#83c167" stroke-width="1.6"/>
+    <text x="596" y="317" fill="#83c167">a</text>
+  </g>
+  <text x="636" y="219" font-size="9.5" fill="#83c167">&#9666; in place &#183; 0 swaps</text>
+  <text x="636" y="289" font-size="9.5" fill="#f7d96f">&#9666; j untouched &#183; retried next</text>
+
+  <!-- ===== notes ===== -->
+  <line x1="60" y1="352" x2="720" y2="352" stroke="#222222" stroke-width="1"/>
+  <text x="60" y="374" font-size="11.5" fill="#83c167">&#10003; the produced slot is final the instant it appears &#8212; no swap is spent, the optimal case</text>
+  <text x="60" y="394" font-size="11" fill="#bbbbbb">guard: nothing urgent &#183; offset (size) is a generate-target above j &#183; j stays in swap reach (size &#8722; j &lt; maxSwapDepth)</text>
+  <text x="60" y="412" font-size="11" fill="#bbbbbb">then the loop retries the same j &#8212; the free slot at offset 3 is already done</text>
+
+  <text x="720" y="430" text-anchor="end" font-size="10" font-family="ui-monospace, 'SF Mono', Menlo, monospace" fill="#444444">Shuffler.cpp &#183; Emission::buildBottomUp &#183; free placement</text>
+</svg>
