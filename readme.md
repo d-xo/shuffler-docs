@@ -4,6 +4,8 @@
 
 The shuffler takes two evm stacks: a source and a target and produces a trace consisting of the evm operations required to transform the first into the second. Unlike previous stack shufflers that have been implemented inside of solidity, the plan based approach guarantees termination
 
+![The stack shuffling problem: a source stack, a target stack, and a valid trace between them](shuffling-problem.svg)
+
 It does this by operating in 4 phases:
 
 1. produce a mapping between the source and target stack
