@@ -313,15 +313,18 @@ If the generation does not fail, we start the loop again with the same targetOff
 
 ##### free-placement
 
-If the current target offset is the same as the size of the working stack, and the target slot at
-the current target offset does not have a bound source in the map (i.e. requires generation) then a
-push / dup / mload at this point in the trace will produce the required value exactly at it's target
-slot. This is clearly optimal since it avoids the need for any swap.
+If the target slot at the same height as the top of the current working stack is unbound (i.e. must
+be generated), then a push / dup / mload at this point in the trace will produce the required value
+exactly at it's target slot. This is clearly optimal since it avoids the need for any swap.
+
+We therefore check if this is the case for the top of the current working stack at each iteration of
+buildBottomUp.
 
 The same checks around swap depth as in the previous phase apply.
 
-TODO: why do we restart the loop here? didn't we fill this already?
+If the generation fails, we bail with blocked and go to compression.
 
+If the generation does not fail, we start the loop again with the same targetOffset
 
 ##### retained-fetch
 
