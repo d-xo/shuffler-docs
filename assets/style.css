@@ -46,11 +46,14 @@ body {
 .wrap { max-width: 820px; margin: 0 auto; padding: 48px 24px 96px; }
 
 /* ---- prose ---- */
-h1 { font-size: 34px; margin: 0 0 24px; line-height: 1.15; font-weight: 700; }
-h2 { font-size: 25px; margin: 52px 0 12px; padding-top: 14px; border-top: 1px solid var(--line2); font-weight: 700; }
-h3 { font-size: 20px; margin: 34px 0 8px; font-weight: 700; }
-h4 { font-size: 17px; margin: 26px 0 6px; color: var(--blue2); font-weight: 700; }
-h5, h6 { font-size: 15px; margin: 22px 0 6px; color: var(--mut); font-weight: 700; }
+/* every heading stays larger than the 20.4px body; deep levels are separated
+   by colour and style since the size steps get small that far down. */
+h1 { font-size: 36px; margin: 0 0 24px; line-height: 1.15; font-weight: 700; }
+h2 { font-size: 30px; margin: 52px 0 12px; padding-top: 14px; border-top: 1px solid var(--line2); font-weight: 700; }
+h3 { font-size: 26px; margin: 34px 0 8px; font-weight: 700; }
+h4 { font-size: 23px; margin: 28px 0 6px; color: var(--blue2); font-weight: 700; }
+h5 { font-size: 22px; margin: 24px 0 6px; font-weight: 700; }
+h6 { font-size: 21px; margin: 22px 0 6px; color: var(--blue2); font-weight: 700; font-style: italic; }
 p { color: var(--mut); margin: 0 0 15px; }
 p strong, li strong { color: var(--txt); font-weight: 700; }
 a { color: var(--blue); text-decoration: none; }
