@@ -32,8 +32,6 @@ practical use in the compiler.
 For this reason various we prefer to use heuristic approaches with empirically demonstrated
 performance characteristics on representative solidity programs, and strong termination guarantees.
 
-> Interactive: [Why Seven Swaps Is the Law](viz/star-optimality.html) — a walk through a lower bound on swap count.
-
 ## The EVM Stack
 
 ![The EVM stack](evm-stack.svg)
