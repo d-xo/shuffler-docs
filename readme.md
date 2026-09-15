@@ -20,7 +20,7 @@ Termination is guaranteed by the following facts:
   - the set of items removed from the source stack during the compression phase is strictly
     increasing between iterations, and is bounded by the total number of items in the source stack
 
-## Shuffling
+## Optimality and Design Goals
 
 The problem of shuffling from a fixed source stack into a fixed target stack is an instance of the
 shortest path problem from graph theory where nodes are instances of an EVM stack, and edges are EVM
