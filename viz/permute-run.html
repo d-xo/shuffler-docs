@@ -41,6 +41,13 @@
     button:hover:not(:disabled) { border-color: var(--blue); }
     button:disabled { opacity: .35; cursor: not-allowed; }
     .step { font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+
+    .perm { margin: 20px 0 2px; }
+    .perm .lab { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 7px; }
+    .perm .prow { display: flex; align-items: center; font-family: var(--mono); font-size: 14px; margin: 1px 0; }
+    .perm .tag { width: 66px; color: var(--dim); font-size: 11px; }
+    .perm .cell { width: 30px; text-align: center; padding: 2px 0; border-radius: 4px; transition: background .1s; }
+    .perm .cell.hi { background: #2b2b2b; }
   </style>
 </head>
 <body>
@@ -60,6 +67,12 @@
           <div id="tracelist"></div>
         </div>
       </div>
+    </div>
+
+    <div class="perm">
+      <div class="lab">current permutation</div>
+      <div class="prow" id="permpos"></div>
+      <div class="prow" id="permval"></div>
     </div>
 
     <div class="controls">
@@ -116,6 +129,8 @@
     var stepEl = document.getElementById("step");
     var backBtn = document.getElementById("back");
     var nextBtn = document.getElementById("next");
+    var permPos = document.getElementById("permpos");
+    var permVal = document.getElementById("permval");
 
     function render() {
       var f = frames[cur];
@@ -163,6 +178,17 @@
       else traceEl.innerHTML = f.trace.map(function (op, i) {
         return '<div class="op' + (i === f.trace.length - 1 ? " last" : "") + '">' + op + "</div>";
       }).join("");
+
+      // two-line notation of the current permutation (position -> value),
+      // updating each step; the two swapping columns are highlighted.
+      var pr = '<span class="tag">position</span>', vr = '<span class="tag">value</span>';
+      for (var q = 0; q < N; q++) {
+        var hv = p && (q === p.top || q === p.partner) ? " hi" : "";
+        pr += '<span class="cell' + hv + '" style="color:#888888">' + q + "</span>";
+        vr += '<span class="cell' + hv + '" style="color:' + CCOL[cycleOf[f.stack[q]]] + '">' + f.stack[q] + "</span>";
+      }
+      permPos.innerHTML = pr;
+      permVal.innerHTML = vr;
 
       stepEl.textContent = (cur + 1) + " / " + frames.length;
       backBtn.disabled = cur === 0;

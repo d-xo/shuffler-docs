@@ -76,6 +76,8 @@ bottom of the stack). This means that stack indicies remain stable even as we gr
 `dup` / `push` / `mload`. This property of the bottom up indexing scheme is leaned on heavily
 throughout the shuffler.
 
+![Bottom-up indices stay stable when the stack grows, while top-down indices all shift](bottom-up-stability.svg)
+
 ## Shuffler Phases
 
 ### Mapping / Plan Generation
